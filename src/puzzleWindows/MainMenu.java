@@ -1,35 +1,29 @@
 package puzzleWindows;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.*;
 
+import puzzle.Aetoile;
+import puzzle.Largeur;
+import puzzle.Profondeur;
 import puzzle.Taquin;
 
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Stack;
 
 import static puzzle.Main.idBut;
-import javax.swing.JCheckBox;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.DropMode;
 
 public class MainMenu extends JFrame {
+	public Stack<String> solution;
 	private JTextField idTaquin;
-
+    private boolean isSleep=true;
 	/**
 	 * Launch the application.
 	 */
@@ -51,92 +45,137 @@ public class MainMenu extends JFrame {
 	 */
 	public MainMenu(String title ) {
 		super(title);
+		String id;
 		getContentPane().setBackground(new Color(237, 231, 246));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 739, 508);
 		getContentPane().setLayout(null);
 		JPanel taquin = new JPanel();
-		taquin.setBounds(254, 29, 243, 209);
+		taquin.setBounds(363, 27, 243, 209);
 		getContentPane().add(taquin);
 		taquin.setLayout(new GridLayout(3, 3));
 		initTaquin(taquin,idBut);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(121, 134, 203));
-		panel.setBounds(0, 0, 209, 471);
+		panel.setBounds(0, 0, 256, 471);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JButton aPropos = new JButton("A propos");
 		aPropos.setBackground(new Color(197, 202, 233));
-		aPropos.setBounds(25, 418, 85, 21);
+		aPropos.setBounds(68, 418, 85, 21);
 		panel.add(aPropos);
 		
 		JLabel lblNewLabel = new JLabel("\u00A9Quadrinome n\u00B011 S2I");
-		lblNewLabel.setBounds(10, 438, 133, 23);
+		lblNewLabel.setBounds(53, 438, 133, 23);
 		panel.add(lblNewLabel);
 		
 		JRadioButton profondeurChex = new JRadioButton("Profondeur");
+		profondeurChex.setActionCommand("Profondeur");
 		profondeurChex.setBackground(new Color(197, 202, 233));
-		profondeurChex.setBounds(11, 196, 128, 21);
+		profondeurChex.setBounds(0, 196, 256, 21);
 		panel.add(profondeurChex);
 		
 		JRadioButton largeurChex = new JRadioButton("Largeur");
+		largeurChex.setActionCommand("Largeur");
 		largeurChex.setBackground(new Color(197, 202, 233));
-		largeurChex.setBounds(11, 229, 128, 21);
+		largeurChex.setBounds(0, 219, 256, 21);
 		panel.add(largeurChex);
 		
 		JRadioButton manhattenChex = new JRadioButton("Manhatten");
+		manhattenChex.setActionCommand("Manhatten");
 		manhattenChex.setBackground(new Color(197, 202, 233));
-		manhattenChex.setBounds(15, 275, 124, 21);
+		manhattenChex.setBounds(0, 258, 256, 21);
 		panel.add(manhattenChex);
 		
 		JRadioButton hammingChex = new JRadioButton("Hamming");
+		hammingChex.setActionCommand("Hamming");
 		hammingChex.setBackground(new Color(197, 202, 233));
-		hammingChex.setBounds(15, 310, 124, 21);
+		hammingChex.setBounds(0, 281, 256, 21);
 		panel.add(hammingChex);
-		
-		JLabel lblNewLabel_1 = new JLabel("Heuristique");
-		lblNewLabel_1.setBounds(15, 256, 74, 13);
-		panel.add(lblNewLabel_1);
 
-		JCheckBox randomChex = new JCheckBox("Taquin al\u00E9atoire");
-		randomChex.setBounds(12, 49, 127, 21);
-		panel.add(randomChex);
+		ButtonGroup algos = new ButtonGroup();
+		algos.add(profondeurChex);
+		algos.add(largeurChex);
+		algos.add(manhattenChex);
+		algos.add(hammingChex);
+
+		JLabel lblNewLabel_1 = new JLabel("Heuristique");
+		lblNewLabel_1.setBounds(0, 243, 74, 13);
+		panel.add(lblNewLabel_1);
 
 		idTaquin = new JTextField();
 		idTaquin.setText("Entrer le taquin");
-		idTaquin.setBounds(11, 76, 128, 19);
+		idTaquin.setBounds(10, 84, 128, 19);
 		panel.add(idTaquin);
 		idTaquin.setColumns(10);
-		idTaquin.setEnabled(!randomChex.isSelected());
 		
-		JLabel lblNewLabel_2 = new JLabel("Choisir l'algorithme de recherche ");
-		lblNewLabel_2.setBounds(6, 161, 193, 13);
-		panel.add(lblNewLabel_2);
+		JLabel choixAlgo = new JLabel("Choisir l'algorithme de recherche");
+		choixAlgo.setBounds(6, 161, 240, 13);
+		panel.add(choixAlgo);
 		
 		JButton solve = new JButton("Solve");
 		solve.setBounds(36, 349, 85, 21);
 		solve.setBackground(new Color(197, 202, 233));
 		panel.add(solve);
-
-		aPropos.addActionListener(new ActionListener() {
-			/*
-			 * A propos rahi la3betha randomize
-			 */
+		
+		JLabel taquinError = new JLabel("*Attention ce n'est pas un taquin");
+		taquinError.setForeground(Color.RED);
+		taquinError.setBounds(10, 61, 189, 13);
+		panel.add(taquinError);
+		
+		JButton convert = new JButton("Convertir");
+		convert.setBounds(148, 83, 98, 21);
+		convert.setBackground(new Color(197, 202, 233));
+		panel.add(convert);
+		
+		JButton randomTaquin = new JButton("Taquin al\u00E9atoire");
+		randomTaquin.setBackground(new Color(197, 202, 233));
+		randomTaquin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Taquin t = new Taquin(true);
-				System.out.println(t.id);
-				initTaquin(taquin,t.id);
+			}
+		});
+		randomTaquin.setForeground(Color.BLACK);
+		randomTaquin.setBounds(10, 30, 128, 21);
+		panel.add(randomTaquin);
+		
+		JButton afficher = new JButton("Afficher solution");
+		afficher.setBounds(445, 265, 130, 21);
+		afficher.setBackground(new Color(197, 202, 233));
+		getContentPane().add(afficher);
+		taquinError.setVisible(false);
+		aPropos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Quadrinome cool kids only !");
+			}
+		});
+
+		idTaquin.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//tester le text
+				if(!idTaquin.getText().isEmpty() && testTextField(idTaquin.getText())){
+					initTaquin(taquin,idTaquin.getText());
+					taquinError.setVisible(false);
+				}else{
+					taquinError.setVisible(true);
+				}
 			}
 		});
 
 		idTaquin.addFocusListener(new FocusListener() {
-
 			@Override
 			public void focusLost(FocusEvent e) {
 				if(idTaquin.getText().isEmpty()) {
+					taquinError.setVisible(false);
 					idTaquin.setText("Entrer le taquin");
+				}else {
+					if(testTextField(idTaquin.getText())){
+						initTaquin(taquin,idTaquin.getText());
+						taquinError.setVisible(false);
+					}else
+						taquinError.setVisible(true);
 				}
 			}
 
@@ -144,9 +183,93 @@ public class MainMenu extends JFrame {
 			public void focusGained(FocusEvent e) {
 				if(idTaquin.getText().equals("Entrer le taquin")) {
 					idTaquin.setText("");
+					taquinError.setVisible(false);
 				}
 			}
 		});
+
+		convert.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//tester le text
+				if(!idTaquin.getText().isEmpty() && testTextField(idTaquin.getText())){
+					initTaquin(taquin,idTaquin.getText());
+					taquinError.setVisible(false);
+				}else{
+					taquinError.setVisible(true);
+				}
+			}
+		});
+
+		randomTaquin.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Taquin root= new Taquin(true);
+				idTaquin.setText(root.id);
+				initTaquin(taquin,root.id);
+			}
+		});
+
+		solve.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(algos.getSelection()!=null){
+					choixAlgo.setText("Choisir l'algorithme de recherche");
+					choixAlgo.setForeground(Color.black);
+					String algo =algos.getSelection().getActionCommand();
+					System.out.println("l'algo selectionne est : "+algo);
+					Taquin root= new Taquin(false);
+					root.idToTaquin(taquinToId(taquin));
+					Aetoile aetoile= new Aetoile();
+					switch (algo) {
+						case "Profondeur" -> {
+							Profondeur profondeur = new Profondeur();
+							profondeur.solve(root, 20);
+							solution=profondeur.getSolution();
+						}
+						case "Largeur" -> {
+							Largeur largeur = new Largeur();
+							largeur.solve(root);
+							solution=largeur.getSolution();
+						}
+						case "Manhatten" -> {
+							aetoile.solve(root, 1);
+							solution=aetoile.getSolution();
+						}
+						case "Hamming" -> {
+							aetoile.solve(root, 2);
+							solution=aetoile.getSolution();
+						}
+						default -> System.out.println("oups !");
+					}
+				}else{
+					choixAlgo.setText("*Choisir l'algorithme de recherche");
+					choixAlgo.setForeground(new Color(142, 0, 0));
+					System.out.println("faut choisir un algo");
+				}
+			}
+		});
+
+		 Timer timer= new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("the al listener");
+				if (!solution.isEmpty())
+					initTaquin(taquin,solution.pop() );
+				else
+				if(solution.isEmpty()){
+					//stop();
+				}
+			}
+		});
+
+		 afficher.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				timer.start();
+			}
+		});
+
 	}
 
 	public void initTaquin(JPanel taquin,String id){
@@ -170,9 +293,6 @@ public class MainMenu extends JFrame {
 		StringBuilder idBuilder = new StringBuilder();
 		for (Component component : taquin.getComponents()) {
 			String componentClass = component.getClass().getName();
-			/*	I checked with the last letter cuz i know that kayen ghir JButton 'n' and JLabel 'l'
-			 	idk if there's a better way to do it but i think it's better than to check m3a
-			 	"javax.swing.JButton" and "javax.swing.JLabel". */
 			if (componentClass.charAt(componentClass.length()-1) == 'n') {
 				JButton cell = (JButton) component;
 				idBuilder.append(cell.getText());
@@ -182,7 +302,21 @@ public class MainMenu extends JFrame {
 				idBuilder.append("0");
 			}
 		}
-		System.out.println(idBuilder.toString());
+		System.out.println(idBuilder);
 		return idBuilder.toString();
 	}
+
+	public boolean testTextField(String text){
+		if(text.length()!=9){
+			return false;
+		}
+		for(int i =0; i<text.length();i++){
+			int count = text.length() - text.replace(String.valueOf(text.charAt(i)), "").length();
+			if(count!=1 || !Character.isDigit(text.charAt(i)) || text.charAt(i)=='9'){
+				return false;
+			}
+		}
+		return true;
+	}
+
 }
