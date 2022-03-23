@@ -1,4 +1,5 @@
 package puzzle;
+
 import java.util.Comparator;
 
 import static puzzle.Main.idBut;
@@ -42,7 +43,7 @@ public class CompareH1 implements Comparator<Taquin> {
 
     @Override
     public int compare(Taquin taquin1, Taquin taquin2) {
-        int d1 = distanceEtat(taquin1)+taquin1.depth, d2 = distanceEtat(taquin2)+taquin2.depth;
+        int d1 = distanceEtat(taquin1) + taquin1.depth, d2 = distanceEtat(taquin2) + taquin2.depth;
         if (d1 > d2)
             return 1;
         else if (d1 < d2) {

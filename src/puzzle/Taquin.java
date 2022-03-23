@@ -1,14 +1,15 @@
 package puzzle;
+
 import java.util.Random;
 
 public class Taquin {
-    String id = "";
+    public String id = "";
     int vide;
     int depth;
 
     public Taquin(boolean root) {
         if (root) {
-            depth=0;
+            depth = 0;
             init();
         }
     }
