@@ -18,10 +18,17 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import static puzzle.Main.idBut;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.DropMode;
 
 public class MainMenu extends JFrame {
+	private JTextField idTaquin;
 
 	/**
 	 * Launch the application.
@@ -46,45 +53,73 @@ public class MainMenu extends JFrame {
 		super(title);
 		getContentPane().setBackground(new Color(237, 231, 246));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 739, 462);
+		setBounds(100, 100, 739, 508);
 		getContentPane().setLayout(null);
 		JPanel taquin = new JPanel();
-		taquin.setBounds(180, 30, 243, 209);
+		taquin.setBounds(254, 29, 243, 209);
 		getContentPane().add(taquin);
 		taquin.setLayout(new GridLayout(3, 3));
 		initTaquin(taquin,idBut);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(121, 134, 203));
-		panel.setBounds(0, 0, 153, 425);
+		panel.setBounds(0, 0, 209, 471);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JButton profondeur = new JButton("Profondeur");
-		profondeur.setBounds(10, 33, 121, 21);
-		profondeur.setBackground(new Color(197, 202, 233));
-		panel.add(profondeur);
-		
-		JButton largeur = new JButton("Largeur");
-		largeur.setBackground(new Color(197, 202, 233));
-		largeur.setBounds(10, 79, 121, 21);
-		panel.add(largeur);
-		
-		JComboBox Heuristique = new JComboBox();
-		Heuristique.setBackground(new Color(197, 202, 233));
-		Heuristique.setBounds(10, 126, 121, 21);
-		panel.add(Heuristique);
-		Heuristique.setModel(new DefaultComboBoxModel(new String[] {"Manhatten", "Hamming"}));
-		
 		JButton aPropos = new JButton("A propos");
 		aPropos.setBackground(new Color(197, 202, 233));
-		aPropos.setBounds(25, 360, 85, 21);
+		aPropos.setBounds(25, 418, 85, 21);
 		panel.add(aPropos);
 		
 		JLabel lblNewLabel = new JLabel("\u00A9Quadrinome n\u00B011 S2I");
-		lblNewLabel.setBounds(10, 391, 133, 23);
+		lblNewLabel.setBounds(10, 438, 133, 23);
 		panel.add(lblNewLabel);
 		
+		JRadioButton profondeurChex = new JRadioButton("Profondeur");
+		profondeurChex.setBackground(new Color(197, 202, 233));
+		profondeurChex.setBounds(11, 196, 128, 21);
+		panel.add(profondeurChex);
+		
+		JRadioButton largeurChex = new JRadioButton("Largeur");
+		largeurChex.setBackground(new Color(197, 202, 233));
+		largeurChex.setBounds(11, 229, 128, 21);
+		panel.add(largeurChex);
+		
+		JRadioButton manhattenChex = new JRadioButton("Manhatten");
+		manhattenChex.setBackground(new Color(197, 202, 233));
+		manhattenChex.setBounds(15, 275, 124, 21);
+		panel.add(manhattenChex);
+		
+		JRadioButton hammingChex = new JRadioButton("Hamming");
+		hammingChex.setBackground(new Color(197, 202, 233));
+		hammingChex.setBounds(15, 310, 124, 21);
+		panel.add(hammingChex);
+		
+		JLabel lblNewLabel_1 = new JLabel("Heuristique");
+		lblNewLabel_1.setBounds(15, 256, 74, 13);
+		panel.add(lblNewLabel_1);
+
+		JCheckBox randomChex = new JCheckBox("Taquin al\u00E9atoire");
+		randomChex.setBounds(12, 49, 127, 21);
+		panel.add(randomChex);
+
+		idTaquin = new JTextField();
+		idTaquin.setText("Entrer le taquin");
+		idTaquin.setBounds(11, 76, 128, 19);
+		panel.add(idTaquin);
+		idTaquin.setColumns(10);
+		idTaquin.setEnabled(!randomChex.isSelected());
+		
+		JLabel lblNewLabel_2 = new JLabel("Choisir l'algorithme de recherche ");
+		lblNewLabel_2.setBounds(6, 161, 193, 13);
+		panel.add(lblNewLabel_2);
+		
+		JButton solve = new JButton("Solve");
+		solve.setBounds(36, 349, 85, 21);
+		solve.setBackground(new Color(197, 202, 233));
+		panel.add(solve);
+
 		aPropos.addActionListener(new ActionListener() {
 			/*
 			 * A propos rahi la3betha randomize
@@ -95,9 +130,21 @@ public class MainMenu extends JFrame {
 				initTaquin(taquin,t.id);
 			}
 		});
-		
-		profondeur.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+
+		idTaquin.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(idTaquin.getText().isEmpty()) {
+					idTaquin.setText("Entrer le taquin");
+				}
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(idTaquin.getText().equals("Entrer le taquin")) {
+					idTaquin.setText("");
+				}
 			}
 		});
 	}
