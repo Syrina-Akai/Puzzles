@@ -5,11 +5,15 @@ import java.util.*;
 import static puzzle.Main.idBut;
 
 public class Aetoile {
-    Stack<String> solution = new Stack<>();
-    PriorityQueue ouvert;
-    ArrayList<String> fermer = new ArrayList<>();
-    ArrayList<String> fils = new ArrayList<>();
-    ArrayList<Integer> peres = new ArrayList<>();
+    private Stack<String> solution = new Stack<>();
+    private PriorityQueue ouvert;
+    private ArrayList<String> fermer = new ArrayList<>();
+    private ArrayList<String> fils = new ArrayList<>();
+    private ArrayList<Integer> peres = new ArrayList<>();
+
+    public Stack<String> getSolution() {
+        return solution;
+    }
 
     public void appendNextMoves(Taquin taquin) {
         Queue<Integer> nextMoves = new LinkedList<>();
@@ -39,10 +43,6 @@ public class Aetoile {
             }
         }
     }
-    
-    public Stack<String> getSolution() {
-    	return solution;
-    }
 
     public void solve(Taquin taquin, int heuristique) {
 
@@ -58,12 +58,12 @@ public class Aetoile {
             fermer.add(taquin.id);
             if (!taquin.id.equals(idBut))
                 appendNextMoves(taquin);
-            //System.out.println(fermer);
+            System.out.println(fermer);
         } while (!taquin.id.equals(idBut));
-        /*System.out.println("fermer est : " + fermer);
+        System.out.println("fermer est : " + fermer);
         System.out.println("ouvert est : " + ouvert);
         System.out.println("fils est : " + fils);
-        System.out.println("index est : " + peres);*/
+        System.out.println("index est : " + peres);
         int index = fils.indexOf(idBut);
         while (index != -1) {
             System.out.println("l'index est : " + index);

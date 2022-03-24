@@ -8,16 +8,20 @@ import java.util.Stack;
 import static puzzle.Main.idBut;
 
 public class Largeur {
-    ArrayList<String> nodes;
-    ArrayList<Integer> indexParents;
-    ArrayList<Integer> depth;
-    Stack<String> solution;
+    private ArrayList<String> nodes;
+    private ArrayList<Integer> indexParents;
+    private ArrayList<Integer> depth;
+    private Stack<String> solution;
+
+    public Stack<String> getSolution() {
+        return solution;
+    }
 
     public Largeur() {
         this.nodes = new ArrayList<>();
         this.indexParents = new ArrayList<>();
         this.depth = new ArrayList<>();
-        this.solution = new Stack<>();
+        solution = new Stack<>();
     }
 
     public void appendNextMoves(Taquin taquin, int indexP, int parentDepth) {
@@ -45,10 +49,6 @@ public class Largeur {
                 this.depth.add(parentDepth + 1);
             }
         }
-    }
-    
-    public Stack<String> getSolution() {
-    	return solution;
     }
 
     public void solve(Taquin root) {
