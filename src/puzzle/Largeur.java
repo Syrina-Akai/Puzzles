@@ -46,6 +46,10 @@ public class Largeur {
             }
         }
     }
+    
+    public Stack<String> getSolution() {
+    	return solution;
+    }
 
     public void solve(Taquin root) {
         int maxDepth = 20;
@@ -70,7 +74,7 @@ public class Largeur {
                 index = indexParents.get(index);
             }
             System.out.println("CONGRATS! Solution:");
-            afficheSolution();
+            //afficheSolution();
         }
         // Solution not found
         else
