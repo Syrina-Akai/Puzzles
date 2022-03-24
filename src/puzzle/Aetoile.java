@@ -15,6 +15,18 @@ public class Aetoile {
         return solution;
     }
 
+    public PriorityQueue getOuvert() {
+        return ouvert;
+    }
+
+    public ArrayList<String> getFermer() {
+        return fermer;
+    }
+
+    public ArrayList<String> getFils() {
+        return fils;
+    }
+
     public void appendNextMoves(Taquin taquin) {
         Queue<Integer> nextMoves = new LinkedList<>();
         if (taquin.vide % 3 != 0) {//i-1 ==> à gauche
