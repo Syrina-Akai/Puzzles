@@ -151,10 +151,10 @@ public class MainMenu extends JFrame {
         separator_1.setBounds(0, 492, 256, 2);
         panel.add(separator_1);
 
-		JButton afficher = new JButton("Afficher solution");
-		afficher.setBounds(421, 373, 175, 30);
-		afficher.setBackground(new Color(197, 202, 233));
-		getContentPane().add(afficher);
+        JButton afficher = new JButton("Afficher solution");
+        afficher.setBounds(421, 373, 175, 30);
+        afficher.setBackground(new Color(197, 202, 233));
+        getContentPane().add(afficher);
 
         solve.addActionListener(new ActionListener() {
             @Override

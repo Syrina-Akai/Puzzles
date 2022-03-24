@@ -53,32 +53,31 @@ public class Largeur {
 
     public void solve(Taquin root) {
         int maxDepth = 20;
-        nodes.add(root.id);
-        indexParents.add(-1);
-        depth.add(0);
+        this.nodes.add(root.id);
+        this.indexParents.add(-1);
+        this.depth.add(0);
         Taquin taquin = root;
         int index = 0;
-        while (!nodes.contains(idBut) && index < nodes.size() && depth.get(index) < maxDepth) {
-            appendNextMoves(taquin, index, depth.get(index));
-            index++;
+
+        while(!this.nodes.contains(Main.idBut) && index < this.nodes.size() && (Integer)this.depth.get(index) < maxDepth) {
+            this.appendNextMoves(taquin, index, (Integer)this.depth.get(index));
+            ++index;
             taquin = new Taquin(false);
-            if (index < nodes.size()) {
-                taquin.idToTaquin(nodes.get(index));
+            if (index < this.nodes.size()) {
+                taquin.idToTaquin((String)this.nodes.get(index));
             }
         }
-        // Solution found
-        if (nodes.contains(idBut)) {
-            index = nodes.indexOf(idBut);
-            while (index != -1) {
-                solution.push(nodes.get(index));
-                index = indexParents.get(index);
+
+        if (this.nodes.contains(Main.idBut)) {
+            for(index = this.nodes.indexOf(Main.idBut); index != -1; index = (Integer)this.indexParents.get(index)) {
+                this.solution.push((String)this.nodes.get(index));
             }
+
             System.out.println("CONGRATS! Solution:");
-            //afficheSolution();
-        }
-        // Solution not found
-        else
+        } else {
             System.out.println("Game Over ! Solution not found at depth" + maxDepth);
+        }
+
     }
 
     public void afficheSolution() {

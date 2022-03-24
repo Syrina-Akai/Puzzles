@@ -37,7 +37,6 @@ public class Aetoile {
             if (!fermer.contains(taquin1.id)) {//verifie la distance nodes==> ensemble ferme
                 taquin1.depth = taquin.depth++;
                 ouvert.add(taquin1); //ensemble ouvert
-                //parent fils
                 fils.add(taquin1.id);
                 peres.add(fils.indexOf(taquin.id));
             }
@@ -45,34 +44,30 @@ public class Aetoile {
     }
 
     public void solve(Taquin taquin, int heuristique) {
-
         if (heuristique == 1) {
-            ouvert = new PriorityQueue(new CompareH1());
-        } else
-            ouvert = new PriorityQueue(new CompareH2());
-        ouvert.add(taquin);
-        fils.add(taquin.id);
-        peres.add(-1);
-        do {
-            taquin = (Taquin) ouvert.remove();
-            fermer.add(taquin.id);
-            if (!taquin.id.equals(idBut))
-                appendNextMoves(taquin);
-            System.out.println(fermer);
-        } while (!taquin.id.equals(idBut));
-        System.out.println("fermer est : " + fermer);
-        System.out.println("ouvert est : " + ouvert);
-        System.out.println("fils est : " + fils);
-        System.out.println("index est : " + peres);
-        int index = fils.indexOf(idBut);
-        while (index != -1) {
-            System.out.println("l'index est : " + index);
-            solution.push(fils.get(index));
-            index = peres.get(index);
-
+            this.ouvert = new PriorityQueue(new CompareH1());
+        } else {
+            this.ouvert = new PriorityQueue(new CompareH2());
         }
-        System.out.println("la taille du path est : " + solution.size());
-        //afficheSolution();
+
+        this.ouvert.add(taquin);
+        this.fils.add(taquin.id);
+        this.peres.add(-1);
+
+        do {
+            taquin = (Taquin)this.ouvert.remove();
+            this.fermer.add(taquin.id);
+            if (!taquin.id.equals(Main.idBut)) {
+                this.appendNextMoves(taquin);
+            }
+        } while(!taquin.id.equals(Main.idBut));
+
+        for(int index = this.fils.indexOf(Main.idBut); index != -1; index = (Integer)this.peres.get(index)) {
+            System.out.println("l'index est : " + index);
+            this.solution.push((String)this.fils.get(index));
+        }
+
+        System.out.println("la taille du path est : " + this.solution.size());
     }
 
     public void afficheSolution() {
