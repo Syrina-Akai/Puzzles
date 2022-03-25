@@ -6,15 +6,14 @@ import puzzle.Profondeur;
 import puzzle.Taquin;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Stack;
 
 import static puzzle.Main.idBut;
@@ -23,6 +22,7 @@ public class MainMenu extends JFrame {
     public Stack<String> solution;
     public int children=0;
     public int nodes=0;
+    String[] taquins;
     private JTextField idTaquin;
 
 
@@ -80,7 +80,7 @@ public class MainMenu extends JFrame {
         largeurChex.setBounds(0, 279, 256, 47);
         panel.add(largeurChex);
 
-        JRadioButton manhattenChex = new JRadioButton("Manhatten");
+        JRadioButton manhattenChex = new JRadioButton("Manhattan");
         manhattenChex.setForeground(Color.DARK_GRAY);
         manhattenChex.setFont(new Font("Segoe UI", Font.BOLD, 14));
         manhattenChex.setActionCommand("Manhatten");
@@ -301,6 +301,7 @@ public class MainMenu extends JFrame {
                     initTaquin(taquin, solution.pop());
                 else {
                     System.out.println("stack empty");
+                    Collections.addAll(solution,taquins);
                     ((Timer) e.getSource()).stop();
                 }
             }
@@ -335,8 +336,9 @@ public class MainMenu extends JFrame {
                                 LocalDateTime now = LocalDateTime.now();
                                 profondeur.solve(root, 20);
                                 LocalDateTime then = LocalDateTime.now();
-                                solution=profondeur.getSolution();
                                 time=then.getNano()-now.getNano();
+                                solution=profondeur.getSolution();
+                                taquins= solution.toArray(new String[0]);
                             }
                             case "Largeur" -> {
                                 Largeur largeur = new Largeur();
@@ -345,6 +347,7 @@ public class MainMenu extends JFrame {
                                 LocalDateTime then = LocalDateTime.now();
                                 time=then.getNano()-now.getNano();
                                 solution = largeur.getSolution();
+                                taquins= solution.toArray(new String[0]);
                             }
                             case "Manhatten" -> {
                                 LocalDateTime now = LocalDateTime.now();
@@ -352,6 +355,7 @@ public class MainMenu extends JFrame {
                                 LocalDateTime then = LocalDateTime.now();
                                 time=then.getNano()-now.getNano();
                                 solution = aetoile.getSolution();
+                                taquins= solution.toArray(new String[0]);
                                 children=aetoile.getFermer().size()+aetoile.getOuvert().size();
                                 nodes=solution.size()+children+aetoile.getFils().size()*2;
                             }
@@ -361,6 +365,7 @@ public class MainMenu extends JFrame {
                                 LocalDateTime then = LocalDateTime.now();
                                 time=then.getNano()-now.getNano();
                                 solution = aetoile.getSolution();
+                                taquins= solution.toArray(new String[0]);
                                 children=aetoile.getFermer().size()+aetoile.getOuvert().size();
                                 nodes=solution.size()+children+aetoile.getFils().size()*2;
                             }

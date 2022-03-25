@@ -10,8 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         JFrame jFrame = new MainMenu("Puzzle");
-        jFrame.setBounds(450, 100, 700, 500);
-        //jFrame.setLocationByPlatform(true);
+        jFrame.setBounds(450, 100, 860, 600);
         jFrame.setVisible(true);
     }
 }
