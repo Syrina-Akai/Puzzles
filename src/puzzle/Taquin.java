@@ -9,7 +9,6 @@ public class Taquin {
 
     public Taquin(boolean root) {
         if (root) {
-            depth = 0;
             init();
         }
     }
@@ -33,6 +32,7 @@ public class Taquin {
         stringBuilder.setCharAt(move, '0');
         id = stringBuilder.toString();
         vide = move;
+        depth = parent.depth + 1;
     }
 
     public void afficherTaquin() {

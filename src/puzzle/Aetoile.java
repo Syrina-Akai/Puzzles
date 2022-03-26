@@ -5,17 +5,29 @@ import java.util.*;
 import static puzzle.Main.idBut;
 
 public class Aetoile {
-    private Stack<String> solution = new Stack<>();
-    private PriorityQueue ouvert;
-    private ArrayList<String> fermer = new ArrayList<>();
-    private ArrayList<String> fils = new ArrayList<>();
-    private ArrayList<Integer> peres = new ArrayList<>();
+    private Stack<String> solution;
+    private PriorityQueue<Taquin> ouvert;
+    private ArrayList<String> fermer;
+    private ArrayList<String> fils;
+    private ArrayList<Integer> peres;
+
+    public Aetoile(int heuristique) {
+        solution = new Stack<>();
+        fermer = new ArrayList<>();
+        fils = new ArrayList<>();
+        peres = new ArrayList<>();
+        if (heuristique == 1) {
+            ouvert = new PriorityQueue<Taquin>(new CompareH1());
+        } else {
+            ouvert = new PriorityQueue<Taquin>(new CompareH2());
+        }
+    }
 
     public Stack<String> getSolution() {
         return solution;
     }
 
-    public PriorityQueue getOuvert() {
+    public PriorityQueue<Taquin> getOuvert() {
         return ouvert;
     }
 
@@ -47,7 +59,6 @@ public class Aetoile {
             int move = nextMoves.remove();
             taquin1.nextMove(taquin, move);
             if (!fermer.contains(taquin1.id)) {//verifie la distance nodes==> ensemble ferme
-                taquin1.depth = taquin.depth++;
                 ouvert.add(taquin1); //ensemble ouvert
                 fils.add(taquin1.id);
                 peres.add(fils.indexOf(taquin.id));
@@ -55,19 +66,13 @@ public class Aetoile {
         }
     }
 
-    public void solve(Taquin taquin, int heuristique) {
-        if (heuristique == 1) {
-            this.ouvert = new PriorityQueue(new CompareH1());
-        } else {
-            this.ouvert = new PriorityQueue(new CompareH2());
-        }
-
+    public void solve(Taquin taquin) {
         this.ouvert.add(taquin);
         this.fils.add(taquin.id);
         this.peres.add(-1);
 
         do {
-            taquin = (Taquin)this.ouvert.remove();
+            taquin = ouvert.remove();
             this.fermer.add(taquin.id);
             if (!taquin.id.equals(Main.idBut)) {
                 this.appendNextMoves(taquin);

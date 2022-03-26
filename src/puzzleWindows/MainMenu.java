@@ -328,7 +328,6 @@ public class MainMenu extends JFrame {
                         System.out.println("l'algo selectionne est : " + algo);
                         Taquin root = new Taquin(false);
                         root.idToTaquin(taquinToId(taquin));
-                        Aetoile aetoile = new Aetoile();
                         int time=0;
                         switch (algo) {
                             case "Profondeur" -> {
@@ -350,8 +349,9 @@ public class MainMenu extends JFrame {
                                 taquins= solution.toArray(new String[0]);
                             }
                             case "Manhatten" -> {
+                                Aetoile aetoile = new Aetoile(1);
                                 LocalDateTime now = LocalDateTime.now();
-                                aetoile.solve(root, 1);
+                                aetoile.solve(root);
                                 LocalDateTime then = LocalDateTime.now();
                                 time=then.getNano()-now.getNano();
                                 solution = aetoile.getSolution();
@@ -360,8 +360,9 @@ public class MainMenu extends JFrame {
                                 nodes=solution.size()+children+aetoile.getFils().size()*2;
                             }
                             case "Hamming" -> {
+                                Aetoile aetoile = new Aetoile(2);
                                 LocalDateTime now = LocalDateTime.now();
-                                aetoile.solve(root, 2);
+                                aetoile.solve(root);
                                 LocalDateTime then = LocalDateTime.now();
                                 time=then.getNano()-now.getNano();
                                 solution = aetoile.getSolution();
@@ -431,6 +432,26 @@ public class MainMenu extends JFrame {
             if (count != 1 || !Character.isDigit(text.charAt(i)) || text.charAt(i) == '9') {
                 return false;
             }
+        }
+        return true;
+    }
+
+    public boolean solvable(String id){
+        int diff=0, i=0;
+        while ( i < 9) {
+            if(idBut.charAt(i) != id.charAt(i)){
+                if(id.charAt(i+1)==idBut.charAt(i) && id.charAt(i)==idBut.charAt(i+1)) {//horizontale
+                    diff++;
+                }else{
+                    if(id.charAt(i+3)==idBut.charAt(i) && id.charAt(i)==idBut.charAt(i+3)){//verticale
+                        diff++;
+                    }
+                }
+            }
+            i++;
+        }
+        if(diff==2 || diff==4){
+            return false;
         }
         return true;
     }

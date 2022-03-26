@@ -5,26 +5,27 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
-import static puzzle.Main.idBut;
-
 public class Largeur {
-    private ArrayList<String> nodes;
-    private ArrayList<Integer> indexParents;
-    private ArrayList<Integer> depth;
+    private ArrayList<String> ferme;
+    private Queue<String> ouvert;
     private Stack<String> solution;
+    private ArrayList<String> fils;
+    private ArrayList<Integer> peres;
+
+
+    public Largeur() {
+        ferme = new ArrayList<>();
+        ouvert = new LinkedList<>();
+        solution = new Stack<>();
+        fils = new ArrayList<>();
+        peres = new ArrayList<>();
+    }
 
     public Stack<String> getSolution() {
         return solution;
     }
 
-    public Largeur() {
-        this.nodes = new ArrayList<>();
-        this.indexParents = new ArrayList<>();
-        this.depth = new ArrayList<>();
-        solution = new Stack<>();
-    }
-
-    public void appendNextMoves(Taquin taquin, int indexP, int parentDepth) {
+    public void appendNextMoves(Taquin taquin) {
         Queue<Integer> nextMoves = new LinkedList<>();
         if (taquin.vide % 3 != 0) {//i-1 ==> à gauche
             nextMoves.add(taquin.vide - 1);
@@ -43,41 +44,35 @@ public class Largeur {
             taquin1 = new Taquin(false);
             int move = nextMoves.remove();
             taquin1.nextMove(taquin, move);
-            if (!nodes.contains(taquin1.id)) {
-                nodes.add(taquin1.id);
-                indexParents.add(indexP);
-                this.depth.add(parentDepth + 1);
+            if (!ferme.contains(taquin1.id)) {
+                ouvert.add(taquin1.id);
+                fils.add(taquin1.id);
+                peres.add(fils.indexOf(taquin.id));
             }
         }
     }
 
-    public void solve(Taquin root) {
+    public void solve(Taquin taquin) {
         int maxDepth = 20;
-        this.nodes.add(root.id);
-        this.indexParents.add(-1);
-        this.depth.add(0);
-        Taquin taquin = root;
-        int index = 0;
+        ouvert.add(taquin.id);
+        fils.add(taquin.id);
+        peres.add(-1);
 
-        while(!this.nodes.contains(Main.idBut) && index < this.nodes.size() && (Integer)this.depth.get(index) < maxDepth) {
-            this.appendNextMoves(taquin, index, (Integer)this.depth.get(index));
-            ++index;
+        do {
             taquin = new Taquin(false);
-            if (index < this.nodes.size()) {
-                taquin.idToTaquin((String)this.nodes.get(index));
-            }
+            taquin.idToTaquin(ouvert.remove());
+            if (!ferme.contains(taquin.id))
+                ferme.add(taquin.id);
+            if (!taquin.id.equals(Main.idBut))
+                appendNextMoves(taquin);
+        } while(!taquin.id.equals(Main.idBut));
+
+        for(int index = fils.indexOf(Main.idBut); index != -1; index = peres.get(index)) {
+            solution.push(fils.get(index));
         }
 
-        if (this.nodes.contains(Main.idBut)) {
-            for(index = this.nodes.indexOf(Main.idBut); index != -1; index = (Integer)this.indexParents.get(index)) {
-                this.solution.push((String)this.nodes.get(index));
-            }
-
-            System.out.println("CONGRATS! Solution:");
-        } else {
-            System.out.println("Game Over ! Solution not found at depth" + maxDepth);
-        }
-
+        System.out.print("Congrats, Solution Found: ");
+        afficheSolution();
     }
 
     public void afficheSolution() {
