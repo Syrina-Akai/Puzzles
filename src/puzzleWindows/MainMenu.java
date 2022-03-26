@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Stack;
 
@@ -20,8 +19,8 @@ import static puzzle.Main.idBut;
 
 public class MainMenu extends JFrame {
     public Stack<String> solution;
-    public int children=0;
-    public int nodes=0;
+    public int children = 0;
+    public int nodes = 0;
     String[] taquins;
     private JTextField idTaquin;
 
@@ -182,55 +181,55 @@ public class MainMenu extends JFrame {
         aPropos.setBounds(679, 532, 85, 21);
         getContentPane().add(aPropos);
         aPropos.setBackground(new Color(197, 202, 233));
-        
+
         JPanel observation = new JPanel();
         observation.setBackground(new Color(121, 134, 203));
         observation.setBounds(310, 309, 505, 95);
         getContentPane().add(observation);
         observation.setLayout(null);
-        
+
         JLabel lblNewLabel_2 = new JLabel("Le temps d'execution :");
         lblNewLabel_2.setBounds(10, 10, 218, 19);
         lblNewLabel_2.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblNewLabel_2.setForeground(Color.WHITE);
         observation.add(lblNewLabel_2);
-        
+
         JLabel executionTime = new JLabel("time..");
         executionTime.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         executionTime.setForeground(Color.WHITE);
         executionTime.setBounds(179, 13, 106, 13);
         observation.add(executionTime);
-        
+
         JLabel lblNewLabel_3 = new JLabel("La taille du path :");
         lblNewLabel_3.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblNewLabel_3.setForeground(Color.WHITE);
         lblNewLabel_3.setBounds(265, 10, 176, 19);
         observation.add(lblNewLabel_3);
-        
+
         JLabel path = new JLabel("path..");
         path.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         path.setForeground(Color.WHITE);
         path.setBounds(413, 6, 45, 26);
         observation.add(path);
-        
+
         JLabel lblNewLabel_4 = new JLabel("Le nombre des fils :");
         lblNewLabel_4.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblNewLabel_4.setForeground(Color.WHITE);
         lblNewLabel_4.setBounds(10, 53, 176, 13);
         observation.add(lblNewLabel_4);
-        
+
         JLabel nbFils = new JLabel("fils...");
         nbFils.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         nbFils.setForeground(Color.WHITE);
         nbFils.setBounds(171, 53, 57, 13);
         observation.add(nbFils);
-        
+
         JLabel lblNewLabel_5 = new JLabel("Le nombre des noeuds :");
         lblNewLabel_5.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblNewLabel_5.setForeground(Color.WHITE);
         lblNewLabel_5.setBounds(265, 53, 185, 13);
         observation.add(lblNewLabel_5);
-        
+
         JLabel nbNoeud = new JLabel("noeuds...");
         nbNoeud.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         nbNoeud.setForeground(Color.WHITE);
@@ -268,11 +267,11 @@ public class MainMenu extends JFrame {
                         taquinError.setVisible(false);
                     } else
                         taquinError.setVisible(true);
-                    if(!solvable(idTaquin.getText())){
+                    if (!solvable(idTaquin.getText())) {
                         solve.setEnabled(false);
-                        JFrame alerte=new JFrame();
-                        JOptionPane.showMessageDialog(alerte,"Le taquin n'est pas solvable.","Alert",JOptionPane.WARNING_MESSAGE);
-                    }else{
+                        JFrame alerte = new JFrame();
+                        JOptionPane.showMessageDialog(alerte, "Le taquin n'est pas solvable.", "Alert", JOptionPane.WARNING_MESSAGE);
+                    } else {
                         solve.setEnabled(true);
                     }
                 }
@@ -297,11 +296,11 @@ public class MainMenu extends JFrame {
                 } else {
                     taquinError.setVisible(true);
                 }
-                if(!solvable(idTaquin.getText())){
+                if (!solvable(idTaquin.getText())) {
                     solve.setEnabled(false);
-                    JFrame alerte=new JFrame();
-                    JOptionPane.showMessageDialog(alerte,"Le taquin n'est pas solvable.","Alert",JOptionPane.WARNING_MESSAGE);
-                }else{
+                    JFrame alerte = new JFrame();
+                    JOptionPane.showMessageDialog(alerte, "Le taquin n'est pas solvable.", "Alert", JOptionPane.WARNING_MESSAGE);
+                } else {
                     solve.setEnabled(true);
                 }
             }
@@ -315,7 +314,7 @@ public class MainMenu extends JFrame {
                     initTaquin(taquin, solution.pop());
                 else {
                     System.out.println("stack empty");
-                    Collections.addAll(solution,taquins);
+                    Collections.addAll(solution, taquins);
                     ((Timer) e.getSource()).stop();
                 }
             }
@@ -325,7 +324,7 @@ public class MainMenu extends JFrame {
         afficher.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(solution!=null)
+                if (solution != null)
                     timer.start();
             }
         });
@@ -333,7 +332,7 @@ public class MainMenu extends JFrame {
         solve.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!idTaquin.getText().equals("Choisir l'algorithme de recherche") || !idTaquin.getText().isEmpty()){
+                if (!idTaquin.getText().equals("Choisir l'algorithme de recherche") || !idTaquin.getText().isEmpty()) {
                     if (algos.getSelection() != null) {
 
                         choixAlgo.setText("Choisir l'algorithme de recherche");
@@ -342,57 +341,57 @@ public class MainMenu extends JFrame {
                         System.out.println("l'algo selectionne est : " + algo);
                         Taquin root = new Taquin(false);
                         root.idToTaquin(taquinToId(taquin));
-                        int time=0;
+                        int time = 0;
                         switch (algo) {
                             case "Profondeur" -> {
                                 Profondeur profondeur = new Profondeur();
                                 LocalDateTime now = LocalDateTime.now();
                                 profondeur.solve(root, 20);
                                 LocalDateTime then = LocalDateTime.now();
-                                time=then.getNano()-now.getNano();
-                                solution=profondeur.getSolution();
-                                taquins= solution.toArray(new String[0]);
+                                time = then.getNano() - now.getNano();
+                                solution = profondeur.getSolution();
+                                taquins = solution.toArray(new String[0]);
                             }
                             case "Largeur" -> {
                                 Largeur largeur = new Largeur();
                                 LocalDateTime now = LocalDateTime.now();
                                 largeur.solve(root);
                                 LocalDateTime then = LocalDateTime.now();
-                                time=then.getNano()-now.getNano();
+                                time = then.getNano() - now.getNano();
                                 solution = largeur.getSolution();
-                                taquins= solution.toArray(new String[0]);
+                                taquins = solution.toArray(new String[0]);
                             }
                             case "Manhatten" -> {
                                 Aetoile aetoile = new Aetoile(1);
                                 LocalDateTime now = LocalDateTime.now();
                                 aetoile.solve(root);
                                 LocalDateTime then = LocalDateTime.now();
-                                time=then.getNano()-now.getNano();
+                                time = then.getNano() - now.getNano();
                                 solution = aetoile.getSolution();
-                                taquins= solution.toArray(new String[0]);
-                                children=aetoile.getFermer().size()+aetoile.getOuvert().size();
-                                nodes=solution.size()+children+aetoile.getFils().size()*2;
+                                taquins = solution.toArray(new String[0]);
+                                children = aetoile.getFermer().size() + aetoile.getOuvert().size();
+                                nodes = solution.size() + children + aetoile.getFils().size() * 2;
                             }
                             case "Hamming" -> {
                                 Aetoile aetoile = new Aetoile(2);
                                 LocalDateTime now = LocalDateTime.now();
                                 aetoile.solve(root);
                                 LocalDateTime then = LocalDateTime.now();
-                                time=then.getNano()-now.getNano();
+                                time = then.getNano() - now.getNano();
                                 solution = aetoile.getSolution();
-                                taquins= solution.toArray(new String[0]);
-                                children=aetoile.getFermer().size()+aetoile.getOuvert().size();
-                                nodes=solution.size()+children+aetoile.getFils().size()*2;
+                                taquins = solution.toArray(new String[0]);
+                                children = aetoile.getFermer().size() + aetoile.getOuvert().size();
+                                nodes = solution.size() + children + aetoile.getFils().size() * 2;
                             }
                             default -> System.out.println("oups !");
                         }
-                        if(solution.size()>1){
+                        if (solution.size() > 1) {
                             observation.setVisible(true);
-                            path.setText(""+(solution.size()-2));
-                            executionTime.setText(""+time+" ns");
-                            nbFils.setText(""+children);
-                            nbNoeud.setText(""+nodes);
-                            System.out.println("children : "+children+" nodes : "+nodes);
+                            path.setText("" + (solution.size() - 2));
+                            executionTime.setText("" + time + " ns");
+                            nbFils.setText("" + children);
+                            nbNoeud.setText("" + nodes);
+                            System.out.println("children : " + children + " nodes : " + nodes);
                         }
                     } else {
                         choixAlgo.setText("*Choisir l'algorithme de recherche");
@@ -450,26 +449,21 @@ public class MainMenu extends JFrame {
         return true;
     }
 
-    public boolean solvable(String id){
-        int diff=0, i=0;
-        while ( i < 9) {
-            if(idBut.charAt(i) != id.charAt(i)){
-                if(i+1<9){
-                    if(id.charAt(i+1)==idBut.charAt(i) && id.charAt(i)==idBut.charAt(i+1)) {//horizontale
-                        diff++;
-                    }else{
-                        if(i+3<9){
-                            if(id.charAt(i+3)==idBut.charAt(i) && id.charAt(i)==idBut.charAt(i+3)){//verticale
-                                diff++;
+    public boolean solvable(String id) {
+        for (int i = 0; i < 9; i++) {
+            if (idBut.charAt(i) != id.charAt(i)) {
+                if (i + 1 < 9) {
+                    if (id.charAt(i + 1) == idBut.charAt(i) && id.charAt(i) == idBut.charAt(i + 1)) {//horizontale
+                        return false;
+                    } else {
+                        if (i + 3 < 9) {
+                            if (id.charAt(i + 3) == idBut.charAt(i) && id.charAt(i) == idBut.charAt(i + 3)) {//verticale
+                                return false;
                             }
                         }
                     }
                 }
             }
-            i++;
-        }
-        if(diff==2 || diff==4){
-            return false;
         }
         return true;
     }
