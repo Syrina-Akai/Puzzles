@@ -268,6 +268,13 @@ public class MainMenu extends JFrame {
                         taquinError.setVisible(false);
                     } else
                         taquinError.setVisible(true);
+                    if(!solvable(idTaquin.getText())){
+                        solve.setEnabled(false);
+                        JFrame alerte=new JFrame();
+                        JOptionPane.showMessageDialog(alerte,"Le taquin n'est pas solvable.","Alert",JOptionPane.WARNING_MESSAGE);
+                    }else{
+                        solve.setEnabled(true);
+                    }
                 }
             }
 
@@ -289,6 +296,13 @@ public class MainMenu extends JFrame {
                     taquinError.setVisible(false);
                 } else {
                     taquinError.setVisible(true);
+                }
+                if(!solvable(idTaquin.getText())){
+                    solve.setEnabled(false);
+                    JFrame alerte=new JFrame();
+                    JOptionPane.showMessageDialog(alerte,"Le taquin n'est pas solvable.","Alert",JOptionPane.WARNING_MESSAGE);
+                }else{
+                    solve.setEnabled(true);
                 }
             }
         });
@@ -440,11 +454,15 @@ public class MainMenu extends JFrame {
         int diff=0, i=0;
         while ( i < 9) {
             if(idBut.charAt(i) != id.charAt(i)){
-                if(id.charAt(i+1)==idBut.charAt(i) && id.charAt(i)==idBut.charAt(i+1)) {//horizontale
-                    diff++;
-                }else{
-                    if(id.charAt(i+3)==idBut.charAt(i) && id.charAt(i)==idBut.charAt(i+3)){//verticale
+                if(i+1<9){
+                    if(id.charAt(i+1)==idBut.charAt(i) && id.charAt(i)==idBut.charAt(i+1)) {//horizontale
                         diff++;
+                    }else{
+                        if(i+3<9){
+                            if(id.charAt(i+3)==idBut.charAt(i) && id.charAt(i)==idBut.charAt(i+3)){//verticale
+                                diff++;
+                            }
+                        }
                     }
                 }
             }
