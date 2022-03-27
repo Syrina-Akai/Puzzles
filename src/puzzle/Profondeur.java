@@ -10,6 +10,8 @@ public class Profondeur {
     private ArrayList<Integer> indexParents;
     private ArrayList<Integer> depth;
     private Stack<String > solution;
+    private ArrayList<String> ferme;
+
     private int maxDepth;
     private String idBut = "123804765";
     private boolean found = false; //boolean that tells us if a solution has been found or not to stop recursivity
@@ -21,11 +23,12 @@ public class Profondeur {
     public Profondeur() {
         this.nodes = new ArrayList<>();
         this.indexParents = new ArrayList<>();
-        this.depth = new ArrayList<>();
+        this.depth = new ArrayList<>(); // to remove
         maxDepth = 0;
         this.solution = new Stack<>(); // la solution
+        this.ferme = new ArrayList<>();
     }
-    public void generateChildren(Taquin taquin, int indexP, int parentDepth){
+    public void generateChildren(Taquin taquin, int indexP, int parentDepth){ //parentDepth consider changing
         Queue<Integer> allMoves = new LinkedList<>(); //creation de tous les fils
         if(taquin.vide%3!=0){//i-1 ==> à gauche
             allMoves.add(taquin.vide-1);
@@ -43,8 +46,10 @@ public class Profondeur {
         while(!allMoves.isEmpty()){ // on boucle pour la recursivité dans tous les fils
             Taquin taquin1; // on cré les fils au fur et a mesure de la boucle
             taquin1 = new Taquin(false);
+            taquin1.depth =parentDepth+1;
             int move = allMoves.remove();
             taquin1.nextMove(taquin, move);
+
             //if never existed, create
             int min = 999; // we can only create if it was never created before, and if it did, must be of higher depth
             if(nodes.contains(taquin1.id)){
@@ -56,6 +61,7 @@ public class Profondeur {
                     }
                 }
             }
+
             //here min contains the smallest depth, if it never existed it will be 999
             if (parentDepth+1 < min && parentDepth+1 <= maxDepth) { // creation conditions
                 //first cond is already exists, different depths
@@ -64,11 +70,17 @@ public class Profondeur {
                 indexParents.add(indexP);
                 this.depth.add(parentDepth + 1);
                 //most left child
+
                 if (taquin1.id.equals(idBut)) {
                     found = true; //if we found the result, we change the boolean to stop the recursive loop
+                    ferme.add(taquin1.id);
+
                 }
+
                 if(!found){
                     // only go through recursivity if has never been found
+                    ferme.add(taquin1.id);
+
                     generateChildren(taquin1, nodes.indexOf(taquin1.id), parentDepth + 1);
                 }
 
@@ -83,6 +95,7 @@ public class Profondeur {
         indexParents.add(-1);
         depth.add(0);
         Taquin taquin = root;
+        ferme.add(root.id);
         //starts the tree generation
         if (!nodes.contains(idBut)) {
             generateChildren(taquin, 0, depth.get(0));
@@ -95,7 +108,7 @@ public class Profondeur {
                 index = indexParents.get(index);
             }
             System.out.println("CONGRATS! Solution:");
-           // afficheSolution();
+            afficheSolution();
         }
         // Solution not found
         else
@@ -107,6 +120,10 @@ public class Profondeur {
         while (!solution.empty()){
             taquin.idToTaquin(solution.pop());
             taquin.afficherTaquin();
+        }
+        System.out.println("ferme");
+        if(!ferme.isEmpty()){
+            System.out.println(ferme);
         }
     }
     //creates child of child in a loop until it reaches the max depth
