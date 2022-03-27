@@ -77,6 +77,7 @@ public class Aetoile {
             if (!taquin.id.equals(Main.idBut)) {
                 this.appendNextMoves(taquin);
             }
+            System.out.println(fermer);
         } while(!taquin.id.equals(Main.idBut));
 
         for(int index = this.fils.indexOf(Main.idBut); index != -1; index = (Integer)this.peres.get(index)) {

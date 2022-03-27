@@ -267,13 +267,13 @@ public class MainMenu extends JFrame {
                         taquinError.setVisible(false);
                     } else
                         taquinError.setVisible(true);
-                    if (!solvable(idTaquin.getText())) {
+                    /*if (!solvable(idTaquin.getText())) {
                         solve.setEnabled(false);
                         JFrame alerte = new JFrame();
                         JOptionPane.showMessageDialog(alerte, "Le taquin n'est pas solvable.", "Alert", JOptionPane.WARNING_MESSAGE);
                     } else {
                         solve.setEnabled(true);
-                    }
+                    }*/
                 }
             }
 
@@ -296,13 +296,13 @@ public class MainMenu extends JFrame {
                 } else {
                     taquinError.setVisible(true);
                 }
-                if (!solvable(idTaquin.getText())) {
+                /*if (!solvable(idTaquin.getText())) {
                     solve.setEnabled(false);
                     JFrame alerte = new JFrame();
                     JOptionPane.showMessageDialog(alerte, "Le taquin n'est pas solvable.", "Alert", JOptionPane.WARNING_MESSAGE);
                 } else {
                     solve.setEnabled(true);
-                }
+                }*/
             }
         });
 
