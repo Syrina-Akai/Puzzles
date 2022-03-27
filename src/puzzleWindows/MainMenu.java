@@ -49,7 +49,7 @@ public class MainMenu extends JFrame {
         String id;
         getContentPane().setBackground(new Color(237, 231, 246));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 880, 600);
+        setBounds(100, 100, 880, 640);
         getContentPane().setLayout(null);
         JPanel taquin = new JPanel();
         taquin.setBounds(429, 73, 243, 209);
@@ -59,7 +59,7 @@ public class MainMenu extends JFrame {
 
         JPanel panel = new JPanel();
         panel.setBackground(new Color(121, 134, 203));
-        panel.setBounds(0, 0, 256, 563);
+        panel.setBounds(0, 0, 256, 606);
         getContentPane().add(panel);
         panel.setLayout(null);
 
@@ -84,7 +84,7 @@ public class MainMenu extends JFrame {
         manhattenChex.setFont(new Font("Segoe UI", Font.BOLD, 14));
         manhattenChex.setActionCommand("Manhatten");
         manhattenChex.setBackground(new Color(209, 196, 233));
-        manhattenChex.setBounds(0, 369, 256, 47);
+        manhattenChex.setBounds(0, 401, 256, 47);
         panel.add(manhattenChex);
 
         JRadioButton hammingChex = new JRadioButton("Hamming");
@@ -92,7 +92,7 @@ public class MainMenu extends JFrame {
         hammingChex.setFont(new Font("Segoe UI", Font.BOLD, 14));
         hammingChex.setActionCommand("Hamming");
         hammingChex.setBackground(new Color(209, 196, 233));
-        hammingChex.setBounds(0, 418, 256, 47);
+        hammingChex.setBounds(0, 450, 256, 47);
         panel.add(hammingChex);
 
         ButtonGroup algos = new ButtonGroup();
@@ -104,7 +104,7 @@ public class MainMenu extends JFrame {
         JLabel lblNewLabel_1 = new JLabel("Heuristique");
         lblNewLabel_1.setForeground(Color.WHITE);
         lblNewLabel_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblNewLabel_1.setBounds(10, 332, 121, 30);
+        lblNewLabel_1.setBounds(10, 365, 121, 30);
         panel.add(lblNewLabel_1);
 
         idTaquin = new JTextField();
@@ -149,13 +149,50 @@ public class MainMenu extends JFrame {
         panel.add(separator);
 
         JButton solve = new JButton("Solve");
-        solve.setBounds(36, 509, 175, 30);
+        solve.setBounds(35, 558, 175, 30);
         panel.add(solve);
         solve.setBackground(new Color(197, 202, 233));
 
         JSeparator separator_1 = new JSeparator();
-        separator_1.setBounds(0, 492, 256, 2);
+        separator_1.setBounds(0, 530, 256, 2);
         panel.add(separator_1);
+        
+        JLabel profondeurLbl = new JLabel("Profondeur :");
+        profondeurLbl.setBounds(10, 332, 121, 13);
+        profondeurLbl.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        profondeurLbl.setForeground(Color.WHITE);
+        profondeurLbl.setVisible(false);
+        panel.add(profondeurLbl);
+        
+        JSpinner spinner = new JSpinner();
+        spinner.setBounds(111, 332, 51, 23);
+        spinner.setValue(10);
+        spinner.setVisible(false);
+        panel.add(spinner);
+
+        ActionListener listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String algo=algos.getSelection().getActionCommand();
+                if(algo.equals("Largeur") || algo.equals("Profondeur")){
+                    spinner.setVisible(true);
+                    profondeurLbl.setVisible(true);
+                    return;
+                }
+                spinner.setVisible(false);
+                profondeurLbl.setVisible(false);
+            }
+        };
+
+        //set visible
+        largeurChex.addActionListener(listener);
+        profondeurChex.addActionListener(listener);
+        hammingChex.addActionListener(listener);
+        manhattenChex.addActionListener(listener);
+
+        JSeparator separator_1_1 = new JSeparator();
+        separator_1_1.setBounds(0, 364, 256, 2);
+        panel.add(separator_1_1);
 
         JButton afficher = new JButton("Afficher solution");
         afficher.setBounds(462, 430, 175, 30);
@@ -174,11 +211,11 @@ public class MainMenu extends JFrame {
         taquinError.setVisible(false);
 
         JLabel lblNewLabel = new JLabel("\u00A9Quadrinome n\u00B011 S2I");
-        lblNewLabel.setBounds(441, 540, 133, 23);
+        lblNewLabel.setBounds(441, 565, 133, 23);
         getContentPane().add(lblNewLabel);
 
         JButton aPropos = new JButton("A propos");
-        aPropos.setBounds(679, 532, 85, 21);
+        aPropos.setBounds(679, 557, 85, 21);
         getContentPane().add(aPropos);
         aPropos.setBackground(new Color(197, 202, 233));
 
@@ -189,7 +226,7 @@ public class MainMenu extends JFrame {
         observation.setLayout(null);
 
         JLabel lblNewLabel_2 = new JLabel("Le temps d'execution :");
-        lblNewLabel_2.setBounds(10, 10, 218, 19);
+        lblNewLabel_2.setBounds(92, 10, 218, 19);
         lblNewLabel_2.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblNewLabel_2.setForeground(Color.WHITE);
         observation.add(lblNewLabel_2);
@@ -197,43 +234,31 @@ public class MainMenu extends JFrame {
         JLabel executionTime = new JLabel("time..");
         executionTime.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         executionTime.setForeground(Color.WHITE);
-        executionTime.setBounds(179, 13, 106, 13);
+        executionTime.setBounds(265, 13, 127, 13);
         observation.add(executionTime);
 
-        JLabel lblNewLabel_3 = new JLabel("La taille du path :");
+        JLabel lblNewLabel_3 = new JLabel("La taille du solution :");
         lblNewLabel_3.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblNewLabel_3.setForeground(Color.WHITE);
-        lblNewLabel_3.setBounds(265, 10, 176, 19);
+        lblNewLabel_3.setBounds(265, 50, 176, 19);
         observation.add(lblNewLabel_3);
 
         JLabel path = new JLabel("path..");
         path.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         path.setForeground(Color.WHITE);
-        path.setBounds(413, 6, 45, 26);
+        path.setBounds(416, 46, 45, 26);
         observation.add(path);
-
-        JLabel lblNewLabel_4 = new JLabel("Le nombre des fils :");
-        lblNewLabel_4.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        lblNewLabel_4.setForeground(Color.WHITE);
-        lblNewLabel_4.setBounds(10, 53, 176, 13);
-        observation.add(lblNewLabel_4);
-
-        JLabel nbFils = new JLabel("fils...");
-        nbFils.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        nbFils.setForeground(Color.WHITE);
-        nbFils.setBounds(171, 53, 57, 13);
-        observation.add(nbFils);
 
         JLabel lblNewLabel_5 = new JLabel("Le nombre des noeuds :");
         lblNewLabel_5.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblNewLabel_5.setForeground(Color.WHITE);
-        lblNewLabel_5.setBounds(265, 53, 185, 13);
+        lblNewLabel_5.setBounds(21, 53, 185, 13);
         observation.add(lblNewLabel_5);
 
         JLabel nbNoeud = new JLabel("noeuds...");
         nbNoeud.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         nbNoeud.setForeground(Color.WHITE);
-        nbNoeud.setBounds(438, 53, 57, 13);
+        nbNoeud.setBounds(198, 53, 57, 13);
         observation.add(nbNoeud);
         observation.setVisible(false);
         aPropos.addActionListener(new ActionListener() {
@@ -309,7 +334,7 @@ public class MainMenu extends JFrame {
         Timer timer = new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("the al listener");
+               //System.out.println("the al listener");
                 if (!solution.isEmpty())
                     initTaquin(taquin, solution.pop());
                 else {
@@ -346,20 +371,22 @@ public class MainMenu extends JFrame {
                             case "Profondeur" -> {
                                 Profondeur profondeur = new Profondeur();
                                 LocalDateTime now = LocalDateTime.now();
-                                profondeur.solve(root, 20);
+                                profondeur.solve(root, (Integer) spinner.getValue());
                                 LocalDateTime then = LocalDateTime.now();
                                 time = then.getNano() - now.getNano();
                                 solution = profondeur.getSolution();
                                 taquins = solution.toArray(new String[0]);
+                                nodes=profondeur.getFerme().size();
                             }
                             case "Largeur" -> {
                                 Largeur largeur = new Largeur();
                                 LocalDateTime now = LocalDateTime.now();
-                                largeur.solve(root);
+                                largeur.solve(root,(Integer)spinner.getValue());
                                 LocalDateTime then = LocalDateTime.now();
                                 time = then.getNano() - now.getNano();
                                 solution = largeur.getSolution();
                                 taquins = solution.toArray(new String[0]);
+                                nodes = largeur.getFermer().size() + largeur.getOuvert().size();
                             }
                             case "Manhatten" -> {
                                 Aetoile aetoile = new Aetoile(1);
@@ -369,8 +396,7 @@ public class MainMenu extends JFrame {
                                 time = then.getNano() - now.getNano();
                                 solution = aetoile.getSolution();
                                 taquins = solution.toArray(new String[0]);
-                                children = aetoile.getFermer().size() + aetoile.getOuvert().size();
-                                nodes = solution.size() + children + aetoile.getFils().size() * 2;
+                                nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
                             }
                             case "Hamming" -> {
                                 Aetoile aetoile = new Aetoile(2);
@@ -380,8 +406,7 @@ public class MainMenu extends JFrame {
                                 time = then.getNano() - now.getNano();
                                 solution = aetoile.getSolution();
                                 taquins = solution.toArray(new String[0]);
-                                children = aetoile.getFermer().size() + aetoile.getOuvert().size();
-                                nodes = solution.size() + children + aetoile.getFils().size() * 2;
+                                nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
                             }
                             default -> System.out.println("oups !");
                         }
@@ -389,9 +414,8 @@ public class MainMenu extends JFrame {
                             observation.setVisible(true);
                             path.setText("" + (solution.size() - 1));
                             executionTime.setText("" + time + " ns");
-                            nbFils.setText("" + children);
+                            //nbFils.setText("" + children);
                             nbNoeud.setText("" + nodes);
-                            System.out.println("children : " + children + " nodes : " + nodes);
                         }
                     } else {
                         choixAlgo.setText("*Choisir l'algorithme de recherche");

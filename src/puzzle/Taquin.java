@@ -54,4 +54,21 @@ public class Taquin {
         return id;
     }
 
+
+    @Override
+    public int hashCode(){
+        return Integer.parseInt(id)%362897;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Taquin taquin = (Taquin)o;
+        return taquin.id.equals(this.id);
+    }
 }

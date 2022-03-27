@@ -20,6 +20,10 @@ public class Profondeur {
         return solution;
     }
 
+    public ArrayList<String> getFerme() {
+        return ferme;
+    }
+
     public Profondeur() {
         this.nodes = new ArrayList<>();
         this.indexParents = new ArrayList<>();
@@ -108,7 +112,7 @@ public class Profondeur {
                 index = indexParents.get(index);
             }
             System.out.println("CONGRATS! Solution:");
-            afficheSolution();
+            //afficheSolution();
         }
         // Solution not found
         else

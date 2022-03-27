@@ -1,12 +1,9 @@
 package puzzle;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 public class Largeur {
-    private ArrayList<String> ferme;
+    private HashSet<Taquin> ferme;
     private Queue<String> ouvert;
     private Stack<String> solution;
     private ArrayList<String> fils;
@@ -14,7 +11,7 @@ public class Largeur {
 
 
     public Largeur() {
-        ferme = new ArrayList<>();
+        ferme = new HashSet<>();
         ouvert = new LinkedList<>();
         solution = new Stack<>();
         fils = new ArrayList<>();
@@ -23,6 +20,18 @@ public class Largeur {
 
     public Stack<String> getSolution() {
         return solution;
+    }
+
+    public HashSet<Taquin> getFermer() {
+        return ferme;
+    }
+
+    public Queue<String> getOuvert() {
+        return ouvert;
+    }
+
+    public ArrayList<String> getFils() {
+        return fils;
     }
 
     public void appendNextMoves(Taquin taquin) {
@@ -44,7 +53,7 @@ public class Largeur {
             taquin1 = new Taquin(false);
             int move = nextMoves.remove();
             taquin1.nextMove(taquin, move);
-            if (!ferme.contains(taquin1.id)) {
+            if (!ferme.contains(taquin1)) {
                 ouvert.add(taquin1.id);
                 fils.add(taquin1.id);
                 peres.add(fils.indexOf(taquin.id));
@@ -52,27 +61,25 @@ public class Largeur {
         }
     }
 
-    public void solve(Taquin taquin) {
-        int maxDepth = 20;
+    public void solve(Taquin taquin, int maxDepth ) {
+        taquin.depth=0;
         ouvert.add(taquin.id);
         fils.add(taquin.id);
         peres.add(-1);
-
         do {
             taquin = new Taquin(false);
             taquin.idToTaquin(ouvert.remove());
-            if (!ferme.contains(taquin.id))
-                ferme.add(taquin.id);
+            ferme.add(taquin);
             if (!taquin.id.equals(Main.idBut))
                 appendNextMoves(taquin);
-        } while(!taquin.id.equals(Main.idBut));
+        } while(!taquin.id.equals(Main.idBut) && taquin.depth<=maxDepth);
 
         for(int index = fils.indexOf(Main.idBut); index != -1; index = peres.get(index)) {
             solution.push(fils.get(index));
         }
 
         System.out.print("Congrats, Solution Found: ");
-        afficheSolution();
+        //afficheSolution();
     }
 
     public void afficheSolution() {

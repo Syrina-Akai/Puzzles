@@ -7,13 +7,13 @@ import static puzzle.Main.idBut;
 public class Aetoile {
     private Stack<String> solution;
     private PriorityQueue<Taquin> ouvert;
-    private ArrayList<String> fermer;
+    private HashSet<Taquin> fermer;
     private ArrayList<String> fils;
     private ArrayList<Integer> peres;
 
     public Aetoile(int heuristique) {
         solution = new Stack<>();
-        fermer = new ArrayList<>();
+        fermer = new HashSet<>();
         fils = new ArrayList<>();
         peres = new ArrayList<>();
         if (heuristique == 1) {
@@ -31,7 +31,7 @@ public class Aetoile {
         return ouvert;
     }
 
-    public ArrayList<String> getFermer() {
+    public HashSet<Taquin> getFermer() {
         return fermer;
     }
 
@@ -58,7 +58,7 @@ public class Aetoile {
             taquin1 = new Taquin(false);
             int move = nextMoves.remove();
             taquin1.nextMove(taquin, move);
-            if (!fermer.contains(taquin1.id)) {//verifie la distance nodes==> ensemble ferme
+            if (!fermer.contains(taquin1)) {//verifie la distance nodes==> ensemble ferme
                 ouvert.add(taquin1); //ensemble ouvert
                 fils.add(taquin1.id);
                 peres.add(fils.indexOf(taquin.id));
@@ -73,15 +73,13 @@ public class Aetoile {
 
         do {
             taquin = ouvert.remove();
-            this.fermer.add(taquin.id);
+            this.fermer.add(taquin);
             if (!taquin.id.equals(Main.idBut)) {
                 this.appendNextMoves(taquin);
             }
-            System.out.println(fermer);
         } while(!taquin.id.equals(Main.idBut));
 
         for(int index = this.fils.indexOf(Main.idBut); index != -1; index = (Integer)this.peres.get(index)) {
-            System.out.println("l'index est : " + index);
             this.solution.push((String)this.fils.get(index));
         }
 
