@@ -387,7 +387,7 @@ public class MainMenu extends JFrame {
                         }
                         if (solution.size() > 1) {
                             observation.setVisible(true);
-                            path.setText("" + (solution.size() - 2));
+                            path.setText("" + (solution.size() - 1));
                             executionTime.setText("" + time + " ns");
                             nbFils.setText("" + children);
                             nbNoeud.setText("" + nodes);
