@@ -9,12 +9,13 @@ public class Main {
     public static String idBut = "123804765";
 
     public static void main(String[] args) {
-        /*JFrame jFrame = new MainMenu("Puzzle");
+        JFrame jFrame = new MainMenu("Puzzle");
         jFrame.setBounds(450, 100, 860, 600);
-        jFrame.setVisible(true);*/
+        jFrame.setVisible(true);
+        /*
         Taquin root = new Taquin(true);
         root.idToTaquin("123784065");
-        new Profondeur().solve(root, 3);
+        new Profondeur().solve(root, 3);*/
         /*Taquin root = new Taquin(true);
         root.idToTaquin("283164705");
 
