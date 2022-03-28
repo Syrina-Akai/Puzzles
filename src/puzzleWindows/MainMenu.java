@@ -6,24 +6,24 @@ import puzzle.Profondeur;
 import puzzle.Taquin;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Stack;
 
+import static java.lang.Thread.sleep;
 import static puzzle.Main.idBut;
 
 public class MainMenu extends JFrame {
     public Stack<String> solution;
-    public int children = 0;
+    public static boolean stop=false;
     public int nodes = 0;
     String[] taquins;
     private JTextField idTaquin;
-
+    int count=0;
 
     /**
      * Launch the application.
@@ -149,7 +149,7 @@ public class MainMenu extends JFrame {
         panel.add(separator);
 
         JButton solve = new JButton("Solve");
-        solve.setBounds(35, 558, 175, 30);
+        solve.setBounds(53, 545, 157, 30);
         panel.add(solve);
         solve.setBackground(new Color(197, 202, 233));
 
@@ -193,7 +193,6 @@ public class MainMenu extends JFrame {
         JSeparator separator_1_1 = new JSeparator();
         separator_1_1.setBounds(0, 364, 256, 2);
         panel.add(separator_1_1);
-
         JButton afficher = new JButton("Afficher solution");
         afficher.setBounds(462, 430, 175, 30);
         afficher.setBackground(new Color(197, 202, 233));
@@ -292,13 +291,6 @@ public class MainMenu extends JFrame {
                         taquinError.setVisible(false);
                     } else
                         taquinError.setVisible(true);
-                    /*if (!solvable(idTaquin.getText())) {
-                        solve.setEnabled(false);
-                        JFrame alerte = new JFrame();
-                        JOptionPane.showMessageDialog(alerte, "Le taquin n'est pas solvable.", "Alert", JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        solve.setEnabled(true);
-                    }*/
                 }
             }
 
@@ -321,20 +313,12 @@ public class MainMenu extends JFrame {
                 } else {
                     taquinError.setVisible(true);
                 }
-                /*if (!solvable(idTaquin.getText())) {
-                    solve.setEnabled(false);
-                    JFrame alerte = new JFrame();
-                    JOptionPane.showMessageDialog(alerte, "Le taquin n'est pas solvable.", "Alert", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    solve.setEnabled(true);
-                }*/
             }
         });
 
         Timer timer = new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               //System.out.println("the al listener");
                 if (!solution.isEmpty())
                     initTaquin(taquin, solution.pop());
                 else {
@@ -354,75 +338,95 @@ public class MainMenu extends JFrame {
             }
         });
 
-        solve.addActionListener(new ActionListener() {
+
+        Timer timer1= new Timer(0, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!idTaquin.getText().equals("Choisir l'algorithme de recherche") || !idTaquin.getText().isEmpty()) {
-                    if (algos.getSelection() != null) {
-
-                        choixAlgo.setText("Choisir l'algorithme de recherche");
-                        choixAlgo.setForeground(Color.WHITE);
-                        String algo = algos.getSelection().getActionCommand();
-                        System.out.println("l'algo selectionne est : " + algo);
-                        Taquin root = new Taquin(false);
-                        root.idToTaquin(taquinToId(taquin));
-                        int time = 0;
-                        switch (algo) {
-                            case "Profondeur" -> {
-                                Profondeur profondeur = new Profondeur();
-                                LocalDateTime now = LocalDateTime.now();
-                                profondeur.solve(root, (Integer) spinner.getValue());
-                                LocalDateTime then = LocalDateTime.now();
-                                time = then.getNano() - now.getNano();
-                                solution = profondeur.getSolution();
-                                taquins = solution.toArray(new String[0]);
-                                nodes=profondeur.getFerme().size();
-                            }
-                            case "Largeur" -> {
-                                Largeur largeur = new Largeur();
-                                LocalDateTime now = LocalDateTime.now();
-                                largeur.solve(root,(Integer)spinner.getValue());
-                                LocalDateTime then = LocalDateTime.now();
-                                time = then.getNano() - now.getNano();
-                                solution = largeur.getSolution();
-                                taquins = solution.toArray(new String[0]);
-                                nodes = largeur.getFermer().size() + largeur.getOuvert().size();
-                            }
-                            case "Manhatten" -> {
-                                Aetoile aetoile = new Aetoile(1);
-                                LocalDateTime now = LocalDateTime.now();
-                                aetoile.solve(root);
-                                LocalDateTime then = LocalDateTime.now();
-                                time = then.getNano() - now.getNano();
-                                solution = aetoile.getSolution();
-                                taquins = solution.toArray(new String[0]);
-                                nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
-                            }
-                            case "Hamming" -> {
-                                Aetoile aetoile = new Aetoile(2);
-                                LocalDateTime now = LocalDateTime.now();
-                                aetoile.solve(root);
-                                LocalDateTime then = LocalDateTime.now();
-                                time = then.getNano() - now.getNano();
-                                solution = aetoile.getSolution();
-                                taquins = solution.toArray(new String[0]);
-                                nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
-                            }
-                            default -> System.out.println("oups !");
-                        }
-                        if (solution.size() > 1) {
-                            observation.setVisible(true);
-                            path.setText("" + (solution.size() - 1));
-                            executionTime.setText("" + time + " ns");
-                            //nbFils.setText("" + children);
-                            nbNoeud.setText("" + nodes);
-                        }
-                    } else {
+                if(!idTaquin.getText().equals("Choisir l'algorithme de recherche") || !idTaquin.getText().isEmpty()){
+                    if (algos.getSelection() == null) {
                         choixAlgo.setText("*Choisir l'algorithme de recherche");
                         choixAlgo.setForeground(new Color(142, 0, 0));
                         System.out.println("faut choisir un algo");
+                        ((Timer) e.getSource()).stop();
+                    }else{
+                        if(count==0){
+                            System.out.println("COUNT 0");
+                            choixAlgo.setText("Choisir l'algorithme de recherche");
+                            choixAlgo.setForeground(Color.WHITE);
+                            solve.setEnabled(false);
+                            count++;
+                            return;
+                        }
+                        if(count==1){
+                            String algo = algos.getSelection().getActionCommand();
+                            System.out.println("l'algo selectionne est : " + algo);
+                            Taquin root = new Taquin(false);
+                            root.idToTaquin(taquinToId(taquin));
+                            int time = 0;
+                            switch (algo) {
+                                case "Profondeur" -> {
+                                    Profondeur profondeur = new Profondeur();
+                                    LocalDateTime now = LocalDateTime.now();
+                                    profondeur.solve(root, (Integer) spinner.getValue());
+                                    LocalDateTime then = LocalDateTime.now();
+                                    time = then.getNano() - now.getNano();
+                                    solution = profondeur.getSolution();
+                                    taquins = solution.toArray(new String[0]);
+                                    nodes=profondeur.getFerme().size();
+                                }
+                                case "Largeur" -> {
+                                    Largeur largeur = new Largeur();
+                                    LocalDateTime now = LocalDateTime.now();
+                                    largeur.solve(root,(Integer)spinner.getValue());
+                                    LocalDateTime then = LocalDateTime.now();
+                                    time = then.getNano() - now.getNano();
+                                    solution = largeur.getSolution();
+                                    taquins = solution.toArray(new String[0]);
+                                    nodes = largeur.getFermer().size() + largeur.getOuvert().size();
+                                }
+                                case "Manhatten" -> {
+                                    Aetoile aetoile = new Aetoile(1);
+                                    LocalDateTime now = LocalDateTime.now();
+                                    aetoile.solve(root);
+                                    LocalDateTime then = LocalDateTime.now();
+                                    time = then.getNano() - now.getNano();
+                                    solution = aetoile.getSolution();
+                                    taquins = solution.toArray(new String[0]);
+                                    nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
+                                }
+                                case "Hamming" -> {
+                                    Aetoile aetoile = new Aetoile(2);
+                                    LocalDateTime now = LocalDateTime.now();
+                                    aetoile.solve(root);
+                                    LocalDateTime then = LocalDateTime.now();
+                                    time = then.getNano() - now.getNano();
+                                    solution = aetoile.getSolution();
+                                    taquins = solution.toArray(new String[0]);
+                                    nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
+                                }
+                                default -> System.out.println("oups !");
+                            }
+                            if (solution.size() > 1) {
+                                observation.setVisible(true);
+                                path.setText("" + (solution.size() - 1));
+                                executionTime.setText("" + time + " ns");
+                                nbNoeud.setText("" + nodes);
+                            }
+                            solve.setEnabled(true);
+                            count=0;
+                            ((Timer) e.getSource()).stop();
+                        }
                     }
+                }else{
+                    count=0;
+                    ((Timer) e.getSource()).stop();
                 }
+            }
+        });
+        solve.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timer1.start();
             }
         });
 
@@ -491,4 +495,5 @@ public class MainMenu extends JFrame {
         }
         return true;
     }
+
 }
