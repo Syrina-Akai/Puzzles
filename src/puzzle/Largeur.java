@@ -2,6 +2,7 @@ package puzzle;
 
 import java.util.*;
 
+
 public class Largeur {
     private HashSet<Taquin> ferme;
     private Queue<String> ouvert;
@@ -72,14 +73,18 @@ public class Largeur {
             ferme.add(taquin);
             if (!taquin.id.equals(Main.idBut))
                 appendNextMoves(taquin);
-        } while(!taquin.id.equals(Main.idBut) && taquin.depth<=maxDepth);
+        } while(!taquin.id.equals(Main.idBut) && taquin.depth<=maxDepth );
 
-        for(int index = fils.indexOf(Main.idBut); index != -1; index = peres.get(index)) {
-            solution.push(fils.get(index));
+        taquin.idToTaquin(Main.idBut);
+        if(ferme.contains(taquin)){
+            for(int index = fils.indexOf(Main.idBut); index != -1; index = peres.get(index)) {
+                solution.push(fils.get(index));
+            }
+            System.out.print("Congrats, Solution Found ");
+            return;
         }
+        System.out.println("Solution not found");
 
-        System.out.print("Congrats, Solution Found: ");
-        //afficheSolution();
     }
 
     public void afficheSolution() {

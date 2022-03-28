@@ -273,8 +273,18 @@ public class MainMenu extends JFrame {
                 if (!idTaquin.getText().isEmpty() && testTextField(idTaquin.getText())) {
                     initTaquin(taquin, idTaquin.getText());
                     taquinError.setVisible(false);
+                    Taquin root=new Taquin(false);
+                    root.idToTaquin(idTaquin.getText());
+                    if(!root.isSolvable()){
+                        JFrame alerte = new JFrame();
+                        JOptionPane.showMessageDialog(alerte,"Taquin non solvable veuillez le changer.","Alert",JOptionPane.WARNING_MESSAGE);
+                        solve.setEnabled(false);
+                    }else{
+                        solve.setEnabled(true);
+                    }
                 } else {
                     taquinError.setVisible(true);
+                    solve.setEnabled(false);
                 }
             }
         });
@@ -289,8 +299,19 @@ public class MainMenu extends JFrame {
                     if (testTextField(idTaquin.getText())) {
                         initTaquin(taquin, idTaquin.getText());
                         taquinError.setVisible(false);
-                    } else
+                        Taquin root=new Taquin(false);
+                        root.idToTaquin(idTaquin.getText());
+                        if(!root.isSolvable()){
+                            JFrame alerte = new JFrame();
+                            JOptionPane.showMessageDialog(alerte,"Taquin non solvable veuillez le changer.","Alert",JOptionPane.WARNING_MESSAGE);
+                            solve.setEnabled(false);
+                        }else{
+                            solve.setEnabled(true);
+                        }
+                    } else {
                         taquinError.setVisible(true);
+                        solve.setEnabled(false);
+                    }
                 }
             }
 
@@ -310,8 +331,18 @@ public class MainMenu extends JFrame {
                 if (!idTaquin.getText().isEmpty() && testTextField(idTaquin.getText())) {
                     initTaquin(taquin, idTaquin.getText());
                     taquinError.setVisible(false);
+                    Taquin root=new Taquin(false);
+                    root.idToTaquin(idTaquin.getText());
+                    if(!root.isSolvable()){
+                        JFrame alerte = new JFrame();
+                        JOptionPane.showMessageDialog(alerte,"Taquin non solvable veuillez le changer.","Alert",JOptionPane.WARNING_MESSAGE);
+                        solve.setEnabled(false);
+                    }else{
+                        solve.setEnabled(true);
+                    }
                 } else {
                     taquinError.setVisible(true);
+                    solve.setEnabled(false);
                 }
             }
         });
@@ -477,23 +508,5 @@ public class MainMenu extends JFrame {
         return true;
     }
 
-    public boolean solvable(String id) {
-        for (int i = 0; i < 9; i++) {
-            if (idBut.charAt(i) != id.charAt(i)) {
-                if (i + 1 < 9) {
-                    if (id.charAt(i + 1) == idBut.charAt(i) && id.charAt(i) == idBut.charAt(i + 1)) {//horizontale
-                        return false;
-                    } else {
-                        if (i + 3 < 9) {
-                            if (id.charAt(i + 3) == idBut.charAt(i) && id.charAt(i) == idBut.charAt(i + 3)) {//verticale
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return true;
-    }
 
 }

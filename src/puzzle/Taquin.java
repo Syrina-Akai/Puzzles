@@ -1,6 +1,12 @@
 package puzzle;
 
+import java.lang.reflect.Array;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
+
+import static puzzle.Main.idBut;
 
 public class Taquin {
     public String id = "";
@@ -48,6 +54,28 @@ public class Taquin {
     public void idToTaquin(String id) {//besoin de ça pour les nouveaux taquins
         this.id = id;
         this.vide = id.indexOf('0');
+    }
+
+    public ArrayList<Integer> taquinToIndexes(){
+        ArrayList<Integer> indexTaquin=new ArrayList<>();
+        String but= idBut.substring(0,idBut.indexOf("0"))+idBut.substring(idBut.indexOf("0")+1);
+        String id=this.id.substring(0,this.id.indexOf("0"))+this.id.substring(this.id.indexOf("0")+1);
+        for (int i=0;i<id.length();i++){
+            indexTaquin.add(but.indexOf(id.charAt(i)));
+        }
+        return indexTaquin;
+    }
+
+    public boolean isSolvable(){
+        ArrayList<Integer> indexTaquin=taquinToIndexes();
+        int count=0;
+        for(int i=0;i<indexTaquin.size();i++){
+            for (int j=i+1;j<indexTaquin.size();j++){
+                if(indexTaquin.get(i)>indexTaquin.get(j))
+                    count++;
+            }
+        }
+        return count%2 == 0;
     }
 
     public String toString() {
