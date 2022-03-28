@@ -1,16 +1,13 @@
 package puzzle;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 public class Profondeur {
     private ArrayList<String> nodes;
     private ArrayList<Integer> indexParents;
     private ArrayList<Integer> depth;
     private Stack<String > solution;
-    private ArrayList<String> ferme;
+    private HashSet<Taquin> ferme;
 
     private int maxDepth;
     private String idBut = "123804765";
@@ -20,7 +17,7 @@ public class Profondeur {
         return solution;
     }
 
-    public ArrayList<String> getFerme() {
+    public HashSet<Taquin> getFerme() {
         return ferme;
     }
 
@@ -30,7 +27,7 @@ public class Profondeur {
         this.depth = new ArrayList<>(); // to remove
         maxDepth = 0;
         this.solution = new Stack<>(); // la solution
-        this.ferme = new ArrayList<>();
+        this.ferme = new HashSet<>();
     }
     public void generateChildren(Taquin taquin, int indexP, int parentDepth){ //parentDepth consider changing
         Queue<Integer> allMoves = new LinkedList<>(); //creation de tous les fils
@@ -77,13 +74,13 @@ public class Profondeur {
 
                 if (taquin1.id.equals(idBut)) {
                     found = true; //if we found the result, we change the boolean to stop the recursive loop
-                    ferme.add(taquin1.id);
+                    ferme.add(taquin1);
 
                 }
 
                 if(!found){
                     // only go through recursivity if has never been found
-                    ferme.add(taquin1.id);
+                    ferme.add(taquin1);
 
                     generateChildren(taquin1, nodes.indexOf(taquin1.id), parentDepth + 1);
                 }
@@ -99,7 +96,7 @@ public class Profondeur {
         indexParents.add(-1);
         depth.add(0);
         Taquin taquin = root;
-        ferme.add(root.id);
+        ferme.add(root);
         //starts the tree generation
         if (!nodes.contains(idBut)) {
             generateChildren(taquin, 0, depth.get(0));
@@ -125,10 +122,10 @@ public class Profondeur {
             taquin.idToTaquin(solution.pop());
             taquin.afficherTaquin();
         }
-        System.out.println("ferme");
+        /*System.out.println("ferme");
         if(!ferme.isEmpty()){
             System.out.println(ferme);
-        }
+        }*/
     }
     //creates child of child in a loop until it reaches the max depth
     //if solution wasn't found, go back to the parent, and create next child
