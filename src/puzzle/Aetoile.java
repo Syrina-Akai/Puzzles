@@ -67,23 +67,23 @@ public class Aetoile {
     }
 
     public void solve(Taquin taquin) {
-        this.ouvert.add(taquin);
-        this.fils.add(taquin.id);
-        this.peres.add(-1);
+        ouvert.add(taquin);
+        fils.add(taquin.id);
+        peres.add(-1);
 
         do {
             taquin = ouvert.remove();
-            this.fermer.add(taquin);
+            fermer.add(taquin);
             if (!taquin.id.equals(Main.idBut)) {
-                this.appendNextMoves(taquin);
+                appendNextMoves(taquin);
             }
         } while(!taquin.id.equals(Main.idBut));
 
-        for(int index = this.fils.indexOf(Main.idBut); index != -1; index = (Integer)this.peres.get(index)) {
-            this.solution.push((String)this.fils.get(index));
+        for(int index = fils.indexOf(Main.idBut); index != -1; index = (Integer)peres.get(index)) {
+            solution.push((String)fils.get(index));
         }
 
-        System.out.println("la taille du path est : " + this.solution.size());
+        System.out.println("la taille du path est : " + solution.size());
     }
 
     public void afficheSolution() {

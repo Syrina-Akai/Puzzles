@@ -194,7 +194,7 @@ public class MainMenu extends JFrame {
         separator_1_1.setBounds(0, 364, 256, 2);
         panel.add(separator_1_1);
         JButton afficher = new JButton("Afficher solution");
-        afficher.setBounds(462, 430, 175, 30);
+        afficher.setBounds(472, 440, 175, 30);
         afficher.setBackground(new Color(197, 202, 233));
         getContentPane().add(afficher);
 
@@ -270,6 +270,7 @@ public class MainMenu extends JFrame {
         aPropos.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Quadrinome cool kids only !");
+                new APropos();
             }
         });
 
@@ -517,6 +518,4 @@ public class MainMenu extends JFrame {
         }
         return true;
     }
-
-
 }

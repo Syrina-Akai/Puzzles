@@ -80,7 +80,7 @@ public class Largeur {
             if (!taquin.id.equals(Main.idBut)){
                 appendNextMoves(taquin);
             }
-        } while(!taquin.id.equals(Main.idBut) && taquin.depth<=maxDepth );
+        } while(!taquin.id.equals(Main.idBut) && taquin.depth<=maxDepth);
 
         taquin.idToTaquin(Main.idBut);
         if(ferme.contains(taquin)){
