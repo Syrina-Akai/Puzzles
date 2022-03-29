@@ -22,15 +22,12 @@ public class Taquin {
     public void init() {
         Random rand = new Random();
         int val;
-        do {
-            for (int i = 0; i < 9; i++) {
-                do {
-                    val = rand.nextInt(9);
-                } while (id.contains(String.valueOf(val)));
-                id += val;
-            }
-        }while(!isSolvable());
-
+        for (int i = 0; i < 9; i++) {
+            do {
+                val = rand.nextInt(9);
+            } while (id.contains(String.valueOf(val)));
+            id += val;
+        }
         vide = id.indexOf("0");
     }
 

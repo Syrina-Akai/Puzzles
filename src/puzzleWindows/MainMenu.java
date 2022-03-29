@@ -205,6 +205,13 @@ public class MainMenu extends JFrame {
                 idTaquin.setText(root.id);
                 initTaquin(taquin, root.id);
                 taquinError.setVisible(false);
+                if(!root.isSolvable()){
+                    JFrame alerte = new JFrame();
+                    JOptionPane.showMessageDialog(alerte,"Taquin non solvable veuillez le changer.","Alert",JOptionPane.WARNING_MESSAGE);
+                    solve.setEnabled(false);
+                }else{
+                    solve.setEnabled(true);
+                }
             }
         });
         taquinError.setVisible(false);
