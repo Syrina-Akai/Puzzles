@@ -32,6 +32,7 @@ public class MainMenu extends JFrame {
             public void run() {
                 try {
                     MainMenu frame = new MainMenu("Puzzle");
+                    frame.setResizable(false);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -441,6 +442,9 @@ public class MainMenu extends JFrame {
                                 path.setText("" + (solution.size() - 1));
                                 executionTime.setText("" + time + " ns");
                                 nbNoeud.setText("" + nodes);
+                            }else{
+                                JFrame alerte = new JFrame();
+                                JOptionPane.showMessageDialog(alerte,"Aucune solution trouvé.","Information",JOptionPane.INFORMATION_MESSAGE);
                             }
                             solve.setEnabled(true);
                             count=0;
