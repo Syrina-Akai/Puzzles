@@ -8,7 +8,7 @@ public class CompareH2 implements Comparator<Taquin> {
 
     public static int distanceEtat(String s2) {
         int count = 0;
-        for (int i = 0; i < (idBut.length() > s2.length() ? s2 : idBut).length(); i++) {
+        for (int i = 0; i < 9; i++) {
             if (s2.charAt(i) != '0')
                 count += idBut.charAt(i) != s2.charAt(i) ? 1 : 0;
         }
