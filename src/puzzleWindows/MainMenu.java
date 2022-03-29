@@ -19,7 +19,6 @@ import static puzzle.Main.idBut;
 
 public class MainMenu extends JFrame {
     public Stack<String> solution;
-    public static boolean stop=false;
     public int nodes = 0;
     String[] taquins;
     private JTextField idTaquin;
