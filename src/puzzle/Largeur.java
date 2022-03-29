@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Largeur {
     private HashSet<Taquin> ferme;
-    private Queue<String> ouvert;
+    private Queue<Taquin> ouvert;
     private Stack<String> solution;
     private ArrayList<String> fils;
     private ArrayList<Integer> peres;
@@ -27,7 +27,7 @@ public class Largeur {
         return ferme;
     }
 
-    public Queue<String> getOuvert() {
+    public Queue<Taquin> getOuvert() {
         return ouvert;
     }
 
@@ -52,27 +52,34 @@ public class Largeur {
         Taquin taquin1;
         while (!nextMoves.isEmpty()) {//faire tous les moves
             taquin1 = new Taquin(false);
+            taquin1.depth = taquin.depth+1;
             int move = nextMoves.remove();
             taquin1.nextMove(taquin, move);
             if (!ferme.contains(taquin1)) {
-                ouvert.add(taquin1.id);
+                ouvert.add(taquin1);
                 fils.add(taquin1.id);
                 peres.add(fils.indexOf(taquin.id));
             }
         }
+
     }
 
     public void solve(Taquin taquin, int maxDepth ) {
         taquin.depth=0;
-        ouvert.add(taquin.id);
+        ouvert.add(taquin);
         fils.add(taquin.id);
         peres.add(-1);
+        Taquin temp;
+
         do {
             taquin = new Taquin(false);
-            taquin.idToTaquin(ouvert.remove());
+            temp = ouvert.remove();
+            taquin.idToTaquin(temp.id);
+            taquin.depth = temp.depth;
             ferme.add(taquin);
-            if (!taquin.id.equals(Main.idBut))
+            if (!taquin.id.equals(Main.idBut)){
                 appendNextMoves(taquin);
+            }
         } while(!taquin.id.equals(Main.idBut) && taquin.depth<=maxDepth );
 
         taquin.idToTaquin(Main.idBut);
