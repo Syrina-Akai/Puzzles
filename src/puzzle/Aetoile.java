@@ -1,6 +1,7 @@
 package puzzle;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static puzzle.Main.idBut;
 
@@ -33,6 +34,20 @@ public class Aetoile {
 
     public HashSet<Taquin> getFermer() {
         return fermer;
+    }
+
+    public ArrayList<String> getFermeId(){
+        ArrayList<Taquin> ferme=new ArrayList<Taquin>(this.getFermer());
+        return  ferme.stream()
+                .map(Taquin::getId)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ArrayList<String> getOuvertId(){
+        ArrayList<Taquin> ouvert=new ArrayList<Taquin>(this.getOuvert());
+        return  ouvert.stream()
+                .map(Taquin::getId)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public ArrayList<String> getFils() {
@@ -78,7 +93,7 @@ public class Aetoile {
                 appendNextMoves(taquin);
             }
         } while(!taquin.id.equals(Main.idBut));
-
+        System.out.println("fermer est : "+fermer);
         for(int index = fils.indexOf(Main.idBut); index != -1; index = (Integer)peres.get(index)) {
             solution.push((String)fils.get(index));
         }

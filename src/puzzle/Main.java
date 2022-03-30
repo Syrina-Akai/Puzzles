@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String[] args) {
         JFrame jFrame = new MainMenu("Puzzle");
-        jFrame.setBounds(450, 100, 860, 640);
+        jFrame.setBounds(450, 100, 940, 640);
         jFrame.setResizable(false);
         jFrame.setVisible(true);
     }

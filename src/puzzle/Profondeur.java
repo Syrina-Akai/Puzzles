@@ -1,6 +1,7 @@
 package puzzle;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Profondeur {
     private ArrayList<String> nodes;
@@ -20,6 +21,14 @@ public class Profondeur {
     public HashSet<Taquin> getFerme() {
         return ferme;
     }
+
+    public ArrayList<String> getFermeId(){
+        ArrayList<Taquin> ferme=new ArrayList<Taquin>(this.getFerme());
+        return  ferme.stream()
+                .map(Taquin::getId)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
 
     public Profondeur() {
         this.nodes = new ArrayList<>();

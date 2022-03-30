@@ -1,6 +1,7 @@
 package puzzle;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Largeur {
@@ -25,6 +26,20 @@ public class Largeur {
 
     public HashSet<Taquin> getFermer() {
         return ferme;
+    }
+
+    public ArrayList<String> getFermeId(){
+        ArrayList<Taquin> ferme=new ArrayList<Taquin>(this.getFermer());
+        return  ferme.stream()
+                .map(Taquin::getId)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ArrayList<String> getOuvertId(){
+        ArrayList<Taquin> ouvert=new ArrayList<Taquin>(this.getOuvert());
+        return  ouvert.stream()
+                .map(Taquin::getId)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public Queue<Taquin> getOuvert() {

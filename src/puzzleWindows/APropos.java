@@ -82,12 +82,12 @@ public class APropos extends JFrame {
 		lblNewLabel_1_1_1.setBounds(555, 230, 144, 39);
 		contentPane.add(lblNewLabel_1_1_1);
 		
-		JLabel lblChargDeCour = new JLabel("Charg\u00E9 de Cour");
+		JLabel lblChargDeCour = new JLabel("Charg\u00E9 du Cours");
 		lblChargDeCour.setFont(new Font("Segoe UI", Font.BOLD, 15));
-		lblChargDeCour.setBounds(555, 211, 118, 25);
+		lblChargDeCour.setBounds(555, 211, 144, 25);
 		contentPane.add(lblChargDeCour);
 		
-		JLabel lblChargDeTp = new JLabel("Charg\u00E9 de TP");
+		JLabel lblChargDeTp = new JLabel("Charg\u00E9 du TP");
 		lblChargDeTp.setFont(new Font("Segoe UI", Font.BOLD, 15));
 		lblChargDeTp.setBounds(555, 279, 118, 25);
 		contentPane.add(lblChargDeTp);

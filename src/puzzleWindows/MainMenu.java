@@ -11,6 +11,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 
@@ -19,6 +20,8 @@ import static puzzle.Main.idBut;
 
 public class MainMenu extends JFrame {
     public Stack<String> solution;
+    public ArrayList<String> ouvert;
+    public ArrayList<String> ferme;
     public int nodes = 0;
     String[] taquins;
     private JTextField idTaquin;
@@ -49,10 +52,10 @@ public class MainMenu extends JFrame {
         String id;
         getContentPane().setBackground(new Color(237, 231, 246));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 880, 640);
+        setBounds(100, 100, 940, 634);
         getContentPane().setLayout(null);
         JPanel taquin = new JPanel();
-        taquin.setBounds(429, 73, 243, 209);
+        taquin.setBounds(470, 61, 243, 209);
         getContentPane().add(taquin);
         taquin.setLayout(new GridLayout(3, 3));
         initTaquin(taquin, idBut);
@@ -194,7 +197,7 @@ public class MainMenu extends JFrame {
         separator_1_1.setBounds(0, 364, 256, 2);
         panel.add(separator_1_1);
         JButton afficher = new JButton("Afficher solution");
-        afficher.setBounds(472, 440, 175, 30);
+        afficher.setBounds(527, 482, 175, 30);
         afficher.setBackground(new Color(197, 202, 233));
         getContentPane().add(afficher);
 
@@ -217,22 +220,22 @@ public class MainMenu extends JFrame {
         taquinError.setVisible(false);
 
         JLabel lblNewLabel = new JLabel("\u00A9Quadrinome n\u00B011 S2I");
-        lblNewLabel.setBounds(441, 565, 133, 23);
+        lblNewLabel.setBounds(390, 565, 133, 23);
         getContentPane().add(lblNewLabel);
 
         JButton aPropos = new JButton("A propos");
-        aPropos.setBounds(679, 557, 85, 21);
+        aPropos.setBounds(784, 566, 85, 21);
         getContentPane().add(aPropos);
         aPropos.setBackground(new Color(197, 202, 233));
 
         JPanel observation = new JPanel();
         observation.setBackground(new Color(121, 134, 203));
-        observation.setBounds(310, 309, 505, 95);
+        observation.setBounds(354, 342, 500, 100);
         getContentPane().add(observation);
         observation.setLayout(null);
 
         JLabel lblNewLabel_2 = new JLabel("Le temps d'execution :");
-        lblNewLabel_2.setBounds(92, 10, 218, 19);
+        lblNewLabel_2.setBounds(122, 10, 218, 19);
         lblNewLabel_2.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblNewLabel_2.setForeground(Color.WHITE);
         observation.add(lblNewLabel_2);
@@ -240,33 +243,69 @@ public class MainMenu extends JFrame {
         JLabel executionTime = new JLabel("time..");
         executionTime.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         executionTime.setForeground(Color.WHITE);
-        executionTime.setBounds(265, 13, 127, 13);
+        executionTime.setBounds(300, 10, 127, 19);
         observation.add(executionTime);
 
         JLabel lblNewLabel_3 = new JLabel("La taille du solution :");
         lblNewLabel_3.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblNewLabel_3.setForeground(Color.WHITE);
-        lblNewLabel_3.setBounds(265, 50, 176, 19);
+        lblNewLabel_3.setBounds(275, 50, 176, 19);
         observation.add(lblNewLabel_3);
 
         JLabel path = new JLabel("path..");
         path.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         path.setForeground(Color.WHITE);
-        path.setBounds(416, 46, 45, 26);
+        path.setBounds(434, 46, 63, 26);
         observation.add(path);
 
         JLabel lblNewLabel_5 = new JLabel("Le nombre des noeuds :");
         lblNewLabel_5.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblNewLabel_5.setForeground(Color.WHITE);
-        lblNewLabel_5.setBounds(21, 53, 185, 13);
+        lblNewLabel_5.setBounds(10, 53, 185, 13);
         observation.add(lblNewLabel_5);
 
         JLabel nbNoeud = new JLabel("noeuds...");
         nbNoeud.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         nbNoeud.setForeground(Color.WHITE);
-        nbNoeud.setBounds(198, 53, 57, 13);
+        nbNoeud.setBounds(187, 53, 57, 13);
         observation.add(nbNoeud);
         observation.setVisible(false);
+        
+        JPanel ouvertPanel = new JPanel();
+        ouvertPanel.setBounds(740, 83, 162, 212);
+        getContentPane().add(ouvertPanel);
+        ouvertPanel.setVisible(false);
+        ouvertPanel.setBackground(new Color(237, 231, 246));
+        ouvertPanel.setLayout(null);
+        
+        JLabel ouvertLb = new JLabel("Ouvert :");
+        ouvertLb.setBounds(31, 10, 57, 21);
+        ouvertPanel.add(ouvertLb);
+        ouvertLb.setForeground(Color.BLACK);
+        ouvertLb.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        
+        JScrollPane ouvertPane = new JScrollPane();
+        ouvertPane.setBounds(29, 41, 105, 162);
+        ouvertPanel.add(ouvertPane);
+        
+        JPanel fermerPanel = new JPanel();
+        fermerPanel.setLayout(null);
+        fermerPanel.setBounds(279, 83, 162, 212);
+        fermerPanel.setVisible(false);
+        fermerPanel.setBackground(new Color(237, 231, 246));
+        getContentPane().add(fermerPanel);
+        
+        JLabel lblNewLabel_6 = new JLabel("Ferm\u00E9 :");
+        lblNewLabel_6.setBounds(28, 10, 57, 19);
+        fermerPanel.add(lblNewLabel_6);
+        lblNewLabel_6.setForeground(Color.BLACK);
+        lblNewLabel_6.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        
+        JScrollPane fermePane = new JScrollPane();
+        fermePane.setBounds(28, 40, 105, 162);
+        fermerPanel.add(fermePane);
+
+
         aPropos.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Quadrinome cool kids only !");
@@ -401,6 +440,8 @@ public class MainMenu extends JFrame {
                             System.out.println("l'algo selectionne est : " + algo);
                             Taquin root = new Taquin(false);
                             root.idToTaquin(taquinToId(taquin));
+                            ferme=new ArrayList<>();
+                            ouvert=new ArrayList<>();
                             int time = 0;
                             switch (algo) {
                                 case "Profondeur" -> {
@@ -412,6 +453,8 @@ public class MainMenu extends JFrame {
                                     solution = profondeur.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes=profondeur.getFerme().size();
+                                    ouvertPanel.setVisible(false);
+                                    ferme=profondeur.getFermeId();
                                 }
                                 case "Largeur" -> {
                                     Largeur largeur = new Largeur();
@@ -422,6 +465,8 @@ public class MainMenu extends JFrame {
                                     solution = largeur.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = largeur.getFermer().size() + largeur.getOuvert().size();
+                                    ferme=largeur.getFermeId();
+                                    ouvert=largeur.getOuvertId();
                                 }
                                 case "Manhatten" -> {
                                     Aetoile aetoile = new Aetoile(1);
@@ -432,6 +477,8 @@ public class MainMenu extends JFrame {
                                     solution = aetoile.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
+                                    ferme=aetoile.getFermeId();
+                                    ouvert=aetoile.getOuvertId();
                                 }
                                 case "Hamming" -> {
                                     Aetoile aetoile = new Aetoile(2);
@@ -442,6 +489,8 @@ public class MainMenu extends JFrame {
                                     solution = aetoile.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
+                                    ferme=aetoile.getFermeId();
+                                    ouvert=aetoile.getOuvertId();
                                 }
                                 default -> System.out.println("oups !");
                             }
@@ -450,7 +499,26 @@ public class MainMenu extends JFrame {
                                 path.setText("" + (solution.size() - 1));
                                 executionTime.setText("" + time + " ns");
                                 nbNoeud.setText("" + nodes);
+                                if(ferme.size()>1){
+                                    fermerPanel.setVisible(true);
+                                    System.out.println("l'ensemble affiché : "+ferme);
+                                    JList<String> jferme = new JList<String>(ferme.toArray(new String[ferme.size()]));
+                                    fermePane.setViewportView(jferme);
+                                    jferme.setLayoutOrientation(JList.VERTICAL);
+                                }else {
+                                    fermerPanel.setVisible(false);
+                                }
+
+                                if(ouvert.size()>1){
+                                    ouvertPanel.setVisible(true);
+                                    JList<String> jouvert = new JList<String>(ouvert.toArray(new String[ouvert.size()]));
+                                    ouvertPane.setViewportView(jouvert);
+                                    jouvert.setLayoutOrientation(JList.VERTICAL);
+                                }else{
+                                    ouvertPanel.setVisible(false);
+                                }
                             }else{
+                                observation.setVisible(false);
                                 JFrame alerte = new JFrame();
                                 JOptionPane.showMessageDialog(alerte,"Aucune solution trouvé.","Information",JOptionPane.INFORMATION_MESSAGE);
                             }

@@ -19,6 +19,10 @@ public class Taquin {
         }
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void init() {
         Random rand = new Random();
         int val;
