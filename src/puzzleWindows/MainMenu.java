@@ -249,30 +249,30 @@ public class MainMenu extends JFrame {
         JLabel lblNewLabel_3 = new JLabel("La taille du solution :");
         lblNewLabel_3.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblNewLabel_3.setForeground(Color.WHITE);
-        lblNewLabel_3.setBounds(275, 50, 176, 19);
+        lblNewLabel_3.setBounds(272, 50, 176, 26);
         observation.add(lblNewLabel_3);
 
         JLabel path = new JLabel("path..");
         path.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         path.setForeground(Color.WHITE);
-        path.setBounds(434, 46, 63, 26);
+        path.setBounds(427, 50, 63, 26);
         observation.add(path);
 
         JLabel lblNewLabel_5 = new JLabel("Le nombre des noeuds :");
         lblNewLabel_5.setFont(new Font("Segoe UI", Font.BOLD, 15));
         lblNewLabel_5.setForeground(Color.WHITE);
-        lblNewLabel_5.setBounds(10, 53, 185, 13);
+        lblNewLabel_5.setBounds(10, 53, 185, 19);
         observation.add(lblNewLabel_5);
 
         JLabel nbNoeud = new JLabel("noeuds...");
         nbNoeud.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         nbNoeud.setForeground(Color.WHITE);
-        nbNoeud.setBounds(187, 53, 57, 13);
+        nbNoeud.setBounds(187, 53, 57, 19);
         observation.add(nbNoeud);
         observation.setVisible(false);
         
         JPanel ouvertPanel = new JPanel();
-        ouvertPanel.setBounds(740, 83, 162, 212);
+        ouvertPanel.setBounds(740, 83, 162, 249);
         getContentPane().add(ouvertPanel);
         ouvertPanel.setVisible(false);
         ouvertPanel.setBackground(new Color(237, 231, 246));
@@ -288,9 +288,20 @@ public class MainMenu extends JFrame {
         ouvertPane.setBounds(29, 41, 105, 162);
         ouvertPanel.add(ouvertPane);
         
+        JLabel lblNewLabel_4_1 = new JLabel("Taille :");
+        lblNewLabel_4_1.setForeground(Color.BLACK);
+        lblNewLabel_4_1.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        lblNewLabel_4_1.setBounds(43, 210, 45, 23);
+        ouvertPanel.add(lblNewLabel_4_1);
+        
+        JLabel tailleO = new JLabel("tailleO");
+        tailleO.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        tailleO.setBounds(98, 211, 68, 20);
+        ouvertPanel.add(tailleO);
+        
         JPanel fermerPanel = new JPanel();
         fermerPanel.setLayout(null);
-        fermerPanel.setBounds(279, 83, 162, 212);
+        fermerPanel.setBounds(279, 83, 162, 249);
         fermerPanel.setVisible(false);
         fermerPanel.setBackground(new Color(237, 231, 246));
         getContentPane().add(fermerPanel);
@@ -304,6 +315,17 @@ public class MainMenu extends JFrame {
         JScrollPane fermePane = new JScrollPane();
         fermePane.setBounds(28, 40, 105, 162);
         fermerPanel.add(fermePane);
+        
+        JLabel lblNewLabel_4 = new JLabel("Taille :");
+        lblNewLabel_4.setForeground(Color.BLACK);
+        lblNewLabel_4.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        lblNewLabel_4.setBounds(38, 214, 45, 13);
+        fermerPanel.add(lblNewLabel_4);
+        
+        JLabel tailleF = new JLabel("tailleF");
+        tailleF.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        tailleF.setBounds(93, 212, 68, 15);
+        fermerPanel.add(tailleF);
 
 
         aPropos.addActionListener(new ActionListener() {
@@ -500,6 +522,7 @@ public class MainMenu extends JFrame {
                                 executionTime.setText("" + time + " ns");
                                 nbNoeud.setText("" + nodes);
                                 if(ferme.size()>1){
+                                    tailleF.setText(""+ferme.size());
                                     fermerPanel.setVisible(true);
                                     System.out.println("l'ensemble affiché : "+ferme);
                                     JList<String> jferme = new JList<String>(ferme.toArray(new String[ferme.size()]));
@@ -510,6 +533,7 @@ public class MainMenu extends JFrame {
                                 }
 
                                 if(ouvert.size()>1){
+                                    tailleO.setText(""+ouvert.size());
                                     ouvertPanel.setVisible(true);
                                     JList<String> jouvert = new JList<String>(ouvert.toArray(new String[ouvert.size()]));
                                     ouvertPane.setViewportView(jouvert);
