@@ -464,14 +464,14 @@ public class MainMenu extends JFrame {
                             root.idToTaquin(taquinToId(taquin));
                             ferme=new ArrayList<>();
                             ouvert=new ArrayList<>();
-                            int time = 0;
+                            long time = 0;
                             switch (algo) {
                                 case "Profondeur" -> {
                                     Profondeur profondeur = new Profondeur();
-                                    LocalDateTime now = LocalDateTime.now();
+                                    long now= System.nanoTime();
                                     profondeur.solve(root, (Integer) spinner.getValue());
-                                    LocalDateTime then = LocalDateTime.now();
-                                    time = then.getNano() - now.getNano();
+                                    long then= System.nanoTime();
+                                    time = then - now;
                                     solution = profondeur.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes=profondeur.getFerme().size();
@@ -480,10 +480,10 @@ public class MainMenu extends JFrame {
                                 }
                                 case "Largeur" -> {
                                     Largeur largeur = new Largeur();
-                                    LocalDateTime now = LocalDateTime.now();
+                                    long now= System.nanoTime();
                                     largeur.solve(root,(Integer)spinner.getValue());
-                                    LocalDateTime then = LocalDateTime.now();
-                                    time = then.getNano() - now.getNano();
+                                    long then= System.nanoTime();
+                                    time = then - now;
                                     solution = largeur.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = largeur.getFermer().size() + largeur.getOuvert().size();
@@ -492,10 +492,10 @@ public class MainMenu extends JFrame {
                                 }
                                 case "Manhatten" -> {
                                     Aetoile aetoile = new Aetoile(1);
-                                    LocalDateTime now = LocalDateTime.now();
+                                    long now= System.nanoTime();
                                     aetoile.solve(root);
-                                    LocalDateTime then = LocalDateTime.now();
-                                    time = then.getNano() - now.getNano();
+                                    long then= System.nanoTime();
+                                    time = then - now;
                                     solution = aetoile.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
@@ -504,10 +504,10 @@ public class MainMenu extends JFrame {
                                 }
                                 case "Hamming" -> {
                                     Aetoile aetoile = new Aetoile(2);
-                                    LocalDateTime now = LocalDateTime.now();
+                                    long now= System.nanoTime();
                                     aetoile.solve(root);
-                                    LocalDateTime then = LocalDateTime.now();
-                                    time = then.getNano() - now.getNano();
+                                    long then= System.nanoTime();
+                                    time = then - now;
                                     solution = aetoile.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
