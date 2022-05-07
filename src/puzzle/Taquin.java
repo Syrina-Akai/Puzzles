@@ -19,6 +19,11 @@ public class Taquin {
         }
     }
 
+    public Taquin(String id) {
+        this.id = id;
+        this.vide = id.indexOf('0');
+    }
+
     public String getId() {
         return id;
     }
