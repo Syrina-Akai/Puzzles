@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Chromosome {
     private ArrayList<Double> moves;
-    private int parent1=0;
-    private int parent2=0;
-    private float fitness=0;
+    private int parent1 = 0;
+    private int parent2 = 0;
+    private float fitness = -1;
 
     public Chromosome(ArrayList<Double> moves) {
         this.moves = moves;
@@ -44,8 +44,10 @@ public class Chromosome {
         this.parent2 = parent2;
     }
 
-    
-
+    @Override
+    public String toString() {
+        return "" + moves;
+    }
 }
 
 

@@ -3,8 +3,6 @@ package puzzle;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static puzzle.Main.idBut;
-
 public class Aetoile {
     private Stack<String> solution;
     private PriorityQueue<Taquin> ouvert;
@@ -36,16 +34,16 @@ public class Aetoile {
         return fermer;
     }
 
-    public ArrayList<String> getFermeId(){
-        ArrayList<Taquin> ferme=new ArrayList<Taquin>(this.getFermer());
-        return  ferme.stream()
+    public ArrayList<String> getFermeId() {
+        ArrayList<Taquin> ferme = new ArrayList<Taquin>(this.getFermer());
+        return ferme.stream()
                 .map(Taquin::getId)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public ArrayList<String> getOuvertId(){
-        ArrayList<Taquin> ouvert=new ArrayList<Taquin>(this.getOuvert());
-        return  ouvert.stream()
+    public ArrayList<String> getOuvertId() {
+        ArrayList<Taquin> ouvert = new ArrayList<Taquin>(this.getOuvert());
+        return ouvert.stream()
                 .map(Taquin::getId)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
@@ -92,10 +90,10 @@ public class Aetoile {
             if (!taquin.id.equals(Main.idBut)) {
                 appendNextMoves(taquin);
             }
-        } while(!taquin.id.equals(Main.idBut));
-        System.out.println("fermer est : "+fermer);
-        for(int index = fils.indexOf(Main.idBut); index != -1; index = (Integer)peres.get(index)) {
-            solution.push((String)fils.get(index));
+        } while (!taquin.id.equals(Main.idBut));
+        System.out.println("fermer est : " + fermer);
+        for (int index = fils.indexOf(Main.idBut); index != -1; index = (Integer) peres.get(index)) {
+            solution.push((String) fils.get(index));
         }
 
         System.out.println("la taille du path est : " + solution.size());
