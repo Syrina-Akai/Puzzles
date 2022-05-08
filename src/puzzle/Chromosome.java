@@ -46,7 +46,41 @@ public class Chromosome {
 
     @Override
     public String toString() {
-        return "" + moves;
+        ArrayList<String> printedMoves= new ArrayList<>();
+        for (double move: moves) {
+            if(move < 0.26){
+                printedMoves.add("Up");
+            }
+            if(move >= 0.26 && move < 0.51){
+                printedMoves.add("Right");
+            }
+            if(move >= 0.51 && move < 0.76){
+                printedMoves.add("Down");
+            }
+            if(move >= 0.76){
+                printedMoves.add("Left");
+            }
+        }
+        return ""+printedMoves;
+    }
+
+    public void affichageMoves(ArrayList<Double> moves){
+        ArrayList<String> printedMoves= new ArrayList<>();
+        for (double move: moves) {
+            if(move < 0.26){
+                printedMoves.add("Up");
+            }
+            if(move >= 0.26 && move < 0.51){
+                printedMoves.add("Right");
+            }
+            if(move >= 0.51 && move < 0.76){
+                printedMoves.add("Down");
+            }
+            if(move >= 0.76){
+                printedMoves.add("Left");
+            }
+        }
+        System.out.println(printedMoves);
     }
 }
 

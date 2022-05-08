@@ -16,16 +16,11 @@ public class Main {
     public static String idTest = "283164705";
 
     public static void main(String[] args) {
-        /*JFrame jFrame = new MainMenu("Puzzle");
+        JFrame jFrame = new MainMenu("Puzzle");
         jFrame.setBounds(450, 100, 940, 640);
         jFrame.setResizable(false);
-        jFrame.setVisible(true);*/
+        jFrame.setVisible(true);
 
-        GA ga = new GA(new Taquin(idTest));
-        ga.fit();
-        for (int i = 0; i < ga.populations.size(); i++) {
-            System.out.print(ga.populations.get(i));
-            System.out.println(", Fitness: " + ga.populations.get(i).getFitness());
-        }
+
     }
 }
