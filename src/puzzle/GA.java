@@ -169,7 +169,9 @@ public class GA {
         ArrayList<Double> moves = new ArrayList<>(parent1.getMoves().subList(0, indice1));
         moves.addAll(parent2.getMoves().subList(indice2, parent2.getMoves().size()));
         Chromosome child=new Chromosome(moves);
+
         child.isDoable();
+
         if(child.getFitness() !=-1){
             children.add(child);
         }
@@ -188,30 +190,21 @@ public class GA {
     public ArrayList<Chromosome> crossover2(Chromosome parent1, Chromosome parent2){
         // the 2 children of the crossover
         ArrayList<Chromosome> children= new ArrayList<>();
-        Chromosome fitess;
-        Chromosome lessFit;
-        if(parent1.getFitness()> parent2.getFitness()){
-            fitess=new Chromosome(parent1.getMoves());
-            lessFit=new Chromosome(parent2.getMoves());
-        }else {
-            fitess=new Chromosome(parent2.getMoves());
-            lessFit=new Chromosome(parent1.getMoves());
-        }
 
 
-        int indice1= fitess.getMoves().size()*3/4;
-        int indice2= lessFit.getMoves().size()/2;
+        int indice1= parent1.getMoves().size()*3/4;
+        int indice2= parent2.getMoves().size()/2;
 
-        ArrayList<Double> moves = new ArrayList<>(fitess.getMoves().subList(0, indice1));
-        moves.addAll(lessFit.getMoves().subList(indice2, lessFit.getMoves().size()));
+        ArrayList<Double> moves = new ArrayList<>(parent1.getMoves().subList(0, indice1));
+        moves.addAll(parent2.getMoves().subList(indice2, parent2.getMoves().size()));
         Chromosome child=new Chromosome(moves);
         child.isDoable();
         if(child.getFitness() !=-1){
             children.add(child);
         }
 
-        moves = new ArrayList<>(lessFit.getMoves().subList(0, indice2));
-        moves.addAll(fitess.getMoves().subList(indice1, fitess.getMoves().size()));
+        moves = new ArrayList<>(parent2.getMoves().subList(0, indice2));
+        moves.addAll(parent1.getMoves().subList(indice1, parent1.getMoves().size()));
         child=new Chromosome(moves);
         child.isDoable();
         if(child.getFitness() !=-1){
@@ -223,7 +216,7 @@ public class GA {
 
     public boolean isSolution(ArrayList<Chromosome> populations){
         for (Chromosome chromosome:populations) {
-            if(chromosome.getFitness()==0){
+            if(chromosome.getFitness()==0){ //sinon on met <=2 ou bien un truc du genre
                 solution=chromosome;
                 return true;
             }
@@ -247,6 +240,7 @@ public class GA {
             this.fitness(this.newGeneration);
             this.populations= new ArrayList<>();
             this.populations.addAll(this.newGeneration);
+            newGeneration=new ArrayList<>();
         }
         if(solution!=null && this.populations.size()>0){
             System.out.println("CONGRATS ! ");
