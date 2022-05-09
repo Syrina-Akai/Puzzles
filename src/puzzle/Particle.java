@@ -10,15 +10,18 @@ public class Particle {
     private double velocity;
     private int pbest;
     private int currentPFit;
+    private int pbestFit;
     private ArrayList<Taquin> moves;
     private String binaryMoves;
     private int decimalMoves;
 
     //constructor
-    public Particle(Taquin init,ArrayList<Taquin> moves){
+    public Particle(Taquin init,ArrayList<Taquin> moves, String binaryMoves){
         this.moves = moves;
         currentPFit = fitness(moves.get(moves.size() - 1).id);
-        pbest = fitness(init.id);
+        pbestFit = fitness(init.id);
+        this.binaryMoves = binaryMoves;
+        pbest = toDecimal();
         position = Math.random();
         velocity = Math.random();
     }
@@ -37,7 +40,7 @@ public class Particle {
         //calculate the fitness and compare with pbest, replace if smaller
         currentPFit = fitness(moves.get(moves.size() - 1).id);
         if(currentPFit > pbest){
-            pbest = currentPFit;
+            pbest = decimalMoves;
         }
     }
 
