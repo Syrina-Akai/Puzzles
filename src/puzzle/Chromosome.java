@@ -2,6 +2,8 @@ package puzzle;
 
 import java.util.ArrayList;
 
+import static puzzle.Main.idTest;
+
 public class Chromosome {
     private ArrayList<Double> moves;
     private int parent1 = 0;
@@ -10,6 +12,7 @@ public class Chromosome {
 
     public Chromosome(ArrayList<Double> moves) {
         this.moves = moves;
+
     }
 
     public ArrayList<Double> getMoves() {
@@ -64,7 +67,7 @@ public class Chromosome {
         return ""+printedMoves;
     }
 
-    public void affichageMoves(ArrayList<Double> moves){
+    public void affichageMoves(){
         ArrayList<String> printedMoves= new ArrayList<>();
         for (double move: moves) {
             if(move < 0.26){
@@ -81,6 +84,53 @@ public class Chromosome {
             }
         }
         System.out.println(printedMoves);
+    }
+
+    public void isDoable(){
+        Taquin taquin = new Taquin(idTest);
+        boolean isDoable=true;
+        for (double move :moves) {
+            if(move<0.26){//up 0.254
+                if(taquin.vide <= 2){
+                    isDoable= false;
+                    break;
+                }else {
+                    taquin.nextMove(taquin, taquin.vide - 3);
+                }
+            }
+            if(move>=0.26 && move<0.51){//right
+                if(taquin.vide % 3 == 2 ){
+                    isDoable= false;
+                    break;
+                }
+                else {
+                    taquin.nextMove(taquin, taquin.vide + 1);
+                }
+            }
+            if(move>=0.51 && move<0.76){//down
+                if(taquin.vide >= 6){
+                    isDoable= false;
+                    break;
+                }
+                else {
+                    taquin.nextMove(taquin, taquin.vide + 3);
+                }
+            }
+            if(move>=0.76){//left
+                if(taquin.vide % 3 == 0){
+                    isDoable= false;
+                    break;
+                }
+                else {
+                    taquin.nextMove(taquin, taquin.vide - 1);
+                }
+            }
+        }
+        if(isDoable){
+            fitness= new CompareH1().distanceEtat(taquin);
+        }else {
+            fitness= -1;
+        }
     }
 }
 

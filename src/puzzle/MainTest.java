@@ -6,49 +6,15 @@ import java.util.Random;
 import static puzzle.Main.idTest;
 
 public class MainTest {
-    public static boolean isDoable(Taquin taquin, double move){
-        if(move<0.26){//up 0.254
-            if(taquin.vide > 2){
-                taquin.nextMove(taquin, taquin.vide - 3);
-
-            }else {
-                return false;
-            }
-        }
-        if(move>=0.26 && move<0.51){//right
-            if(taquin.vide % 3 != 2 ){
-                taquin.nextMove(taquin, taquin.vide + 1);
-            }
-            else {
-                return false;
-            }
-        }
-        if(move>=0.51 && move<0.76){//down
-            if(taquin.vide < 6){
-                taquin.nextMove(taquin, taquin.vide + 3);
-            }
-            else {
-                return false;
-            }
-        }
-        if(move>=0.76){//left
-            if(taquin.vide % 3 != 0){
-                taquin.nextMove(taquin, taquin.vide - 1);
-            }
-            else {
-                return false;
-            }
-        }
-        return true;
-    }
 
     public static void main(String[] args) {
         GA ga = new GA(new Taquin(idTest));
-        ga.fit();
+        ga.generateSolution();
+        /*ga.fitness(ga.populations);
         for (int i = 0; i < ga.populations.size(); i++) {
             System.out.print(ga.populations.get(i));
             System.out.println(", Fitness: " + ga.populations.get(i).getFitness());
-        }
+        }*/
 
 
         /*Random rand = new Random();
