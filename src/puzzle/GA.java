@@ -219,6 +219,36 @@ public class GA {
         return children;
     }
 
+    public void mutation(Chromosome chromosome){
+        ArrayList<Double> moves=chromosome.getMoves();
+        ArrayList<Chromosome> newChromosomes= new ArrayList<>();
+        double rangeMin;double rangeMax;
+        for (int i = 1; i < moves.size(); i++) {
+            //applicate all possible moves for each level i
+            Random r = new Random();
+            //up
+            rangeMin=0; rangeMax=0.25 ;
+            while (rangeMax<=1){
+                double newMove = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+                moves.set(i,newMove);
+                Chromosome newChromosome=new Chromosome(moves);
+                //check if the current chromosome is doable
+                //and if the fitness is better
+                //put it in newChromosomes
+                newChromosome.isDoable();
+                if(newChromosome.getFitness()<chromosome.getFitness()){
+                    newChromosomes.add(newChromosome);
+                }
+                rangeMax+=0.25; rangeMin+=0.25;
+            }
+        }
+        //take the fitess one
+        if(!newChromosomes.isEmpty()){
+            newChromosomes.sort(new SortChromosome());
+            chromosome=new Chromosome(newChromosomes.get(0).getMoves());
+        }
+    }
+
     public boolean isSolution(ArrayList<Chromosome> populations){
         for (Chromosome chromosome:populations) {
             if(chromosome.getFitness()==0){ //sinon on met <=2 ou bien un truc du genre
@@ -243,9 +273,15 @@ public class GA {
                 }
                 System.out.println("new generation for "+i);
             }
+            //4-mutation
+            for (Chromosome chromosome:newGeneration) {
+                if (chromosome.getFitness()<=5){
+                    mutation(chromosome);
+                }
+            }
             generation++;
             System.out.println("on va tester l fitness : "+this.newGeneration.size());
-            //4-test and fitness of the new generation
+            //5-test and fitness of the new generation
             this.fitness(this.newGeneration);
             System.out.println("fin de test du fitness");
             this.populations= new ArrayList<>();
@@ -258,7 +294,9 @@ public class GA {
             System.out.println("CONGRATS ! ");
             solution.affichageMoves();
         }else{
-            System.out.println("the fitess : "+populations.get(0).getFitness());
+            if (!populations.isEmpty()){
+                System.out.println("the fitess : "+populations.get(0).getFitness());
+            }
             System.out.println("Solution not found :/ ");
         }
     }
