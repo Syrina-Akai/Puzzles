@@ -13,6 +13,7 @@ public class GA {
     ArrayList<Chromosome> newGeneration = new ArrayList<>();
     Chromosome solution=null;
     int generation=0;
+    int chromosomeSize=0;
     Taquin root;
 
     public GA(Taquin root) {
@@ -58,10 +59,9 @@ public class GA {
 
     public ArrayList<Double> randomMoves(Taquin taquin){
         ArrayList<Double> moves= new ArrayList<>();
-        taquin.afficherTaquin();
         Random rand = new Random();
         double move;
-        for (int i = 1; i < 8; i++) {
+        for (int i = 1; i < chromosomeSize; i++) {
             boolean test = true;
             do {
                 move = rand.nextDouble(1.0);
@@ -98,7 +98,6 @@ public class GA {
                     }
                 }
             } while (!test);
-            affichageMove(move);
             moves.add(move);
         }
         return moves;
@@ -108,7 +107,10 @@ public class GA {
         ArrayList<Double> moves;
         Chromosome chromosome;
         Random rand = new Random();
-        System.out.println("dkhelna initialisePopulation");
+        //get the size of a chromosome
+        Aetoile aetoile= new Aetoile(1);
+        aetoile.solve(root);
+        chromosomeSize=aetoile.getSolution().size();
 
         if (root.vide > 2) {//i-3 ==> en haut
             Taquin taquin = new Taquin(root.id);
@@ -156,6 +158,9 @@ public class GA {
                 fitessPopulations.add(chromosome);
                 fitessPopulations.sort(new SortChromosome());
             }
+        }
+        if(fitessPopulations.size()>7){
+            fitessPopulations=new ArrayList<>(fitessPopulations.subList(0, 7));
         }
     }
 
@@ -225,27 +230,35 @@ public class GA {
     }
 
     public void generateSolution(){
+        System.out.println("la taille de la solution "+chromosomeSize);
         //1-the random generation of the first population is done in the constructor
-        while (!isSolution(this.populations) && this.populations.size()>0 && generation<=10){
+        while (!isSolution(this.populations) && this.populations.size()>0 && generation<=100){
             System.out.println("generation : "+generation);
             this.fitness(this.populations);//2-test of the population and evoluate it
             //3-the crossover
             for (int i = 0; i < this.fitessPopulations.size()-1; i++) {
                 for (int j =i+1; j<this.fitessPopulations.size(); j++){
+                    System.out.println("i : "+i+" j : "+j);
                     newGeneration.addAll(crossover1(fitessPopulations.get(i), fitessPopulations.get(j)));
                 }
+                System.out.println("new generation for "+i);
             }
             generation++;
+            System.out.println("on va tester l fitness : "+this.newGeneration.size());
             //4-test and fitness of the new generation
             this.fitness(this.newGeneration);
+            System.out.println("fin de test du fitness");
             this.populations= new ArrayList<>();
             this.populations.addAll(this.newGeneration);
+            System.out.println("on a creer une nouvelle population : "+populations.size());
             newGeneration=new ArrayList<>();
+
         }
         if(solution!=null && this.populations.size()>0){
             System.out.println("CONGRATS ! ");
             solution.affichageMoves();
         }else{
+            System.out.println("the fitess : "+populations.get(0).getFitness());
             System.out.println("Solution not found :/ ");
         }
     }
