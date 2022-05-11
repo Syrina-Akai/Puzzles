@@ -14,8 +14,9 @@ public class Particle {
     private ArrayList<Taquin> moves;
     private String binaryMoves;
     private int decimalMoves;
-    private ArrayList<Integer> butLines;
-    private ArrayList<Integer> butColumns;
+    private ArrayList<Integer> butLines = new ArrayList<Integer>();
+    private ArrayList<Integer> butColumns = new ArrayList<Integer>();
+
 
     //constructor
     public Particle(Taquin init,ArrayList<Taquin> moves){
@@ -23,16 +24,17 @@ public class Particle {
         currentPFit = fitness(moves.get(moves.size() - 1).id);
         pbestFit = fitness(init.id);
         //this.binaryMoves = binaryMoves;
-        pbest = toDecimal();
         position = Math.random();
         velocity = Math.random();
         //but values init
 
-        int matrice [][] = new int[0][];
+        int matrice [][] = new int[3][3];
+
+        Taquin but = new Taquin("123804765");
 
         for(int i = 0 ; i<3 ; i++){
             for(int j = 0 ; j<3 ; j++){
-                matrice[i][j] = Integer.parseInt(moves.get(moves.size() - 1).id.substring(i+j,i+j+1));
+                matrice[i][j] = Integer.parseInt(but.id.substring(i+j,i+j+1));
             }
         }
         for(int i = 0 ; i<3 ; i++){
@@ -42,7 +44,7 @@ public class Particle {
         for(int i = 0 ; i<3 ; i++){
             butColumns.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
         }
-
+        pbest = toDecimal();
     }
 
     public Particle(Particle old, ArrayList<Taquin> moves){
@@ -52,9 +54,9 @@ public class Particle {
         velocity = old.getVelocity();
         currentPFit = fitness(moves.get(moves.size() - 1).id);
         pbestFit = old.getPbestFit();
-        decimalMoves = toDecimal();
         butLines = old.getButLines();
         butColumns = old.getButColumns();
+        decimalMoves = toDecimal();
     }
 
 
@@ -98,7 +100,7 @@ public class Particle {
     }
 
     public int toDecimal(){
-        int matrice [][] = new int[0][];
+        int matrice [][] = new int[3][3];
         ArrayList<Integer> lines = new ArrayList<Integer>();
         ArrayList<Integer> columns = new ArrayList<Integer>();
         for(int i = 0 ; i<3 ; i++){

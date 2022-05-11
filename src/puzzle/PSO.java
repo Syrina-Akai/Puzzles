@@ -22,14 +22,18 @@ public class PSO {
     //methods
     public void PSOmain(){
         //do the init idk
+        int generation = 1;
         while(gbest != 0) {
+            System.out.println("generation "+ generation);
             for (Particle element : particles) {
                 element.updateVelocity(gbest);
                 element.updatePosition();
                 element.updatePBest();
                 updateGbest();
-                updateParticles();
             }
+            updateParticles();
+            System.out.println(gbest);
+            generation++;
         }
         //loop through all particles
         //calculate their velocity and position
@@ -66,7 +70,8 @@ public class PSO {
             //we loop through the moves to create the particles and add them
             while(!nextMoves.isEmpty()){
                 //we get the previous move set
-                ArrayList<Taquin> addedMove = element.getMoves();
+                ArrayList<Taquin> addedMove = elemMoves;
+
                 Taquin part = new Taquin(false);
                 //new taquin with one of the next moves
                 part.nextMove(lastTaquin, nextMoves.remove());
@@ -74,14 +79,20 @@ public class PSO {
                 addedMove.add(part);
                 //we add it to the new particle list
                 newParticles.add(new Particle(element, addedMove));
+                //System.out.println("##################################################################");
             }
+            //System.out.println("\n###################################################################\n");
 
         }
         particles = newParticles;
     }
     public void updateGbest(){
         for (Particle element : particles) {
-            if(fitness(gbestParticle.getMoves().get(gbestParticle.getMoves().size()-1).id) < element.getPbestFit()){
+            if(fitness(gbestParticle.getMoves().get(gbestParticle.getMoves().size()-1).id) >= element.getPbestFit()){
+                System.out.println("gbest");
+                System.out.println(gbest);
+                System.out.println("gbest fitness");
+                System.out.println(fitness(gbestParticle.getMoves().get(gbestParticle.getMoves().size()-1).id));
                 gbest = element.getPbest();
                 gbestParticle = element;
             }
@@ -126,6 +137,7 @@ public class PSO {
             list.add(part);
             particles.add(new Particle(init, list));
         }
+
         ArrayList<Taquin> initmov = new ArrayList<Taquin>();
         initmov.add(init);
         gbestParticle = new Particle(init, initmov);
@@ -133,6 +145,8 @@ public class PSO {
     }
 
     public void afficherSolution(){
+        System.out.println("generated particles "+ particles.size());
+        System.out.println("size " + gbestParticle.getMoves().size());
         for (Taquin elem: gbestParticle.getMoves()) {
             elem.afficherTaquin();
         }

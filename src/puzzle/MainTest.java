@@ -8,8 +8,12 @@ import static puzzle.Main.idTest;
 public class MainTest {
 
     public static void main(String[] args) {
-        GA ga = new GA(new Taquin(idTest));
-        ga.generateSolution();
+        PSO mypso = new PSO("123845076");
+        mypso.PSOmain();
+        System.out.println("\n\n\n        SOLUTION       ");
+        mypso.afficherSolution();
+        //GA ga = new GA(new Taquin(idTest));
+        //ga.generateSolution();
         /*ga.fitness(ga.populations);
         for (int i = 0; i < ga.populations.size(); i++) {
             System.out.print(ga.populations.get(i));
