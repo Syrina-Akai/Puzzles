@@ -14,6 +14,8 @@ public class Particle {
     private ArrayList<Taquin> moves;
     private String binaryMoves;
     private int decimalMoves;
+    private ArrayList<Integer> butLines;
+    private ArrayList<Integer> butColumns;
 
     //constructor
     public Particle(Taquin init,ArrayList<Taquin> moves, String binaryMoves){
@@ -24,6 +26,23 @@ public class Particle {
         pbest = toDecimal();
         position = Math.random();
         velocity = Math.random();
+        //but values init
+
+        int matrice [][] = new int[0][];
+
+        for(int i = 0 ; i<3 ; i++){
+            for(int j = 0 ; j<3 ; j++){
+                matrice[i][j] = Integer.parseInt(moves.get(moves.size() - 1).id.substring(i+j,i+j+1));
+            }
+        }
+        for(int i = 0 ; i<3 ; i++){
+            butLines.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
+        }
+        //columns
+        for(int i = 0 ; i<3 ; i++){
+            butColumns.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
+        }
+
     }
 
     //methods
@@ -65,7 +84,28 @@ public class Particle {
     }
 
     public int toDecimal(){
-        return(Integer.parseInt(binaryMoves,2));
+        int matrice [][] = new int[0][];
+        ArrayList<Integer> lines = new ArrayList<Integer>();
+        ArrayList<Integer> columns = new ArrayList<Integer>();
+        for(int i = 0 ; i<3 ; i++){
+            for(int j = 0 ; j<3 ; j++){
+                matrice[i][j] = Integer.parseInt(moves.get(moves.size() - 1).id.substring(i+j,i+j+1));
+            }
+        }
+        //lines
+        for(int i = 0 ; i<3 ; i++){
+            lines.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
+        }
+        //columns
+        for(int i = 0 ; i<3 ; i++){
+            columns.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
+        }
+        int differences = 0;
+        for (int i = 0 ; i < lines.size(); i++ ){
+            differences+= Math.abs(lines.get(i)-butLines.get(i));
+            differences+= Math.abs(columns.get(i)-butColumns.get(i));
+        }
+        return(differences);
     }
 
 
