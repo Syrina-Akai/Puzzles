@@ -53,6 +53,8 @@ public class Particle {
         currentPFit = fitness(moves.get(moves.size() - 1).id);
         pbestFit = old.getPbestFit();
         decimalMoves = toDecimal();
+        butLines = old.getButLines();
+        butColumns = old.getButColumns();
     }
 
 
@@ -184,6 +186,22 @@ public class Particle {
 
     public void setPbestFit(int pbestFit) {
         this.pbestFit = pbestFit;
+    }
+
+    public ArrayList<Integer> getButLines() {
+        return butLines;
+    }
+
+    public void setButLines(ArrayList<Integer> butLines) {
+        this.butLines = butLines;
+    }
+
+    public ArrayList<Integer> getButColumns() {
+        return butColumns;
+    }
+
+    public void setButColumns(ArrayList<Integer> butColumns) {
+        this.butColumns = butColumns;
     }
 }
 
