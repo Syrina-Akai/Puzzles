@@ -18,11 +18,11 @@ public class Particle {
     private ArrayList<Integer> butColumns;
 
     //constructor
-    public Particle(Taquin init,ArrayList<Taquin> moves, String binaryMoves){
+    public Particle(Taquin init,ArrayList<Taquin> moves){
         this.moves = moves;
         currentPFit = fitness(moves.get(moves.size() - 1).id);
         pbestFit = fitness(init.id);
-        this.binaryMoves = binaryMoves;
+        //this.binaryMoves = binaryMoves;
         pbest = toDecimal();
         position = Math.random();
         velocity = Math.random();
@@ -45,6 +45,18 @@ public class Particle {
 
     }
 
+    public Particle(Particle old, ArrayList<Taquin> moves){
+        pbest = old.getPbest();
+        this.moves = moves;
+        position = old.getPosition(); //takes the old position and velocity and they will be updated at the start of the pso loop
+        velocity = old.getVelocity();
+        currentPFit = fitness(moves.get(moves.size() - 1).id);
+        pbestFit = old.getPbestFit();
+        decimalMoves = toDecimal();
+    }
+
+
+
     //methods
     public int fitness(String taquinId){
         int fitnessVal = 0;
@@ -58,7 +70,7 @@ public class Particle {
     public void updatePBest(){
         //calculate the fitness and compare with pbest, replace if smaller
         currentPFit = fitness(moves.get(moves.size() - 1).id);
-        if(currentPFit > pbest){
+        if(currentPFit < pbestFit){
             pbest = decimalMoves;
         }
     }
@@ -164,6 +176,14 @@ public class Particle {
 
     public void setDecimalMoves(int decimalMoves) {
         this.decimalMoves = decimalMoves;
+    }
+
+    public int getPbestFit() {
+        return pbestFit;
+    }
+
+    public void setPbestFit(int pbestFit) {
+        this.pbestFit = pbestFit;
     }
 }
 
