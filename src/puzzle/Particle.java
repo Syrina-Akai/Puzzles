@@ -14,17 +14,50 @@ public class Particle {
     private ArrayList<Taquin> moves;
     private String binaryMoves;
     private int decimalMoves;
+    private ArrayList<Integer> butLines;
+    private ArrayList<Integer> butColumns;
 
     //constructor
-    public Particle(Taquin init,ArrayList<Taquin> moves, String binaryMoves){
+    public Particle(Taquin init,ArrayList<Taquin> moves){
         this.moves = moves;
         currentPFit = fitness(moves.get(moves.size() - 1).id);
         pbestFit = fitness(init.id);
-        this.binaryMoves = binaryMoves;
+        //this.binaryMoves = binaryMoves;
         pbest = toDecimal();
         position = Math.random();
         velocity = Math.random();
+        //but values init
+
+        int matrice [][] = new int[0][];
+
+        for(int i = 0 ; i<3 ; i++){
+            for(int j = 0 ; j<3 ; j++){
+                matrice[i][j] = Integer.parseInt(moves.get(moves.size() - 1).id.substring(i+j,i+j+1));
+            }
+        }
+        for(int i = 0 ; i<3 ; i++){
+            butLines.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
+        }
+        //columns
+        for(int i = 0 ; i<3 ; i++){
+            butColumns.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
+        }
+
     }
+
+    public Particle(Particle old, ArrayList<Taquin> moves){
+        pbest = old.getPbest();
+        this.moves = moves;
+        position = old.getPosition(); //takes the old position and velocity and they will be updated at the start of the pso loop
+        velocity = old.getVelocity();
+        currentPFit = fitness(moves.get(moves.size() - 1).id);
+        pbestFit = old.getPbestFit();
+        decimalMoves = toDecimal();
+        butLines = old.getButLines();
+        butColumns = old.getButColumns();
+    }
+
+
 
     //methods
     public int fitness(String taquinId){
@@ -39,7 +72,7 @@ public class Particle {
     public void updatePBest(){
         //calculate the fitness and compare with pbest, replace if smaller
         currentPFit = fitness(moves.get(moves.size() - 1).id);
-        if(currentPFit > pbest){
+        if(currentPFit < pbestFit){
             pbest = decimalMoves;
         }
     }
@@ -65,7 +98,28 @@ public class Particle {
     }
 
     public int toDecimal(){
-        return(Integer.parseInt(binaryMoves,2));
+        int matrice [][] = new int[0][];
+        ArrayList<Integer> lines = new ArrayList<Integer>();
+        ArrayList<Integer> columns = new ArrayList<Integer>();
+        for(int i = 0 ; i<3 ; i++){
+            for(int j = 0 ; j<3 ; j++){
+                matrice[i][j] = Integer.parseInt(moves.get(moves.size() - 1).id.substring(i+j,i+j+1));
+            }
+        }
+        //lines
+        for(int i = 0 ; i<3 ; i++){
+            lines.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
+        }
+        //columns
+        for(int i = 0 ; i<3 ; i++){
+            columns.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
+        }
+        int differences = 0;
+        for (int i = 0 ; i < lines.size(); i++ ){
+            differences+= Math.abs(lines.get(i)-butLines.get(i));
+            differences+= Math.abs(columns.get(i)-butColumns.get(i));
+        }
+        return(differences);
     }
 
 
@@ -124,6 +178,30 @@ public class Particle {
 
     public void setDecimalMoves(int decimalMoves) {
         this.decimalMoves = decimalMoves;
+    }
+
+    public int getPbestFit() {
+        return pbestFit;
+    }
+
+    public void setPbestFit(int pbestFit) {
+        this.pbestFit = pbestFit;
+    }
+
+    public ArrayList<Integer> getButLines() {
+        return butLines;
+    }
+
+    public void setButLines(ArrayList<Integer> butLines) {
+        this.butLines = butLines;
+    }
+
+    public ArrayList<Integer> getButColumns() {
+        return butColumns;
+    }
+
+    public void setButColumns(ArrayList<Integer> butColumns) {
+        this.butColumns = butColumns;
     }
 }
 
