@@ -16,19 +16,22 @@ public class GA {
 
     public GA(Taquin root) {
         this.root = root;
+
+        chromosomeSize = new CompareH1().distanceEtat(root);
+        System.out.println("la taille est : "+chromosomeSize);
+
+
         initialisePopulation();
     }
 
     public void initialisePopulation() {
+        population = new ArrayList<>();
         ArrayList<Double> moves;
         Chromosome chromosome;
         Random rand = new Random();
         double move;
         int populationSizePerMove = 100;
         // The size of the chromosome is the Manhattan distance of the root taquin
-        //chromosomeSize = new CompareH1().distanceEtat(root);
-        chromosomeSize = 6;
-
         if (root.vide > 2) {//i-3 ==> en haut
             for (int i = 0; i < populationSizePerMove; i++) {
                 moves = new ArrayList<>();
@@ -87,8 +90,8 @@ public class GA {
             }
         }
         fittestPopulation.sort(new SortChromosome());
-        if (fittestPopulation.size() > 10) {
-            this.population = new ArrayList<>(fittestPopulation.subList(0, 10));
+        if (fittestPopulation.size() > chromosomeSize*2) {
+            this.population = new ArrayList<>(fittestPopulation.subList(0, chromosomeSize*2));
         }
         else {
             this.population = new ArrayList<>();
@@ -125,41 +128,6 @@ public class GA {
         return children;
     }
 
-    public void generateSolution() {
-        System.out.println("la taille de la solution " + chromosomeSize);
-        ArrayList<Chromosome> newGeneration;
-        SortChromosome sortChromosome = new SortChromosome();
-        int maxGenerations = 1000;
-
-        while (!isSolution(this.population) && this.population.size() > 0 && generation <= maxGenerations) {
-            this.fit();
-            System.out.println("Generation: " + generation);
-            System.out.println("Population: " + this.population + "\n");
-            // The crossover
-            newGeneration = new ArrayList<>();
-            for (int i = 0; i < this.population.size(); i++) {
-                for (int j = i + 1; j < this.population.size(); j++) {
-                    //System.out.println("i : " + i + ", j : " + j);
-                    newGeneration.addAll(crossover(population.get(i), population.get(j)));
-                }
-            }
-            generation++;
-            //4-test and fitness of the new generation
-            this.population = new ArrayList<>();
-            this.population.addAll(newGeneration);
-
-            // So there will be no mutation to the last population cuz makanech fitting now
-            if (this.generation < maxGenerations)
-                this.mutatate();
-        }
-        if (solution != null && this.population.size() > 0) {
-            System.out.println("CONGRATS ! ");
-            solution.affichageMoves();
-        } else {
-            System.out.println("Solution not found :/ ");
-        }
-    }
-
     public void mutatate() {
         for (Chromosome chromosome : this.population) {
             Random rand = new Random();
@@ -194,6 +162,55 @@ public class GA {
             chromosome.setMoves(chromosomeMoves);
         }
     }
+
+    public void generateSolution() {
+        System.out.println("la taille de la solution " + chromosomeSize);
+        ArrayList<Chromosome> newGeneration;
+        SortChromosome sortChromosome = new SortChromosome();
+        int maxGenerations = 1000;
+        int chances=0;
+        boolean noSolution=isSolution(this.population);
+        while (!noSolution && this.population.size() > 0 && generation <= maxGenerations && chances<=9) {
+            this.fit();
+            System.out.println("Chance : "+chances);
+            System.out.println("Generation: " + generation);
+            System.out.println("Population: " + this.population + "\n");
+            // The crossover
+            newGeneration = new ArrayList<>();
+            for (int i = 0; i < this.population.size(); i++) {
+                for (int j = i + 1; j < this.population.size(); j++) {
+                    //System.out.println("i : " + i + ", j : " + j);
+                    newGeneration.addAll(crossover(population.get(i), population.get(j)));
+                }
+            }
+            generation++;
+            //4-test and fitness of the new generation
+            this.population = new ArrayList<>();
+            this.population.addAll(newGeneration);
+            noSolution=isSolution(this.population);
+            // So there will be no mutation to the last population cuz makanech fitting now
+            if (this.generation < maxGenerations && !noSolution)
+                this.mutatate();
+            if(this.population.size()<=1 || (generation == maxGenerations+1 && !noSolution)){
+                chances++;
+                this.chromosomeSize+=2;
+                initialisePopulation();
+                generation=0;
+            }
+        }
+
+        if (solution != null && this.population.size() > 0) {
+            System.out.println("CONGRATS ! ");
+            solution.affichageMoves();
+        } else {
+            if(chances==9){
+                System.out.println("got all your chances ! get off :) ");
+            }
+            System.out.println("Solution not found :/ ");
+        }
+        System.out.println("chromosome size is : "+chromosomeSize);
+    }
+
 
     public ArrayList<Double> randomMoves(Taquin taquin) {
         ArrayList<Double> moves = new ArrayList<>();

@@ -9,6 +9,8 @@ public class MainTest {
 
     public static void main(String[] args) {
         GA ga = new GA(new Taquin(idTest));
+        /*System.out.println("parents:\n" + ga.population.get(0) + " " + ga.population.get(1));
+        System.out.println("children:\n" + ga.crossover1(ga.population.get(0), ga.population.get(1)));*/
         ga.generateSolution();
         /*ga.fitness(ga.populations);
         for (int i = 0; i < ga.populations.size(); i++) {

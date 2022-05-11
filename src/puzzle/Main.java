@@ -13,8 +13,9 @@ import static java.util.Objects.hash;
 
 public class Main {
     public static String idBut = "123804765";
-    public static String idTest = "283164705";
-
+    public static String idTest = "812704536";
+    //812704536
+    //283164705
     public static void main(String[] args) {
         JFrame jFrame = new MainMenu("Puzzle");
         jFrame.setBounds(450, 100, 940, 640);
