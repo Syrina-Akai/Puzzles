@@ -64,7 +64,7 @@ public class Chromosome {
                 printedMoves.add("Left");
             }
         }
-        return ""+printedMoves;
+        return "" + printedMoves + fitness;
     }
 
     public void affichageMoves(){
@@ -86,7 +86,7 @@ public class Chromosome {
         System.out.println(printedMoves);
     }
 
-    public void isDoable(){
+    public boolean isDoable(){
         Taquin taquin = new Taquin(idTest);
         boolean isDoable=true;
         for (double move :moves) {
@@ -127,10 +127,12 @@ public class Chromosome {
             }
         }
         if(isDoable){
-            fitness= new CompareH1().distanceEtat(taquin);
+            fitness = new CompareH1().distanceEtat(taquin);
         }else {
             fitness= -1;
         }
+
+        return isDoable;
     }
 }
 

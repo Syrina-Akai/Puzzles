@@ -1,19 +1,17 @@
 package puzzle;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
-
-import static puzzle.Main.idTest;
 
 public class GA {
 
-    ArrayList<Chromosome> populations= new ArrayList<>();
-    ArrayList<Chromosome> fitessPopulations= new ArrayList<>();
-    ArrayList<Chromosome> newGeneration = new ArrayList<>();
-    Chromosome solution=null;
-    int generation=0;
-    int chromosomeSize=0;
+    ArrayList<Chromosome> population = new ArrayList<>();
+    //ArrayList<Chromosome> fittestPopulation = new ArrayList<>();
+    //ArrayList<Chromosome> newGeneration = new ArrayList<>();
+    Chromosome solution = null;
+    int generation = 0;
+    int chromosomeSize = 0;
     Taquin root;
 
     public GA(Taquin root) {
@@ -21,44 +19,184 @@ public class GA {
         initialisePopulation();
     }
 
+    public void initialisePopulation() {
+        ArrayList<Double> moves;
+        Chromosome chromosome;
+        Random rand = new Random();
+        double move;
+        int populationSizePerMove = 100;
+        // The size of the chromosome is the Manhattan distance of the root taquin
+        //chromosomeSize = new CompareH1().distanceEtat(root);
+        chromosomeSize = 6;
 
-
-    public void affichageMoves(ArrayList<Double> moves){
-        ArrayList<String> printedMoves= new ArrayList<>();
-        for (double move: moves) {
-            if(move < 0.26){
-                printedMoves.add("Up");
-            }
-            if(move >= 0.26 && move < 0.51){
-                printedMoves.add("Right");
-            }
-            if(move >= 0.51 && move < 0.76){
-                printedMoves.add("Down");
-            }
-            if(move >= 0.76){
-                printedMoves.add("Left");
+        if (root.vide > 2) {//i-3 ==> en haut
+            for (int i = 0; i < populationSizePerMove; i++) {
+                moves = new ArrayList<>();
+                moves.add(rand.nextDouble(0.26));
+                for (int j = 1; j < this.chromosomeSize; j++) {
+                    move = rand.nextDouble(1.0);
+                    moves.add(move);
+                }
+                chromosome = new Chromosome(moves);
+                this.population.add(chromosome);
             }
         }
-        System.out.println(printedMoves);
+        if (root.vide % 3 != 2) {//i+1 ==> à droite
+            for (int i = 0; i < populationSizePerMove; i++) {
+                moves = new ArrayList<>();
+                moves.add(rand.nextDouble(0.51 - 0.26) + 0.26);
+                for (int j = 1; j < this.chromosomeSize; j++) {
+                    move = rand.nextDouble(1.0);
+                    moves.add(move);
+                }
+                chromosome = new Chromosome(moves);
+                this.population.add(chromosome);
+            }
+        }
+        if (root.vide < 6) {//i+3 ==> en bas
+            for (int i = 0; i < populationSizePerMove; i++) {
+                moves = new ArrayList<>();
+                moves.add(rand.nextDouble(0.76 - 0.51) + 0.51);
+                for (int j = 1; j < this.chromosomeSize; j++) {
+                    move = rand.nextDouble(1.0);
+                    moves.add(move);
+                }
+                chromosome = new Chromosome(moves);
+                this.population.add(chromosome);
+            }
+        }
+        if (root.vide % 3 != 0) {//i-1 ==> à gauche
+            for (int i = 0; i < populationSizePerMove; i++) {
+                moves = new ArrayList<>();
+                moves.add(rand.nextDouble(1.0 - 0.76) + 0.76);
+                for (int j = 1; j < this.chromosomeSize; j++) {
+                    move = rand.nextDouble(1.0);
+                    moves.add(move);
+                }
+                chromosome = new Chromosome(moves);
+                this.population.add(chromosome);
+            }
+        }
     }
 
-    public void affichageMove(double move ){
-        if(move < 0.26){
-            System.out.println("Current move : Up");
+    public void fit() {
+        ArrayList<Chromosome> fittestPopulation = new ArrayList<>();
+        for (Chromosome chromosome : this.population) {
+            if (chromosome.isDoable()) {
+                fittestPopulation.add(chromosome);
+            }
         }
-        if(move >= 0.26 && move < 0.51){
-            System.out.println("Current move : Right");
+        fittestPopulation.sort(new SortChromosome());
+        if (fittestPopulation.size() > 10) {
+            this.population = new ArrayList<>(fittestPopulation.subList(0, 10));
         }
-        if(move >= 0.51 && move < 0.76){
-            System.out.println("Current move : Down");
+        else {
+            this.population = new ArrayList<>();
+            this.population.addAll(fittestPopulation);
         }
-        if(move >= 0.76){
-            System.out.println("Current move : Left");
+        System.out.println(("population size: " + this.population.size()));
+    }
+
+    public ArrayList<Chromosome> crossover(Chromosome parent1, Chromosome parent2) {
+        // the 2 children of the crossover
+        ArrayList<Chromosome> children = new ArrayList<>();
+        int indice1 = (parent1.getMoves().size() / 2) + 1;
+        //int indice2 = parent2.getMoves().size() / 2;
+        ArrayList<Double> moves;
+
+        moves = new ArrayList<>(parent1.getMoves().subList(0, indice1));
+        moves.addAll(parent2.getMoves().subList(indice1, parent2.getMoves().size()));
+        Chromosome child = new Chromosome(moves);
+        child.isDoable();
+        /*if (child.getFitness() != -1) {
+            children.add(child);
+        }*/
+        children.add(child);
+
+        moves = new ArrayList<>(parent2.getMoves().subList(0, indice1));
+        moves.addAll(parent1.getMoves().subList(indice1, parent1.getMoves().size()));
+        child = new Chromosome(moves);
+        child.isDoable();
+        /*if (child.getFitness() != -1) {
+            children.add(child);
+        }*/
+        children.add(child);
+
+        return children;
+    }
+
+    public void generateSolution() {
+        System.out.println("la taille de la solution " + chromosomeSize);
+        ArrayList<Chromosome> newGeneration;
+        SortChromosome sortChromosome = new SortChromosome();
+        int maxGenerations = 1000;
+
+        while (!isSolution(this.population) && this.population.size() > 0 && generation <= maxGenerations) {
+            this.fit();
+            System.out.println("Generation: " + generation);
+            System.out.println("Population: " + this.population + "\n");
+            // The crossover
+            newGeneration = new ArrayList<>();
+            for (int i = 0; i < this.population.size(); i++) {
+                for (int j = i + 1; j < this.population.size(); j++) {
+                    //System.out.println("i : " + i + ", j : " + j);
+                    newGeneration.addAll(crossover(population.get(i), population.get(j)));
+                }
+            }
+            generation++;
+            //4-test and fitness of the new generation
+            this.population = new ArrayList<>();
+            this.population.addAll(newGeneration);
+
+            // So there will be no mutation to the last population cuz makanech fitting now
+            if (this.generation < maxGenerations)
+                this.mutatate();
+        }
+        if (solution != null && this.population.size() > 0) {
+            System.out.println("CONGRATS ! ");
+            solution.affichageMoves();
+        } else {
+            System.out.println("Solution not found :/ ");
         }
     }
 
-    public ArrayList<Double> randomMoves(Taquin taquin){
-        ArrayList<Double> moves= new ArrayList<>();
+    public void mutatate() {
+        for (Chromosome chromosome : this.population) {
+            Random rand = new Random();
+            ArrayList<Double> chromosomeMoves = chromosome.getMoves();
+            int indice = rand.nextInt(chromosomeMoves.size());
+            double oldMove = chromosomeMoves.get(indice);
+            double newMove = 0.0;
+
+            // To make sure that the new move is different from the old one
+            if (oldMove < 0.26) {
+                do {
+                    newMove = rand.nextDouble(1.0);
+                } while (newMove < 0.26);
+            }
+            if (oldMove >= 0.26 && oldMove < 0.51) {
+                do {
+                    newMove = rand.nextDouble(1.0);
+                } while (newMove >= 0.26 && newMove < 0.51);
+            }
+            if (oldMove >= 0.51 && oldMove < 0.76) {
+                do {
+                    newMove = rand.nextDouble(1.0);
+                } while (newMove >= 0.51 && newMove < 0.76);
+            }
+            if (oldMove >= 0.76) {
+                do {
+                    newMove = rand.nextDouble(1.0);
+                } while (newMove >= 0.76);
+            }
+
+            chromosomeMoves.set(indice, newMove);
+            chromosome.setMoves(chromosomeMoves);
+        }
+    }
+
+    public ArrayList<Double> randomMoves(Taquin taquin) {
+        ArrayList<Double> moves = new ArrayList<>();
         Random rand = new Random();
         double move;
         for (int i = 1; i < chromosomeSize; i++) {
@@ -103,202 +241,75 @@ public class GA {
         return moves;
     }
 
-    public void initialisePopulation() {
-        ArrayList<Double> moves;
-        Chromosome chromosome;
-        Random rand = new Random();
-        //get the size of a chromosome
-        Aetoile aetoile= new Aetoile(1);
-        aetoile.solve(root);
-        chromosomeSize=aetoile.getSolution().size();
-
-        if (root.vide > 2) {//i-3 ==> en haut
-            Taquin taquin = new Taquin(root.id);
-            moves = new ArrayList<>();
-            moves.add(rand.nextDouble(0.26));
-            taquin.nextMove(taquin, taquin.vide - 3);
-            moves.addAll(randomMoves(taquin));
-            chromosome = new Chromosome(moves);
-            this.populations.add(chromosome);
-        }
-        if (root.vide % 3 != 2) {//i+1 ==> à droite
-            Taquin taquin = new Taquin(root.id);
-            moves = new ArrayList<>();
-            moves.add(rand.nextDouble(0.51 - 0.26) + 0.26);
-            taquin.nextMove(taquin, taquin.vide + 1 );
-            moves.addAll(randomMoves(taquin));
-            chromosome = new Chromosome(moves);
-            this.populations.add(chromosome);
-        }
-        if (root.vide < 6) {//i+3 ==> en bas
-            Taquin taquin = new Taquin(root.id);
-            moves = new ArrayList<>();
-            moves.add(rand.nextDouble(0.76 - 0.51) + 0.51);
-            taquin.nextMove(taquin, taquin.vide + 3);
-            moves.addAll(randomMoves(taquin));
-            chromosome = new Chromosome(moves);
-            this.populations.add(chromosome);
-        }
-        if (root.vide % 3 != 0) {//i-1 ==> à gauche
-            Taquin taquin = new Taquin(root.id);
-            moves = new ArrayList<>();
-            moves.add(rand.nextDouble(1.0 - 0.76) + 0.76);
-            taquin.nextMove(taquin, taquin.vide - 1);
-            moves.addAll(randomMoves(taquin));
-            chromosome = new Chromosome(moves);
-            this.populations.add(chromosome);
-        }
-    }
-
-    public void fitness(ArrayList<Chromosome> populations){
-        fitessPopulations= new ArrayList<>();
-        for (Chromosome chromosome: populations ) {
-            chromosome.isDoable();
-            if(chromosome.getFitness()!=-1){
-                fitessPopulations.add(chromosome);
-                fitessPopulations.sort(new SortChromosome());
+    public void affichageMoves(ArrayList<Double> moves) {
+        ArrayList<String> printedMoves = new ArrayList<>();
+        for (double move : moves) {
+            if (move < 0.26) {
+                printedMoves.add("Up");
+            }
+            if (move >= 0.26 && move < 0.51) {
+                printedMoves.add("Right");
+            }
+            if (move >= 0.51 && move < 0.76) {
+                printedMoves.add("Down");
+            }
+            if (move >= 0.76) {
+                printedMoves.add("Left");
             }
         }
-        if(fitessPopulations.size()>7){
-            fitessPopulations=new ArrayList<>(fitessPopulations.subList(0, 7));
+        System.out.println(printedMoves);
+    }
+
+    public void affichageMove(double move) {
+        if (move < 0.26) {
+            System.out.println("Current move : Up");
+        }
+        if (move >= 0.26 && move < 0.51) {
+            System.out.println("Current move : Right");
+        }
+        if (move >= 0.51 && move < 0.76) {
+            System.out.println("Current move : Down");
+        }
+        if (move >= 0.76) {
+            System.out.println("Current move : Left");
         }
     }
 
-    public ArrayList<Chromosome> crossover1(Chromosome parent1, Chromosome parent2){
+    public ArrayList<Chromosome> crossover2(Chromosome parent1, Chromosome parent2) {
         // the 2 children of the crossover
-        ArrayList<Chromosome> children= new ArrayList<>();
+        ArrayList<Chromosome> children = new ArrayList<>();
 
-        int indice1= parent1.getMoves().size()/2;
-        int indice2= parent2.getMoves().size()/2;
+
+        int indice1 = parent1.getMoves().size() * 3 / 4;
+        int indice2 = parent2.getMoves().size() / 2;
 
         ArrayList<Double> moves = new ArrayList<>(parent1.getMoves().subList(0, indice1));
         moves.addAll(parent2.getMoves().subList(indice2, parent2.getMoves().size()));
-        Chromosome child=new Chromosome(moves);
-
+        Chromosome child = new Chromosome(moves);
         child.isDoable();
-
-        if(child.getFitness() !=-1){
+        if (child.getFitness() != -1) {
             children.add(child);
         }
 
         moves = new ArrayList<>(parent2.getMoves().subList(0, indice2));
         moves.addAll(parent1.getMoves().subList(indice1, parent1.getMoves().size()));
-        child=new Chromosome(moves);
+        child = new Chromosome(moves);
         child.isDoable();
-        if(child.getFitness() !=-1){
+        if (child.getFitness() != -1) {
             children.add(child);
         }
 
         return children;
     }
 
-    public ArrayList<Chromosome> crossover2(Chromosome parent1, Chromosome parent2){
-        // the 2 children of the crossover
-        ArrayList<Chromosome> children= new ArrayList<>();
-
-
-        int indice1= parent1.getMoves().size()*3/4;
-        int indice2= parent2.getMoves().size()/2;
-
-        ArrayList<Double> moves = new ArrayList<>(parent1.getMoves().subList(0, indice1));
-        moves.addAll(parent2.getMoves().subList(indice2, parent2.getMoves().size()));
-        Chromosome child=new Chromosome(moves);
-        child.isDoable();
-        if(child.getFitness() !=-1){
-            children.add(child);
-        }
-
-        moves = new ArrayList<>(parent2.getMoves().subList(0, indice2));
-        moves.addAll(parent1.getMoves().subList(indice1, parent1.getMoves().size()));
-        child=new Chromosome(moves);
-        child.isDoable();
-        if(child.getFitness() !=-1){
-            children.add(child);
-        }
-
-        return children;
-    }
-
-    public void mutation(Chromosome chromosome){
-        ArrayList<Double> moves=chromosome.getMoves();
-        ArrayList<Chromosome> newChromosomes= new ArrayList<>();
-        double rangeMin;double rangeMax;
-        for (int i = 1; i < moves.size(); i++) {
-            //applicate all possible moves for each level i
-            Random r = new Random();
-            //up
-            rangeMin=0; rangeMax=0.25 ;
-            while (rangeMax<=1){
-                double newMove = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-                moves.set(i,newMove);
-                Chromosome newChromosome=new Chromosome(moves);
-                //check if the current chromosome is doable
-                //and if the fitness is better
-                //put it in newChromosomes
-                newChromosome.isDoable();
-                if(newChromosome.getFitness()<chromosome.getFitness()){
-                    newChromosomes.add(newChromosome);
-                }
-                rangeMax+=0.25; rangeMin+=0.25;
-            }
-        }
-        //take the fitess one
-        if(!newChromosomes.isEmpty()){
-            newChromosomes.sort(new SortChromosome());
-            chromosome=new Chromosome(newChromosomes.get(0).getMoves());
-        }
-    }
-
-    public boolean isSolution(ArrayList<Chromosome> populations){
-        for (Chromosome chromosome:populations) {
-            if(chromosome.getFitness()==0){ //sinon on met <=2 ou bien un truc du genre
-                solution=chromosome;
+    public boolean isSolution(ArrayList<Chromosome> populations) {
+        for (Chromosome chromosome : populations) {
+            if (chromosome.getFitness() == 0) { //sinon on met <=2 ou bien un truc du genre
+                this.solution = chromosome;
                 return true;
             }
         }
         return false;
-    }
-
-    public void generateSolution(){
-        System.out.println("la taille de la solution "+chromosomeSize);
-        //1-the random generation of the first population is done in the constructor
-        while (!isSolution(this.populations) && this.populations.size()>0 && generation<=100){
-            System.out.println("generation : "+generation);
-            this.fitness(this.populations);//2-test of the population and evoluate it
-            //3-the crossover
-            for (int i = 0; i < this.fitessPopulations.size()-1; i++) {
-                for (int j =i+1; j<this.fitessPopulations.size(); j++){
-                    System.out.println("i : "+i+" j : "+j);
-                    newGeneration.addAll(crossover1(fitessPopulations.get(i), fitessPopulations.get(j)));
-                }
-                System.out.println("new generation for "+i);
-            }
-            //4-mutation
-            for (Chromosome chromosome:newGeneration) {
-                if (chromosome.getFitness()<=5){
-                    mutation(chromosome);
-                }
-            }
-            generation++;
-            System.out.println("on va tester l fitness : "+this.newGeneration.size());
-            //5-test and fitness of the new generation
-            this.fitness(this.newGeneration);
-            System.out.println("fin de test du fitness");
-            this.populations= new ArrayList<>();
-            this.populations.addAll(this.newGeneration);
-            System.out.println("on a creer une nouvelle population : "+populations.size());
-            newGeneration=new ArrayList<>();
-
-        }
-        if(solution!=null && this.populations.size()>0){
-            System.out.println("CONGRATS ! ");
-            solution.affichageMoves();
-        }else{
-            if (!populations.isEmpty()){
-                System.out.println("the fitess : "+populations.get(0).getFitness());
-            }
-            System.out.println("Solution not found :/ ");
-        }
     }
 
 }
