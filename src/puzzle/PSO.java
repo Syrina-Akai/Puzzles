@@ -22,12 +22,20 @@ public class PSO {
     //methods
     public void PSOmain(){
         //do the init idk
+        while(gbest != 0) {
+            for (Particle element : particles) {
+                element.updateVelocity(gbest);
+                element.updatePosition();
+                element.updatePBest();
+                updateGbest();
+                updateParticles();
+            }
+        }
         //loop through all particles
         //calculate their velocity and position
-        //upcate pbest
+        //update pbest
         //update gbest
-        //loop through
-
+        //repeat until gbest = 0
     }
 
     //create all new particles with all possible moves
@@ -37,12 +45,45 @@ public class PSO {
         //step 3: create new particles with the new added moves
         //step 4: add new particle to temporary arraylist
         //step 5: once all new particles have been created, replace the particles arraylist with setter
+        ArrayList<Particle> newParticles = new ArrayList<Particle>();
+        for (Particle element: particles) {
+            ArrayList<Taquin> elemMoves = element.getMoves();
+            Taquin lastTaquin = elemMoves.get(elemMoves.size()-1);
+            Queue<Integer> nextMoves = new LinkedList<>();
+            //we retrieve last taquin in the particle to generate next moves
+            if (lastTaquin.vide % 3 != 0) {//i-1 ==> à gauche
+                nextMoves.add(lastTaquin.vide - 1);
+            }
+            if (lastTaquin.vide > 2) {//i-3 ==> en haut
+                nextMoves.add(init.vide - 3);
+            }
+            if (lastTaquin.vide % 3 != 2) {//i+1 ==> à droite
+                nextMoves.add(lastTaquin.vide + 1);
+            }
+            if (lastTaquin.vide < 6) {//i+3 ==> en bas
+                nextMoves.add(lastTaquin.vide + 3);
+            }
+            //we loop through the moves to create the particles and add them
+            while(!nextMoves.isEmpty()){
+                //we get the previous move set
+                ArrayList<Taquin> addedMove = element.getMoves();
+                Taquin part = new Taquin(false);
+                //new taquin with one of the next moves
+                part.nextMove(lastTaquin, nextMoves.remove());
+                //we add that taquin to the old move set
+                addedMove.add(part);
+                //we add it to the new particle list
+                newParticles.add(new Particle(element, addedMove));
+            }
 
+        }
+        particles = newParticles;
     }
     public void updateGbest(){
         for (Particle element : particles) {
             if(fitness(gbestParticle.getMoves().get(gbestParticle.getMoves().size()-1).id) < element.getPbestFit()){
                 gbest = element.getPbest();
+                gbestParticle = element;
             }
         }
     }
@@ -89,6 +130,12 @@ public class PSO {
         initmov.add(init);
         gbestParticle = new Particle(init, initmov);
         updateGbest();
+    }
+
+    public void afficherSolution(){
+        for (Taquin elem: gbestParticle.getMoves()) {
+            elem.afficherTaquin();
+        }
     }
 
 }
