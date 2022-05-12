@@ -1,8 +1,6 @@
 package puzzle;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class GA {
 
@@ -12,6 +10,7 @@ public class GA {
     Chromosome solution = null;
     int generation = 0;
     int chromosomeSize = 0;
+    int crossoverRate,mutationRate;
     Taquin root;
 
     public GA(Taquin root) {
@@ -90,46 +89,123 @@ public class GA {
             }
         }
         fittestPopulation.sort(new SortChromosome());
-        if (fittestPopulation.size() > chromosomeSize*2) {
-            this.population = new ArrayList<>(fittestPopulation.subList(0, chromosomeSize*2));
+
+        this.population = new ArrayList<>(fittestPopulation.subList(0, fittestPopulation.size()/3));
+        /*if (fittestPopulation.size() > chromosomeSize*2) {
+            this.population = new ArrayList<>(fittestPopulation.subList(0, (chromosomeSize*40)/100));
         }
         else {
             this.population = new ArrayList<>();
             this.population.addAll(fittestPopulation);
-        }
+        }*/
         System.out.println(("population size: " + this.population.size()));
     }
 
     public ArrayList<Chromosome> crossover(Chromosome parent1, Chromosome parent2) {
-        // the 2 children of the crossover
         ArrayList<Chromosome> children = new ArrayList<>();
         int indice1 = (parent1.getMoves().size() / 2) + 1;
-        //int indice2 = parent2.getMoves().size() / 2;
         ArrayList<Double> moves;
 
         moves = new ArrayList<>(parent1.getMoves().subList(0, indice1));
         moves.addAll(parent2.getMoves().subList(indice1, parent2.getMoves().size()));
         Chromosome child = new Chromosome(moves);
         child.isDoable();
-        /*if (child.getFitness() != -1) {
-            children.add(child);
-        }*/
         children.add(child);
 
         moves = new ArrayList<>(parent2.getMoves().subList(0, indice1));
         moves.addAll(parent1.getMoves().subList(indice1, parent1.getMoves().size()));
         child = new Chromosome(moves);
         child.isDoable();
-        /*if (child.getFitness() != -1) {
-            children.add(child);
-        }*/
         children.add(child);
 
         return children;
     }
 
+    public ArrayList<Chromosome> twoPointsCrossover(Chromosome parent1, Chromosome parent2){
+        ArrayList<Chromosome> children = new ArrayList<>();
+        ArrayList<Double> moves;
+        Chromosome child;
+
+        int indice1=parent1.getMoves().size()/3;
+        int indice2=(parent1.getMoves().size()*2)/3;
+
+        moves=new ArrayList<>(parent1.getMoves().subList(0, indice1));
+        moves.addAll(parent2.getMoves().subList(indice1, indice2));
+        moves.addAll(parent1.getMoves().subList(indice2, parent1.getMoves().size()));
+        child=new Chromosome(moves);
+        child.isDoable();
+        children.add(child);
+
+        moves=new ArrayList<>(parent2.getMoves().subList(0, indice1));
+        moves.addAll(parent1.getMoves().subList(indice1, indice2));
+        moves.addAll(parent2.getMoves().subList(indice2, parent2.getMoves().size()));
+        child=new Chromosome(moves);
+        child.isDoable();
+        children.add(child);
+        return children;
+    }
+
+    public void mutation(){
+        /*
+        * on va generer un num random entre le 0-2
+        * si le num est 0 alors on choisi 2 cases alleatoires de la population et on permute
+        * si le num est 1 alors on fait la mutation li malfin ndirouha....
+        * */
+        //on fait les mutations d'apres le rate de mutation
+        int mutationStop=(this.population.size()*mutationRate)/100;
+        //this is a copy of the population
+        //we need to remove the cases li dernalhoum permutation pour eviter la repition
+        LinkedList<Chromosome> populationCopy = new LinkedList<>(this.population);
+        Random rand = new Random();
+
+        for (int i=0; i<mutationStop;i++){
+            int mutantIndex  = rand.nextInt(populationCopy.size());
+            Chromosome chromosome=populationCopy.remove(mutantIndex);
+            int mutation = rand.nextInt(2);
+            switch (mutation) {
+                case 0: // permutation
+                    int firstPosition = rand.nextInt(chromosome.getMoves().size());
+                    int secondPosition = rand.nextInt(chromosome.getMoves().size());
+
+                    double tmp = chromosome.getMoves().get(firstPosition);
+                    chromosome.getMoves().set(firstPosition,chromosome.getMoves().get(secondPosition));
+                    chromosome.getMoves().set(secondPosition,tmp);
+                    break;
+                case 1: // inverse
+                    // To make sure that the new move is different from the old one
+                    int position = rand.nextInt(chromosome.getMoves().size());
+                    double oldMove = chromosome.getMoves().get(position),newMove=0.0;
+                    if (oldMove < 0.26) {
+                        do {
+                            newMove = rand.nextDouble(1.0);
+                        } while (newMove < 0.26);
+                    }
+                    if (oldMove >= 0.26 && oldMove < 0.51) {
+                        do {
+                            newMove = rand.nextDouble(1.0);
+                        } while (newMove >= 0.26 && newMove < 0.51);
+                    }
+                    if (oldMove >= 0.51 && oldMove < 0.76) {
+                        do {
+                            newMove = rand.nextDouble(1.0);
+                        } while (newMove >= 0.51 && newMove < 0.76);
+                    }
+                    if (oldMove >= 0.76) {
+                        do {
+                            newMove = rand.nextDouble(1.0);
+                        } while (newMove >= 0.76);
+                    }
+
+                    chromosome.getMoves().set(position, newMove);
+                    break;
+            }
+        }
+    }
+
     public void mutatate() {
-        for (Chromosome chromosome : this.population) {
+        int mutationStop=(this.population.size()*mutationRate)/100;
+        for (int i=0; i<mutationStop;i++){
+            Chromosome chromosome=this.population.get(i);
             Random rand = new Random();
             ArrayList<Double> chromosomeMoves = chromosome.getMoves();
             int indice = rand.nextInt(chromosomeMoves.size());
@@ -166,44 +242,84 @@ public class GA {
     public void generateSolution() {
         System.out.println("la taille de la solution " + chromosomeSize);
         ArrayList<Chromosome> newGeneration;
-        SortChromosome sortChromosome = new SortChromosome();
         int maxGenerations = 1000;
         int chances=0;
+        crossoverRate=100;
+        mutationRate=0;
         boolean noSolution=isSolution(this.population);
-        while (!noSolution && this.population.size() > 0 && generation <= maxGenerations && chances<=9) {
+        while (!noSolution && this.population.size() > 0 && generation <= maxGenerations && chances<=20) {
+            //1-evaluation de la population
             this.fit();
             System.out.println("Chance : "+chances);
             System.out.println("Generation: " + generation);
             System.out.println("Population: " + this.population + "\n");
-            // The crossover
             newGeneration = new ArrayList<>();
-            for (int i = 0; i < this.population.size(); i++) {
-                for (int j = i + 1; j < this.population.size(); j++) {
-                    //System.out.println("i : " + i + ", j : " + j);
+            //2-generation de la nouvelle population
+            int crossoverStop=(this.population.size()*crossoverRate)/100;
+            for (int i = 0; i < crossoverStop-1; i++) {
+                for (int j = i + 1; j < crossoverStop; j++) {
                     newGeneration.addAll(crossover(population.get(i), population.get(j)));
                 }
             }
-            generation++;
-            //4-test and fitness of the new generation
+            //*************NEW CROSSOVER****************//
+
+            /*
+            * on fait pas un crossover pour tt les elements
+            * on va choisir alleatoirement 2 elements de la population
+            * on leur fait le crossover
+            * hakka ydir le crossover avec le rate li rana habinou mais machi m3ahoum kml...
+            * */
+            /////////////////// THE CODE //////////////////////////////////
+            LinkedList<Chromosome> populationCopy = new LinkedList<>(this.population);
+            for (int i = 0; i < crossoverStop; i++) {
+                Random random=new Random();
+                int index1 = random.nextInt(populationCopy.size());
+                int index2 = random.nextInt(populationCopy.size());
+                while (index2==index1){
+                    index2 = random.nextInt(populationCopy.size());
+                }
+
+                newGeneration.addAll(crossover(populationCopy.remove(index1), populationCopy.remove(index2)));
+            }
             this.population = new ArrayList<>();
             this.population.addAll(newGeneration);
+            generation++;
             noSolution=isSolution(this.population);
-            // So there will be no mutation to the last population cuz makanech fitting now
-            if (this.generation < maxGenerations && !noSolution)
-                this.mutatate();
-            if(this.population.size()<=1 || (generation == maxGenerations+1 && !noSolution)){
+            //3- Si la solution n'existe pas on fait la mutation
+            if (this.generation <= maxGenerations && !noSolution)
+                this.mutation();
+
+            //4-Set chances for the population
+            if(population.size()<=1 || (generation == maxGenerations+1 && !noSolution)){
                 chances++;
-                this.chromosomeSize+=2;
+                this.chromosomeSize+=1;
                 initialisePopulation();
                 generation=0;
+                crossoverRate=100;
+                mutationRate=0;
             }
+
+            //5- modification de crossover rate et mutation rate
+            if(crossoverRate!=0)
+                crossoverRate-=3;
+            if(mutationRate!=100)
+                mutationRate+=3;
         }
 
         if (solution != null && this.population.size() > 0) {
             System.out.println("CONGRATS ! ");
             solution.affichageMoves();
         } else {
-            if(chances==9){
+            if(this.population.size() <= 0){
+                System.out.println("pas de population :) ");
+            }
+            if(generation > maxGenerations){
+                System.out.println("all generation");
+            }
+            if(!noSolution){
+                System.out.println("pas de solution :) ");
+            }
+            if(chances==20){
                 System.out.println("got all your chances ! get off :) ");
             }
             System.out.println("Solution not found :/ ");
@@ -256,67 +372,6 @@ public class GA {
             moves.add(move);
         }
         return moves;
-    }
-
-    public void affichageMoves(ArrayList<Double> moves) {
-        ArrayList<String> printedMoves = new ArrayList<>();
-        for (double move : moves) {
-            if (move < 0.26) {
-                printedMoves.add("Up");
-            }
-            if (move >= 0.26 && move < 0.51) {
-                printedMoves.add("Right");
-            }
-            if (move >= 0.51 && move < 0.76) {
-                printedMoves.add("Down");
-            }
-            if (move >= 0.76) {
-                printedMoves.add("Left");
-            }
-        }
-        System.out.println(printedMoves);
-    }
-
-    public void affichageMove(double move) {
-        if (move < 0.26) {
-            System.out.println("Current move : Up");
-        }
-        if (move >= 0.26 && move < 0.51) {
-            System.out.println("Current move : Right");
-        }
-        if (move >= 0.51 && move < 0.76) {
-            System.out.println("Current move : Down");
-        }
-        if (move >= 0.76) {
-            System.out.println("Current move : Left");
-        }
-    }
-
-    public ArrayList<Chromosome> crossover2(Chromosome parent1, Chromosome parent2) {
-        // the 2 children of the crossover
-        ArrayList<Chromosome> children = new ArrayList<>();
-
-
-        int indice1 = parent1.getMoves().size() * 3 / 4;
-        int indice2 = parent2.getMoves().size() / 2;
-
-        ArrayList<Double> moves = new ArrayList<>(parent1.getMoves().subList(0, indice1));
-        moves.addAll(parent2.getMoves().subList(indice2, parent2.getMoves().size()));
-        Chromosome child = new Chromosome(moves);
-        child.isDoable();
-        if (child.getFitness() != -1) {
-            children.add(child);
-        }
-
-        moves = new ArrayList<>(parent2.getMoves().subList(0, indice2));
-        moves.addAll(parent1.getMoves().subList(indice1, parent1.getMoves().size()));
-        child = new Chromosome(moves);
-        child.isDoable();
-        if (child.getFitness() != -1) {
-            children.add(child);
-        }
-
-        return children;
     }
 
     public boolean isSolution(ArrayList<Chromosome> populations) {
