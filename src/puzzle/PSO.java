@@ -9,7 +9,7 @@ import static puzzle.Main.idBut;
 public class PSO {
     //attributes
     private Taquin init;
-    private int gbest;
+    private double gbest;
     private Particle gbestParticle;
     private ArrayList<Particle> particles = new ArrayList<Particle>();
 
@@ -23,7 +23,7 @@ public class PSO {
     public void PSOmain(){
         //do the init idk
         int generation = 1;
-        while(gbest != 0) {
+        while(gbest != 0.0) {
             System.out.println("generation "+ generation);
             for (Particle element : particles) {
                 element.updateVelocity(gbest);
@@ -53,13 +53,14 @@ public class PSO {
         for (Particle element: particles) {
             ArrayList<Taquin> elemMoves = element.getMoves();
             Taquin lastTaquin = elemMoves.get(elemMoves.size()-1);
-            Queue<Integer> nextMoves = new LinkedList<>();
+            Queue<Integer> nextMoves = new LinkedList<Integer>();
+            
             //we retrieve last taquin in the particle to generate next moves
             if (lastTaquin.vide % 3 != 0) {//i-1 ==> à gauche
                 nextMoves.add(lastTaquin.vide - 1);
             }
             if (lastTaquin.vide > 2) {//i-3 ==> en haut
-                nextMoves.add(init.vide - 3);
+                nextMoves.add(lastTaquin.vide - 3);
             }
             if (lastTaquin.vide % 3 != 2) {//i+1 ==> à droite
                 nextMoves.add(lastTaquin.vide + 1);
@@ -70,8 +71,7 @@ public class PSO {
             //we loop through the moves to create the particles and add them
             while(!nextMoves.isEmpty()){
                 //we get the previous move set
-                ArrayList<Taquin> addedMove = elemMoves;
-
+                ArrayList<Taquin> addedMove = new ArrayList<>(elemMoves);
                 Taquin part = new Taquin(false);
                 //new taquin with one of the next moves
                 part.nextMove(lastTaquin, nextMoves.remove());
@@ -89,21 +89,36 @@ public class PSO {
     public void updateGbest(){
         for (Particle element : particles) {
             if(fitness(gbestParticle.getMoves().get(gbestParticle.getMoves().size()-1).id) >= element.getPbestFit()){
-                System.out.println("gbest");
-                System.out.println(gbest);
-                System.out.println("gbest fitness");
-                System.out.println(fitness(gbestParticle.getMoves().get(gbestParticle.getMoves().size()-1).id));
+                //System.out.println("gbest");
+                //System.out.println(gbest);
+                //System.out.println("gbest fitness");
+                //System.out.println(fitness(gbestParticle.getMoves().get(gbestParticle.getMoves().size()-1).id));
                 gbest = element.getPbest();
                 gbestParticle = element;
             }
         }
     }
 
-    public int fitness(String taquinId){
+    /*public int fitness(String taquinId){
         int fitnessVal = 0;
         for (int i = 0 ; i < (idBut.length() > taquinId.length() ? taquinId : idBut).length() ; i++){
             if (taquinId.charAt(i)!='0')
                 fitnessVal += idBut.charAt(i) != taquinId.charAt(i) ? 1 : 0;
+        }
+        return fitnessVal;
+    }*/
+    public int fitness(String taquinId){
+        int fitnessVal = 0;
+        int[][] matrice=new int[3][3];
+        for(int i = 0 ; i<3 ; i++){
+            for(int j = 0 ; j<3 ; j++){
+                matrice[i][j] = Integer.parseInt(taquinId.substring(i+j,i+j+1));
+            }
+        }
+        for(int i = 0 ; i<3 ; i++) {
+            for (int j = 0; j < 3; j++) {
+                fitnessVal+=(3*i+j)*matrice[i][j];
+            }
         }
         return fitnessVal;
     }

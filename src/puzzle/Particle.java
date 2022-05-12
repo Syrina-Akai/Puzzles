@@ -8,15 +8,15 @@ public class Particle {
     //attributes
     private double position;
     private double velocity;
-    private int pbest;
+    private double pbest;
     private int currentPFit;
     private int pbestFit;
     private ArrayList<Taquin> moves;
     private String binaryMoves;
-    private int decimalMoves;
-    private ArrayList<Integer> butLines = new ArrayList<Integer>();
-    private ArrayList<Integer> butColumns = new ArrayList<Integer>();
-
+    private double decimalMoves;
+    private ArrayList<Double> butLines = new ArrayList<Double>();
+    private ArrayList<Double> butColumns = new ArrayList<Double>();
+    private double[][] matriceBut = new double[3][3];
 
     //constructor
     public Particle(Taquin init,ArrayList<Taquin> moves){
@@ -28,21 +28,32 @@ public class Particle {
         velocity = Math.random();
         //but values init
 
-        int matrice [][] = new int[3][3];
-
         Taquin but = new Taquin("123804765");
 
         for(int i = 0 ; i<3 ; i++){
             for(int j = 0 ; j<3 ; j++){
-                matrice[i][j] = Integer.parseInt(but.id.substring(i+j,i+j+1));
+                matriceBut[i][j] = Double.parseDouble(but.id.substring(i+j,i+j+1));
             }
         }
+        //normaliser : faire la somme de chaque ligne et colonne , si somme > 1 , diviser
+        for(int i=0;i<3;i++){
+            double sum=0;
+            for(int j=0;j<3;j++){
+                sum+=matriceBut[i][j];
+            }
+            if(sum>5){
+                for(int j=0;j<3;j++){
+                    matriceBut[i][j]=matriceBut[i][j]/sum;
+                }
+            }
+        }
+        //Lines
         for(int i = 0 ; i<3 ; i++){
-            butLines.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
+            butLines.add(matriceBut[i][0]+matriceBut[i][1]+matriceBut[i][2]);
         }
         //columns
         for(int i = 0 ; i<3 ; i++){
-            butColumns.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
+            butColumns.add(matriceBut[i][0]+matriceBut[i][1]+matriceBut[i][2]);
         }
         pbest = toDecimal();
     }
@@ -62,11 +73,26 @@ public class Particle {
 
 
     //methods
-    public int fitness(String taquinId){
+    /*public int fitness(String taquinId){
         int fitnessVal = 0;
         for (int i = 0 ; i < (idBut.length() > taquinId.length() ? taquinId : idBut).length() ; i++){
             if (taquinId.charAt(i)!='0')
                 fitnessVal += idBut.charAt(i) != taquinId.charAt(i) ? 1 : 0;
+        }
+        return fitnessVal;
+    }*/
+    public int fitness(String taquinId){
+        int fitnessVal = 0;
+        int[][] matrice=new int[3][3];
+        for(int i = 0 ; i<3 ; i++){
+            for(int j = 0 ; j<3 ; j++){
+                matrice[i][j] = Integer.parseInt(taquinId.substring(i+j,i+j+1));
+            }
+        }
+        for(int i = 0 ; i<3 ; i++) {
+            for (int j = 0; j < 3; j++) {
+                fitnessVal+=(3*i+j)*matrice[i][j];
+            }
         }
         return fitnessVal;
     }
@@ -79,7 +105,7 @@ public class Particle {
         }
     }
 
-    public void updateVelocity(int gbest){
+    public void updateVelocity(Double gbest){
         double newVelo;
         double c0 = 0.7298;
         double c1 = 1.4960, c2 = 1.4960;
@@ -95,19 +121,32 @@ public class Particle {
     }
 
 
-    public String toBinary(){
+    /*public String toBinary(){
         return(Integer.toBinaryString(decimalMoves));
-    }
+    }*/
 
-    public int toDecimal(){
-        int matrice [][] = new int[3][3];
-        ArrayList<Integer> lines = new ArrayList<Integer>();
-        ArrayList<Integer> columns = new ArrayList<Integer>();
+    public double toDecimal(){
+        double[][] matrice = new double[3][3];
+        ArrayList<Double> lines = new ArrayList<Double>();
+        ArrayList<Double> columns = new ArrayList<Double>();
         for(int i = 0 ; i<3 ; i++){
             for(int j = 0 ; j<3 ; j++){
-                matrice[i][j] = Integer.parseInt(moves.get(moves.size() - 1).id.substring(i+j,i+j+1));
+                matrice[i][j] = Double.parseDouble(moves.get(moves.size() - 1).id.substring(i+j,i+j+1));
             }
         }
+        //normaliser : faire la somme de chaque ligne et colonne , si somme > 1 , diviser
+        for(int i=0;i<3;i++){
+            double sum=0;
+            for(int j=0;j<3;j++){
+                sum+=matrice[i][j];
+            }
+            if(sum>5){
+                for(int j=0;j<3;j++){
+                    matrice[i][j] =matrice[i][j]/sum;
+                }
+            }
+        }
+
         //lines
         for(int i = 0 ; i<3 ; i++){
             lines.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
@@ -116,11 +155,14 @@ public class Particle {
         for(int i = 0 ; i<3 ; i++){
             columns.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
         }
-        int differences = 0;
-        for (int i = 0 ; i < lines.size(); i++ ){
-            differences+= Math.abs(lines.get(i)-butLines.get(i));
-            differences+= Math.abs(columns.get(i)-butColumns.get(i));
+        double differences = 0;
+
+        for (int i = 0 ; i < lines.size(); i++ ) {
+            for (int j = 0 ; j < lines.size(); j++ ){
+                differences+=Math.pow(matrice[i][j]-matriceBut[i][j],2);
+            }
         }
+        differences=Math.sqrt(differences);
         return(differences);
     }
 
@@ -142,7 +184,7 @@ public class Particle {
         this.velocity = velocity;
     }
 
-    public int getPbest() {
+    public double getPbest() {
         return pbest;
     }
 
@@ -174,11 +216,11 @@ public class Particle {
         this.binaryMoves = binaryMoves;
     }
 
-    public int getDecimalMoves() {
+    public double getDecimalMoves() {
         return decimalMoves;
     }
 
-    public void setDecimalMoves(int decimalMoves) {
+    public void setDecimalMoves(double decimalMoves) {
         this.decimalMoves = decimalMoves;
     }
 
@@ -190,19 +232,19 @@ public class Particle {
         this.pbestFit = pbestFit;
     }
 
-    public ArrayList<Integer> getButLines() {
+    public ArrayList<Double> getButLines() {
         return butLines;
     }
 
-    public void setButLines(ArrayList<Integer> butLines) {
+    public void setButLines(ArrayList<Double> butLines) {
         this.butLines = butLines;
     }
 
-    public ArrayList<Integer> getButColumns() {
+    public ArrayList<Double> getButColumns() {
         return butColumns;
     }
 
-    public void setButColumns(ArrayList<Integer> butColumns) {
+    public void setButColumns(ArrayList<Double> butColumns) {
         this.butColumns = butColumns;
     }
 }
