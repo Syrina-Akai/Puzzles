@@ -270,7 +270,7 @@ public class GA {
             * hakka ydir le crossover avec le rate li rana habinou mais machi m3ahoum kml...
             * */
             /////////////////// THE CODE //////////////////////////////////
-            LinkedList<Chromosome> populationCopy = new LinkedList<>(this.population);
+            /*LinkedList<Chromosome> populationCopy = new LinkedList<>(this.population);
             for (int i = 0; i < crossoverStop; i++) {
                 Random random=new Random();
                 int index1 = random.nextInt(populationCopy.size());
@@ -278,9 +278,13 @@ public class GA {
                 while (index2==index1){
                     index2 = random.nextInt(populationCopy.size());
                 }
+                if(index1==populationCopy.size())
+                    index1--;
+                if(index2==populationCopy.size())
+                    index2--;
 
                 newGeneration.addAll(crossover(populationCopy.remove(index1), populationCopy.remove(index2)));
-            }
+            }*/
             this.population = new ArrayList<>();
             this.population.addAll(newGeneration);
             generation++;
