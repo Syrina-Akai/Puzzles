@@ -19,7 +19,7 @@ public class Particle {
     private ArrayList<Double> butLines = new ArrayList<Double>();
     private ArrayList<Double> butColumns = new ArrayList<Double>();
     private double[][] matriceBut = new double[3][3];
-
+    //idk
     //constructor
     public Particle(Taquin init,ArrayList<Taquin> moves){
         this.moves = moves;

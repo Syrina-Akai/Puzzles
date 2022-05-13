@@ -161,7 +161,7 @@ public class PSO {
         gbestParticle = new Particle(init, initmov);
         updateGbest();
     }
-
+    //idk
     public void afficherSolution(){
         System.out.println("generated particles "+ particles.size());
         System.out.println("size " + gbestParticle.getMoves().size());
