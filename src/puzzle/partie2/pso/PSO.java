@@ -1,14 +1,11 @@
 package puzzle.partie2.pso;
 
 import puzzle.partie1.heuristic.ManhattanComparator;
-import puzzle.partie2.pso.Particle ;
 import puzzle.Taquin;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-
-import static puzzle.Main.idBut;
 
 public class PSO {
     //attributes
@@ -26,7 +23,6 @@ public class PSO {
 
     //methods
     public void PSOmain(){
-        //do the init idk
         int generation = 1;
         while(fitness(gbestParticle.getMoves().get(gbestParticle.getMoves().size()-1).id) != 0) {
             System.out.println("generation "+ generation);
@@ -40,11 +36,6 @@ public class PSO {
             System.out.println(gbest);
             generation++;
         }
-        //loop through all particles
-        //calculate their velocity and position
-        //update pbest
-        //update gbest
-        //repeat until gbest = 0
     }
 
     //create all new particles with all possible moves
@@ -89,56 +80,25 @@ public class PSO {
                 }
 
             }
-            //System.out.println("\n###################################################################\n");
 
         }
         particles = newParticles;
     }
     public void updateGbest(){
         for (Particle element : particles) {
-            //System.out.println(element.getPbestFit());
             if(fitness(gbestParticle.getMoves().get(gbestParticle.getMoves().size()-1).id) >= element.getPbestFit()){
-                //System.out.println("gbest");
-                //System.out.println(gbest);
-                //System.out.println("gbest fitness");
-                //System.out.println(fitness(gbestParticle.getMoves().get(gbestParticle.getMoves().size()-1).id));
                 gbest = element.getPbest();
                 gbestParticle = element;
             }
         }
     }
 
-    /*public int fitness(String taquinId){
-        int fitnessVal = 0;
-        for (int i = 0 ; i < (idBut.length() > taquinId.length() ? taquinId : idBut).length() ; i++){
-            if (taquinId.charAt(i)!='0')
-                fitnessVal += idBut.charAt(i) != taquinId.charAt(i) ? 1 : 0;
-        }
-        return fitnessVal;
-    }*/
     public int fitness(String id){
         Taquin temp = new Taquin(id);
         ManhattanComparator manh = new ManhattanComparator();
         return(manh.distanceEtat(temp));
     }
-    /*
-    public int fitness(String taquinId){
-        int fitnessVal = 0;
-        int[][] matrice=new int[3][3];
-        for(int i = 0 ; i<3 ; i++){
-            for(int j = 0 ; j<3 ; j++){
-                matrice[i][j] = Integer.parseInt(taquinId.substring(i+j,i+j+1));
-            }
-        }
-        for(int i = 0 ; i<3 ; i++) {
-            for (int j = 0; j < 3; j++) {
-                fitnessVal+=(3*i+j)*matrice[i][j];
-            }
-        }
-        fitnessVal = Math.abs(156-fitnessVal);
-        return fitnessVal;
-    }
-    */
+
     public void initialize(){
         //create the first generation
         //init gbest
@@ -156,11 +116,6 @@ public class PSO {
             nextMoves.add(init.getVide() + 3);
         }
         while(!nextMoves.isEmpty()){
-            //create the first particles
-            //taquin init will be the initial taquin
-            //later taquin init will be the last of the previous moveset
-            //arraylist of taquins of moves will be an array list of one child
-            //for the update particles it will be passed on the next generation with one addition to it
             Taquin part = new Taquin(false);
             part.nextMove(init, nextMoves.remove());
             ArrayList<Taquin> list = new ArrayList<Taquin>();
@@ -174,7 +129,7 @@ public class PSO {
         gbestParticle = new Particle(init, initmov);
         updateGbest();
     }
-    //idk
+
     public void afficherSolution(){
         System.out.println("generated particles "+ particles.size());
         System.out.println("size " + gbestParticle.getMoves().size());

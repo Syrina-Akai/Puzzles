@@ -4,8 +4,6 @@ import puzzle.partie1.heuristic.ManhattanComparator;
 
 import java.util.ArrayList;
 
-import static puzzle.Main.idBut;
-
 public class Particle {
 
     //attributes
@@ -15,18 +13,16 @@ public class Particle {
     private int currentPFit;
     private int pbestFit;
     private ArrayList<Taquin> moves;
-    private String binaryMoves;
     private double decimalMoves;
     private ArrayList<Double> butLines = new ArrayList<Double>();
     private ArrayList<Double> butColumns = new ArrayList<Double>();
     private double[][] matriceBut = new double[3][3];
-    //idk
-    //constructor
+
+    //constructor for initial generation
     public Particle(Taquin init,ArrayList<Taquin> moves){
         this.moves = moves;
         currentPFit = fitness(moves.get(moves.size() - 1).id);
         pbestFit = fitness(init.id);
-        //this.binaryMoves = binaryMoves;
         position = Math.random();
         velocity = Math.random();
         //but values init
@@ -61,6 +57,7 @@ public class Particle {
         pbest = toDecimal();
     }
 
+    //constructor for updating the particles
     public Particle(Particle old, ArrayList<Taquin> moves){
         pbest = old.getPbest();
         this.moves = moves;
@@ -73,40 +70,13 @@ public class Particle {
         decimalMoves = toDecimal();
     }
 
-
-
     //methods
-    /*public int fitness(String taquinId){
-        int fitnessVal = 0;
-        for (int i = 0 ; i < (idBut.length() > taquinId.length() ? taquinId : idBut).length() ; i++){
-            if (taquinId.charAt(i)!='0')
-                fitnessVal += idBut.charAt(i) != taquinId.charAt(i) ? 1 : 0;
-        }
-        return fitnessVal;
-    }*/
-
     public int fitness(String id){
         Taquin temp = new Taquin(id);
         ManhattanComparator manh = new ManhattanComparator();
         return(manh.distanceEtat(temp));
     }
-    /*
-    public int fitness(String taquinId){
-        int fitnessVal = 0;
-        int[][] matrice=new int[3][3];
-        for(int i = 0 ; i<3 ; i++){
-            for(int j = 0 ; j<3 ; j++){
-                matrice[i][j] = Integer.parseInt(taquinId.substring(i+j,i+j+1));
-            }
-        }
-        for(int i = 0 ; i<3 ; i++) {
-            for (int j = 0; j < 3; j++) {
-                fitnessVal+=(3*i+j)*matrice[i][j];
-            }
-        }
-        fitnessVal = Math.abs(156-fitnessVal);
-        return fitnessVal;
-    }*/
+
 
     public void updatePBest(){
         //calculate the fitness and compare with pbest, replace if smaller
@@ -131,11 +101,6 @@ public class Particle {
         newPos = position + velocity;
         position = newPos;
     }
-
-
-    /*public String toBinary(){
-        return(Integer.toBinaryString(decimalMoves));
-    }*/
 
     public double toDecimal(){
         double[][] matrice = new double[3][3];
@@ -179,85 +144,34 @@ public class Particle {
     }
 
 
-    //getters and setters
+    //getters and setters used
     public double getPosition() {
         return position;
-    }
-
-    public void setPosition(double position) {
-        this.position = position;
     }
 
     public double getVelocity() {
         return velocity;
     }
 
-    public void setVelocity(double velocity) {
-        this.velocity = velocity;
-    }
-
     public double getPbest() {
         return pbest;
-    }
-
-    public void setPbest(int pbest) {
-        this.pbest = pbest;
-    }
-
-    public int getCurrentPFit() {
-        return currentPFit;
-    }
-
-    public void setCurrentPFit(int currentPFit) {
-        this.currentPFit = currentPFit;
     }
 
     public ArrayList<Taquin> getMoves() {
         return moves;
     }
 
-    public void setMoves(ArrayList<Taquin> moves) {
-        this.moves = moves;
-    }
-
-    public String getBinaryMoves() {
-        return binaryMoves;
-    }
-
-    public void setBinaryMoves(String binaryMoves) {
-        this.binaryMoves = binaryMoves;
-    }
-
-    public double getDecimalMoves() {
-        return decimalMoves;
-    }
-
-    public void setDecimalMoves(double decimalMoves) {
-        this.decimalMoves = decimalMoves;
-    }
-
     public int getPbestFit() {
         return pbestFit;
-    }
-
-    public void setPbestFit(int pbestFit) {
-        this.pbestFit = pbestFit;
     }
 
     public ArrayList<Double> getButLines() {
         return butLines;
     }
 
-    public void setButLines(ArrayList<Double> butLines) {
-        this.butLines = butLines;
-    }
-
     public ArrayList<Double> getButColumns() {
         return butColumns;
     }
 
-    public void setButColumns(ArrayList<Double> butColumns) {
-        this.butColumns = butColumns;
-    }
 }
 
