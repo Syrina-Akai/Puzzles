@@ -1,4 +1,4 @@
-package puzzle.part1.heuristic;
+package puzzle.partie1.heuristic;
 
 import puzzle.Main;
 import puzzle.Taquin;

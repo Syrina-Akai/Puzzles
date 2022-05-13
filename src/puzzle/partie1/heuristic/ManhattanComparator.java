@@ -1,9 +1,12 @@
-package puzzle;
+package puzzle.partie1.heuristic;
+
+import puzzle.Main;
+import puzzle.Taquin;
 
 import java.util.Comparator;
 
-public class CompareH1 implements Comparator<Taquin> {
-    public CompareH1() {
+public class ManhattanComparator implements Comparator<Taquin> {
+    public ManhattanComparator() {
     }
 
     public int indexToCase(int index) {
@@ -42,8 +45,8 @@ public class CompareH1 implements Comparator<Taquin> {
     }
 
     public int compare(Taquin taquin1, Taquin taquin2) {
-        int d1 = this.distanceEtat(taquin1) + taquin1.depth;
-        int d2 = this.distanceEtat(taquin2) + taquin2.depth;
+        int d1 = this.distanceEtat(taquin1) + taquin1.getDepth();
+        int d2 = this.distanceEtat(taquin2) + taquin2.getDepth();
         if (d1 > d2) {
             return 1;
         } else {

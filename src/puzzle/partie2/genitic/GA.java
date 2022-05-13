@@ -1,7 +1,7 @@
 package puzzle.partie2.genitic;
 
 import puzzle.Taquin;
-import puzzle.part1.heuristic.ManhattanComparator;
+import puzzle.partie1.heuristic.ManhattanComparator;
 
 import java.util.*;
 
@@ -222,12 +222,6 @@ public class GA {
                     newGeneration.addAll(crossover(population.get(i), population.get(j)));
                 }
             }
-
-            /*for (Chromosome chromosome:newGeneration) {
-                if(!this.population.contains(chromosome)){
-                    this.population.add(chromosome);
-                }
-            }*/
             this.officialPopulation.addAll(newGeneration);
             this.population=new ArrayList<>(this.officialPopulation);
 

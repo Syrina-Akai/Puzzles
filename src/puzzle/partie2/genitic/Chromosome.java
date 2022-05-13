@@ -1,7 +1,7 @@
 package puzzle.partie2.genitic;
 
 import puzzle.Taquin;
-import puzzle.part1.heuristic.ManhattanComparator;
+import puzzle.partie1.heuristic.ManhattanComparator;
 
 import java.util.ArrayList;
 

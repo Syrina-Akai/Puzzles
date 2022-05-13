@@ -1,10 +1,12 @@
-package puzzle;
+package puzzle.partie1.heuristic;
+
+import puzzle.Taquin;
 
 import java.util.Comparator;
 
 import static puzzle.Main.idBut;
 
-public class CompareH2 implements Comparator<Taquin> {
+public class HammingComparator implements Comparator<Taquin> {
 
     public static int distanceEtat(String s2) {
         int count = 0;
@@ -17,7 +19,7 @@ public class CompareH2 implements Comparator<Taquin> {
 
     @Override
     public int compare(Taquin taquin1, Taquin taquin2) {
-        int d1 = distanceEtat(taquin1.id) + taquin1.depth, d2 = distanceEtat(taquin2.id) + taquin2.depth;
+        int d1 = distanceEtat(taquin1.id) + taquin1.getDepth(), d2 = distanceEtat(taquin2.id) + taquin2.getDepth();
         if (d1 > d2) {
             return 1;
         } else {

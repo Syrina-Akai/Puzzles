@@ -1,4 +1,4 @@
-package puzzle.part1;
+package puzzle.partie1;
 
 import puzzle.Taquin;
 

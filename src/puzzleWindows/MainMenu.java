@@ -1,8 +1,8 @@
 package puzzleWindows;
 
-import puzzle.part1.heuristic.Aetoile;
-import puzzle.part1.Largeur;
-import puzzle.part1.Profondeur;
+import puzzle.partie1.heuristic.Aetoile;
+import puzzle.partie1.Largeur;
+import puzzle.partie1.Profondeur;
 import puzzle.Taquin;
 
 import javax.swing.*;
