@@ -1,9 +1,6 @@
 package puzzle;
 
-import java.lang.reflect.Array;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import static puzzle.Main.idBut;
@@ -26,6 +23,26 @@ public class Taquin {
 
     public String getId() {
         return id;
+    }
+
+    public int getVide() {
+        return vide;
+    }
+
+    public void setVide(int vide) {
+        this.vide = vide;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 
     public void init() {

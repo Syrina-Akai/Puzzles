@@ -1,13 +1,11 @@
 package puzzleWindows;
 
-import puzzle.Aetoile;
-import puzzle.Largeur;
-import puzzle.Profondeur;
+import puzzle.part1.heuristic.Aetoile;
+import puzzle.part1.Largeur;
+import puzzle.part1.Profondeur;
 import puzzle.Taquin;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
@@ -464,14 +462,14 @@ public class MainMenu extends JFrame {
                             root.idToTaquin(taquinToId(taquin));
                             ferme=new ArrayList<>();
                             ouvert=new ArrayList<>();
-                            long time = 0;
+                            int time = 0;
                             switch (algo) {
                                 case "Profondeur" -> {
                                     Profondeur profondeur = new Profondeur();
-                                    long now= System.nanoTime();
+                                    LocalDateTime now = LocalDateTime.now();
                                     profondeur.solve(root, (Integer) spinner.getValue());
-                                    long then= System.nanoTime();
-                                    time = then - now;
+                                    LocalDateTime then = LocalDateTime.now();
+                                    time = then.getNano() - now.getNano();
                                     solution = profondeur.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes=profondeur.getFerme().size();
@@ -480,10 +478,10 @@ public class MainMenu extends JFrame {
                                 }
                                 case "Largeur" -> {
                                     Largeur largeur = new Largeur();
-                                    long now= System.nanoTime();
+                                    LocalDateTime now = LocalDateTime.now();
                                     largeur.solve(root,(Integer)spinner.getValue());
-                                    long then= System.nanoTime();
-                                    time = then - now;
+                                    LocalDateTime then = LocalDateTime.now();
+                                    time = then.getNano() - now.getNano();
                                     solution = largeur.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = largeur.getFermer().size() + largeur.getOuvert().size();
@@ -492,10 +490,10 @@ public class MainMenu extends JFrame {
                                 }
                                 case "Manhatten" -> {
                                     Aetoile aetoile = new Aetoile(1);
-                                    long now= System.nanoTime();
+                                    LocalDateTime now = LocalDateTime.now();
                                     aetoile.solve(root);
-                                    long then= System.nanoTime();
-                                    time = then - now;
+                                    LocalDateTime then = LocalDateTime.now();
+                                    time = then.getNano() - now.getNano();
                                     solution = aetoile.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
@@ -504,10 +502,10 @@ public class MainMenu extends JFrame {
                                 }
                                 case "Hamming" -> {
                                     Aetoile aetoile = new Aetoile(2);
-                                    long now= System.nanoTime();
+                                    LocalDateTime now = LocalDateTime.now();
                                     aetoile.solve(root);
-                                    long then= System.nanoTime();
-                                    time = then - now;
+                                    LocalDateTime then = LocalDateTime.now();
+                                    time = then.getNano() - now.getNano();
                                     solution = aetoile.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
