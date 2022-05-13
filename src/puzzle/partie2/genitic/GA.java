@@ -16,14 +16,12 @@ public class GA {
     int populationSize=450;
     boolean noSolution=false;
     Taquin root;
+    ArrayList<Chromosome> newGeneration;
 
     public GA(Taquin root) {
         this.root = root;
-
         chromosomeSize = new ManhattanComparator().distanceEtat(root);
         System.out.println("la taille est : "+chromosomeSize);
-
-
         initialisePopulation();
     }
 
@@ -107,7 +105,6 @@ public class GA {
             this.population = new ArrayList<>();
             this.population.addAll(fittestPopulation);
         }
-        System.out.println(("population size: " + this.population.size()));
     }
 
     public ArrayList<Chromosome> crossover(Chromosome parent1, Chromosome parent2) {
@@ -139,20 +136,23 @@ public class GA {
         * si le num est 1 alors on fait la mutation li malfin ndirouha....
         * */
         //on fait les mutations d'apres le rate de mutation
-        int mutationStop=(this.population.size()*mutationRate)/100;
+        int mutationStop=(this.newGeneration.size()*mutationRate)/100;
         //this is a copy of the population
         //we need to remove the cases li dernalhoum permutation pour eviter la repition
-        LinkedList<Chromosome> populationCopy = new LinkedList<>(this.population);
+        LinkedList<Chromosome> populationCopy = new LinkedList<>(this.newGeneration);
+        this.newGeneration=new ArrayList<>();
         Random rand = new Random();
+
 
         for (int i=0; i<mutationStop;i++){
             int mutantIndex  = rand.nextInt(populationCopy.size());
             Chromosome chromosome=populationCopy.remove(mutantIndex);
             int mutation = rand.nextInt(2);
+            int chromosomeSize=chromosome.getMoves().size();
             switch (mutation) {
                 case 0: // permutation
-                    int firstPosition = rand.nextInt(chromosome.getMoves().size());
-                    int secondPosition = rand.nextInt(chromosome.getMoves().size());
+                    int firstPosition = rand.nextInt(chromosomeSize);
+                    int secondPosition = rand.nextInt(chromosomeSize);
 
                     double tmp = chromosome.getMoves().get(firstPosition);
                     chromosome.getMoves().set(firstPosition,chromosome.getMoves().get(secondPosition));
@@ -160,7 +160,7 @@ public class GA {
                     break;
                 case 1: // inverse
                     // To make sure that the new move is different from the old one
-                    int position = rand.nextInt(chromosome.getMoves().size());
+                    int position = rand.nextInt(chromosomeSize);
                     int inverse= rand.nextInt(2);
                     double move=0;
                     switch (inverse){
@@ -180,6 +180,7 @@ public class GA {
                     chromosome.getMoves().set(position,move);
                     break;
             }
+            newGeneration.add(chromosome);
             if(populationCopy.isEmpty()){
                 break;
             }
@@ -198,7 +199,7 @@ public class GA {
 
     public void generateSolution() {
         System.out.println("la taille de la solution " + chromosomeSize);
-        ArrayList<Chromosome> newGeneration;
+
         int maxGenerations = 1000;
         int chances=0;
         crossoverRate=100;
@@ -222,16 +223,17 @@ public class GA {
                     newGeneration.addAll(crossover(population.get(i), population.get(j)));
                 }
             }
+            this.noSolution=isSolution(this.newGeneration);
+            //3- Si la solution n'existe pas on fait la mutation
+            if (this.generation <= maxGenerations && !noSolution)
+                this.mutation();
+            //nouvelle population
+            generation++;
             this.officialPopulation.addAll(newGeneration);
             this.population=new ArrayList<>(this.officialPopulation);
 
             if(this.population.size()==0)
                 break;
-            generation++;
-            this.noSolution=isSolution(this.population);
-            //3- Si la solution n'existe pas on fait la mutation
-            if (this.generation <= maxGenerations && !noSolution)
-                this.mutation();
 
             //4-Set chances for the population
             if(population.size()<=1 || (generation == maxGenerations+1 && !noSolution)){
@@ -245,9 +247,9 @@ public class GA {
 
             //5- modification de crossover rate et mutation rate
             if(crossoverRate!=0)
-                crossoverRate-=3;
+                crossoverRate-=1;
             if(mutationRate!=100)
-                mutationRate+=3;
+                mutationRate+=1;
         }
 
         if (solution != null && this.population.size() > 0) {
