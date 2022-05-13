@@ -200,7 +200,7 @@ public class GA {
     public void generateSolution() {
         System.out.println("la taille de la solution " + chromosomeSize);
 
-        int maxGenerations = 1000;
+        int maxGenerations = 2000;
         int chances=0;
         crossoverRate=100;
         mutationRate=0;
@@ -244,17 +244,23 @@ public class GA {
                 crossoverRate=100;
                 mutationRate=0;
             }
-
             //5- modification de crossover rate et mutation rate
-            if(crossoverRate!=0)
-                crossoverRate-=1;
-            if(mutationRate!=100)
-                mutationRate+=1;
+            if (crossoverRate==0)
+                crossoverRate=100;
+            else
+                crossoverRate-=2;
+            if(mutationRate==100)
+                mutationRate=0;
+            else
+                mutationRate+=2;
+
         }
 
         if (solution != null && this.population.size() > 0) {
             System.out.println("CONGRATS ! ");
             solution.affichageMoves();
+            System.out.println("chromosome size is : "+solution.getMoves().size());
+            System.out.println("taille de la derniere population : "+this.officialPopulation.size());
         } else {
             if(this.population.size() <= 0){
                 System.out.println("pas de population :) ");
@@ -270,7 +276,6 @@ public class GA {
             }
             System.out.println("Solution not found :/ ");
         }
-        System.out.println("chromosome size is : "+chromosomeSize);
     }
 
 }
