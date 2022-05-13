@@ -1,5 +1,6 @@
 package puzzle.partie2.pso;
 import puzzle.Taquin;
+import puzzle.partie1.heuristic.ManhattanComparator;
 
 import java.util.ArrayList;
 
@@ -83,6 +84,13 @@ public class Particle {
         }
         return fitnessVal;
     }*/
+
+    public int fitness(String id){
+        Taquin temp = new Taquin(id);
+        ManhattanComparator manh = new ManhattanComparator();
+        return(manh.distanceEtat(temp));
+    }
+    /*
     public int fitness(String taquinId){
         int fitnessVal = 0;
         int[][] matrice=new int[3][3];
@@ -96,14 +104,16 @@ public class Particle {
                 fitnessVal+=(3*i+j)*matrice[i][j];
             }
         }
+        fitnessVal = Math.abs(156-fitnessVal);
         return fitnessVal;
-    }
+    }*/
 
     public void updatePBest(){
         //calculate the fitness and compare with pbest, replace if smaller
         currentPFit = fitness(moves.get(moves.size() - 1).id);
-        if(currentPFit < pbestFit){
+        if(currentPFit <= pbestFit){
             pbest = decimalMoves;
+            pbestFit = currentPFit;
         }
     }
 

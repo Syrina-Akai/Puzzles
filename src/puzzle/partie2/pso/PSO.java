@@ -1,5 +1,6 @@
 package puzzle.partie2.pso;
 
+import puzzle.partie1.heuristic.ManhattanComparator;
 import puzzle.partie2.pso.Particle ;
 import puzzle.Taquin;
 
@@ -15,6 +16,7 @@ public class PSO {
     private double gbest;
     private Particle gbestParticle;
     private ArrayList<Particle> particles = new ArrayList<Particle>();
+    private ArrayList<String> visited = new ArrayList<String>();
 
     public PSO(String initID){
         init = new Taquin(initID);
@@ -26,7 +28,7 @@ public class PSO {
     public void PSOmain(){
         //do the init idk
         int generation = 1;
-        while(gbest != 0.0) {
+        while(fitness(gbestParticle.getMoves().get(gbestParticle.getMoves().size()-1).id) != 0) {
             System.out.println("generation "+ generation);
             for (Particle element : particles) {
                 element.updateVelocity(gbest);
@@ -80,9 +82,12 @@ public class PSO {
                 part.nextMove(lastTaquin, nextMoves.remove());
                 //we add that taquin to the old move set
                 addedMove.add(part);
-                //we add it to the new particle list
-                newParticles.add(new Particle(element, addedMove));
-                //System.out.println("##################################################################");
+                if(!visited.contains(addedMove.get(addedMove.size()-1).id)){
+                    //we add it to the new particle list
+                    newParticles.add(new Particle(element, addedMove));
+                    visited.add(addedMove.get(addedMove.size()-1).id);
+                }
+
             }
             //System.out.println("\n###################################################################\n");
 
@@ -91,6 +96,7 @@ public class PSO {
     }
     public void updateGbest(){
         for (Particle element : particles) {
+            //System.out.println(element.getPbestFit());
             if(fitness(gbestParticle.getMoves().get(gbestParticle.getMoves().size()-1).id) >= element.getPbestFit()){
                 //System.out.println("gbest");
                 //System.out.println(gbest);
@@ -110,6 +116,12 @@ public class PSO {
         }
         return fitnessVal;
     }*/
+    public int fitness(String id){
+        Taquin temp = new Taquin(id);
+        ManhattanComparator manh = new ManhattanComparator();
+        return(manh.distanceEtat(temp));
+    }
+    /*
     public int fitness(String taquinId){
         int fitnessVal = 0;
         int[][] matrice=new int[3][3];
@@ -123,9 +135,10 @@ public class PSO {
                 fitnessVal+=(3*i+j)*matrice[i][j];
             }
         }
+        fitnessVal = Math.abs(156-fitnessVal);
         return fitnessVal;
     }
-
+    */
     public void initialize(){
         //create the first generation
         //init gbest
