@@ -14,8 +14,6 @@ public class Particle {
     private int pbestFit;
     private ArrayList<Taquin> moves;
     private double decimalMoves;
-    private ArrayList<Double> butLines = new ArrayList<Double>();
-    private ArrayList<Double> butColumns = new ArrayList<Double>();
     private double[][] matriceBut = new double[3][3];
 
     //constructor for initial generation
@@ -46,14 +44,6 @@ public class Particle {
                 }
             }
         }
-        //Lines
-        for(int i = 0 ; i<3 ; i++){
-            butLines.add(matriceBut[i][0]+matriceBut[i][1]+matriceBut[i][2]);
-        }
-        //columns
-        for(int i = 0 ; i<3 ; i++){
-            butColumns.add(matriceBut[i][0]+matriceBut[i][1]+matriceBut[i][2]);
-        }
         pbest = toDecimal();
     }
 
@@ -65,8 +55,6 @@ public class Particle {
         velocity = old.getVelocity();
         currentPFit = fitness(moves.get(moves.size() - 1).id);
         pbestFit = old.getPbestFit();
-        butLines = old.getButLines();
-        butColumns = old.getButColumns();
         decimalMoves = toDecimal();
     }
 
@@ -104,8 +92,6 @@ public class Particle {
 
     public double toDecimal(){
         double[][] matrice = new double[3][3];
-        ArrayList<Double> lines = new ArrayList<Double>();
-        ArrayList<Double> columns = new ArrayList<Double>();
         for(int i = 0 ; i<3 ; i++){
             for(int j = 0 ; j<3 ; j++){
                 matrice[i][j] = Double.parseDouble(moves.get(moves.size() - 1).id.substring(i+j,i+j+1));
@@ -123,19 +109,10 @@ public class Particle {
                 }
             }
         }
-
-        //lines
-        for(int i = 0 ; i<3 ; i++){
-            lines.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
-        }
-        //columns
-        for(int i = 0 ; i<3 ; i++){
-            columns.add(matrice[i][0]+matrice[i][1]+matrice[i][2]);
-        }
         double differences = 0;
 
-        for (int i = 0 ; i < lines.size(); i++ ) {
-            for (int j = 0 ; j < lines.size(); j++ ){
+        for (int i = 0 ; i < 3; i++ ) {
+            for (int j = 0 ; j < 3; j++ ){
                 differences+=Math.pow(matrice[i][j]-matriceBut[i][j],2);
             }
         }
@@ -163,14 +140,6 @@ public class Particle {
 
     public int getPbestFit() {
         return pbestFit;
-    }
-
-    public ArrayList<Double> getButLines() {
-        return butLines;
-    }
-
-    public ArrayList<Double> getButColumns() {
-        return butColumns;
     }
 
 }

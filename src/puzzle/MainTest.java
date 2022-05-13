@@ -11,7 +11,11 @@ public class MainTest {
     //283164705 ==> prof
     //517304286==>24
     public static void main(String[] args) {
-        GA ga = new GA(new Taquin("513264807"));
+        GA ga = new GA(new Taquin("123784650"));
+        long startTime = System.nanoTime();
         ga.generateSolution();
+        long endTime = System.nanoTime();
+        long timeElapsed = endTime - startTime;
+        System.out.println("Execution time in milliseconds: " + timeElapsed / 1000000);
     }
 }

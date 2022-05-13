@@ -30,8 +30,8 @@ public class PSO {
                 element.updateVelocity(gbest);
                 element.updatePosition();
                 element.updatePBest();
-                updateGbest();
             }
+            updateGbest();
             updateParticles();
             System.out.println(gbest);
             generation++;
