@@ -11,7 +11,7 @@ public class MainTest {
     //283164705 ==> prof
     //517304286==>24
     public static void main(String[] args) {
-        GA ga = new GA(new Taquin("517304286"));
+        GA ga = new GA(new Taquin("513264807"));
         ga.generateSolution();
     }
 }
