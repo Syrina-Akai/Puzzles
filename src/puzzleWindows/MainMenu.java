@@ -8,6 +8,7 @@ import puzzle.partie1.heuristic.ManhattanComparator;
 import puzzle.partie2.genitic.Chromosome;
 import puzzle.partie2.genitic.GA;
 import puzzle.partie2.genitic.SortChromosome;
+import puzzle.partie2.pso.PSO;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -493,14 +494,14 @@ public class MainMenu extends JFrame {
                             root.idToTaquin(taquinToId(taquin));
                             ferme=new ArrayList<>();
                             ouvert=new ArrayList<>();
-                            int time = 0;
+                            long timeElapsed = 0;
                             switch (algo) {
                                 case "Profondeur" -> {
                                     Profondeur profondeur = new Profondeur();
-                                    LocalDateTime now = LocalDateTime.now();
+                                    long startTime = System.nanoTime();
                                     profondeur.solve(root, (Integer) spinner.getValue());
-                                    LocalDateTime then = LocalDateTime.now();
-                                    time = then.getNano() - now.getNano();
+                                    long endTime = System.nanoTime();
+                                    timeElapsed = (endTime - startTime)/1000000;
                                     solution = profondeur.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes=profondeur.getFerme().size();
@@ -509,10 +510,10 @@ public class MainMenu extends JFrame {
                                 }
                                 case "Largeur" -> {
                                     Largeur largeur = new Largeur();
-                                    LocalDateTime now = LocalDateTime.now();
+                                    long startTime = System.nanoTime();
                                     largeur.solve(root,(Integer)spinner.getValue());
-                                    LocalDateTime then = LocalDateTime.now();
-                                    time = then.getNano() - now.getNano();
+                                    long endTime = System.nanoTime();
+                                    timeElapsed = (endTime - startTime)/1000000;
                                     solution = largeur.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = largeur.getFermer().size() + largeur.getOuvert().size();
@@ -521,10 +522,10 @@ public class MainMenu extends JFrame {
                                 }
                                 case "Manhatten" -> {
                                     Aetoile aetoile = new Aetoile(1);
-                                    LocalDateTime now = LocalDateTime.now();
+                                    long startTime = System.nanoTime();
                                     aetoile.solve(root);
-                                    LocalDateTime then = LocalDateTime.now();
-                                    time = then.getNano() - now.getNano();
+                                    long endTime = System.nanoTime();
+                                    timeElapsed = (endTime - startTime)/1000000;
                                     solution = aetoile.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
@@ -533,10 +534,10 @@ public class MainMenu extends JFrame {
                                 }
                                 case "Hamming" -> {
                                     Aetoile aetoile = new Aetoile(2);
-                                    LocalDateTime now = LocalDateTime.now();
+                                    long startTime = System.nanoTime();
                                     aetoile.solve(root);
-                                    LocalDateTime then = LocalDateTime.now();
-                                    time = then.getNano() - now.getNano();
+                                    long endTime = System.nanoTime();
+                                    timeElapsed = (endTime - startTime)/1000000;
                                     solution = aetoile.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
@@ -545,21 +546,26 @@ public class MainMenu extends JFrame {
                                 }
                                 case "GA" -> {
                                     GA ga = new GA(root);
-                                    LocalDateTime now = LocalDateTime.now();
+                                    long startTime = System.nanoTime();
                                     ga.generateSolution();
-                                    LocalDateTime then = LocalDateTime.now();
-                                    time = then.getNano() - now.getNano();
+                                    long endTime = System.nanoTime();
+                                    timeElapsed = (endTime - startTime)/1000000;
                                     solution = ga.getSolution();
                                 }
                                 case "PSO" -> {
                                     System.out.println("PSO");
+                                    PSO pso=new PSO(root.id);
+                                    long startTime = System.nanoTime();
+                                    pso.PSOmain();
+
+
                                 }
                                 default -> System.out.println("oups !");
                             }
                             if (solution.size() > 1) {
                                 observation.setVisible(true);
                                 path.setText("" + (solution.size() - 1));
-                                executionTime.setText("" + time + " ns");
+                                executionTime.setText("" + timeElapsed + " ms");
                                 nbNoeud.setText("" + nodes);
                                 if(ferme.size()>1){
                                     tailleF.setText(""+ferme.size());
