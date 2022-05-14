@@ -291,11 +291,11 @@ public class GA {
             if (crossoverRate==0)
                 crossoverRate=100;
             else
-                crossoverRate-=2;
+                crossoverRate-=1;
             if(mutationRate==100)
                 mutationRate=0;
             else
-                mutationRate+=2;
+                mutationRate+=1;
 
         }
 
