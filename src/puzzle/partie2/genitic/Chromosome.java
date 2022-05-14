@@ -4,7 +4,9 @@ import puzzle.Taquin;
 import puzzle.partie1.heuristic.ManhattanComparator;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
+import static puzzle.Main.idBut;
 import static puzzle.Main.idTest;
 
 public class Chromosome {
@@ -121,10 +123,48 @@ public class Chromosome {
         }
         if(isDoable){
             fitness = new ManhattanComparator().distanceEtat(taquin);
+            if(fitness==0)
+                taquin.afficherTaquin();
         }else {
             fitness= -1;
         }
         return isDoable;
+    }
+
+    public Stack<String> chromosomeToTaquins(){
+        Stack<String> temp = new Stack<>();
+        temp.push(idBut);
+        System.out.println("la solution est : "+this.moves);
+        ArrayList<Double> solutionPath = this.getMoves();
+
+
+        Taquin taquin = new Taquin(idBut);
+        for (int i = 0; i < solutionPath.size(); i++) {
+            double move = solutionPath.get(i);
+            if(move<0.26){//up 0.254
+                System.out.println("Pushing Up");
+                taquin.nextMove(taquin, taquin.getVide() - 3);
+                taquin.afficherTaquin();
+            }
+            if(move>=0.26 && move<0.51){//right
+                System.out.println("Pushing Right");
+                taquin.nextMove(taquin, taquin.getVide() + 1);
+                taquin.afficherTaquin();
+            }
+            if(move>=0.51 && move<0.76){//down
+                System.out.println("Pushing Down");
+                taquin.nextMove(taquin, taquin.getVide() + 3);
+                taquin.afficherTaquin();
+            }
+            if(move>=0.76){//left
+                System.out.println("Pushing Left");
+                taquin.nextMove(taquin, taquin.getVide() - 1);
+                taquin.afficherTaquin();
+            }
+            temp.push(taquin.id);
+            System.out.println("Pushed");
+        }
+        return temp;
     }
 }
 

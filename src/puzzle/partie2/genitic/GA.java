@@ -91,11 +91,12 @@ public class GA {
         ArrayList<Chromosome> fittestPopulation = new ArrayList<>();
         for (Chromosome chromosome : this.population) {
             if (chromosome.isDoable()) {
-                if(chromosome.getFitness()==0){
+                /*if(chromosome.getFitness()==0){
                     this.noSolution=true;
-                    solutionChromosome =chromosome;
+                    solutionChromosome =new Chromosome(chromosome.getMoves());
+                    System.out.println("fitness ==0 "+solutionChromosome.getMoves());
                     break;
-                }
+                }*/
                 fittestPopulation.add(chromosome);
             }
         }
@@ -194,17 +195,14 @@ public class GA {
     public boolean isSolution(ArrayList<Chromosome> populations) {
         for (Chromosome chromosome : populations) {
             if (chromosome.getFitness() == 0) {
-                Stack<String> temp = new Stack<>();
-                temp.push(root.id);
-                this.solutionChromosome = chromosome;
+                solutionChromosome =new Chromosome(chromosome.getMoves());
+                Stack<String> temp = chromosome.chromosomeToTaquins();
+                /*temp.push(root.id);
+                solutionChromosome =new Chromosome(chromosome.getMoves());
+                System.out.println("la solution est : "+this.solutionChromosome);
                 ArrayList<Double> solutionPath = solutionChromosome.getMoves();
-               /* Taquin taquin = new Taquin(idBut);
-                System.out.println("solution length: " + solutionPath.size());
-                System.out.println("pushing but");
-                this.solution.push(taquin.id);
-                System.out.println("Taquin root:");
-                taquin.afficherTaquin();
-                System.out.println("but pushed");*/
+
+
                 Taquin taquin = new Taquin(root.id);
                 for (int i = 0; i < solutionPath.size(); i++) {
                     double move = solutionPath.get(i);
@@ -230,7 +228,7 @@ public class GA {
                     }
                     temp.push(taquin.id);
                     System.out.println("Pushed");
-                }
+                }*/
                 while (!temp.empty()) {
                     this.solution.push(temp.pop());
                 }
@@ -252,6 +250,7 @@ public class GA {
         while (!this.noSolution && this.population.size() > 0 && generation <= maxGenerations && chances<=20) {
             //1-evaluation de la population
             this.fit();
+            this.noSolution=isSolution(this.population);
             if(this.noSolution){
                 break;
             }
