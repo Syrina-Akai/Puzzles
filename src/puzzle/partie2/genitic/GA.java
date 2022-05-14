@@ -5,11 +5,15 @@ import puzzle.partie1.heuristic.ManhattanComparator;
 
 import java.util.*;
 
+import static puzzle.Main.idBut;
+
 public class GA {
 
     ArrayList<Chromosome> population=new ArrayList<>();
     HashSet<Chromosome> officialPopulation= new HashSet<>();
-    Chromosome solution = null;
+    Chromosome solutionChromosome = null;
+
+    Stack<String> solution = new Stack<>();
     int generation = 0;
     int chromosomeSize = 0;
     int crossoverRate,mutationRate;
@@ -89,7 +93,7 @@ public class GA {
             if (chromosome.isDoable()) {
                 if(chromosome.getFitness()==0){
                     this.noSolution=true;
-                    solution=chromosome;
+                    solutionChromosome =chromosome;
                     break;
                 }
                 fittestPopulation.add(chromosome);
@@ -190,7 +194,46 @@ public class GA {
     public boolean isSolution(ArrayList<Chromosome> populations) {
         for (Chromosome chromosome : populations) {
             if (chromosome.getFitness() == 0) {
-                this.solution = chromosome;
+                Stack<String> temp = new Stack<>();
+                temp.push(root.id);
+                this.solutionChromosome = chromosome;
+                ArrayList<Double> solutionPath = solutionChromosome.getMoves();
+               /* Taquin taquin = new Taquin(idBut);
+                System.out.println("solution length: " + solutionPath.size());
+                System.out.println("pushing but");
+                this.solution.push(taquin.id);
+                System.out.println("Taquin root:");
+                taquin.afficherTaquin();
+                System.out.println("but pushed");*/
+                Taquin taquin = new Taquin(root.id);
+                for (int i = 0; i < solutionPath.size(); i++) {
+                    double move = solutionPath.get(i);
+                    if(move<0.26){//up 0.254
+                        System.out.println("Pushing Up");
+                        taquin.nextMove(taquin, taquin.getVide() - 3);
+                        taquin.afficherTaquin();
+                    }
+                    if(move>=0.26 && move<0.51){//right
+                        System.out.println("Pushing Right");
+                        taquin.nextMove(taquin, taquin.getVide() + 1);
+                        taquin.afficherTaquin();
+                    }
+                    if(move>=0.51 && move<0.76){//down
+                        System.out.println("Pushing Down");
+                        taquin.nextMove(taquin, taquin.getVide() + 3);
+                        taquin.afficherTaquin();
+                    }
+                    if(move>=0.76){//left
+                        System.out.println("Pushing Left");
+                        taquin.nextMove(taquin, taquin.getVide() - 1);
+                        taquin.afficherTaquin();
+                    }
+                    temp.push(taquin.id);
+                    System.out.println("Pushed");
+                }
+                while (!temp.empty()) {
+                    this.solution.push(temp.pop());
+                }
                 return true;
             }
         }
@@ -256,10 +299,10 @@ public class GA {
 
         }
 
-        if (solution != null && this.population.size() > 0) {
+        if (solutionChromosome != null && this.population.size() > 0) {
             System.out.println("CONGRATS ! ");
-            solution.affichageMoves();
-            System.out.println("chromosome size is : "+solution.getMoves().size());
+            solutionChromosome.affichageMoves();
+            System.out.println("chromosome size is : "+ solutionChromosome.getMoves().size());
             System.out.println("taille de la derniere population : "+this.officialPopulation.size());
         } else {
             if(this.population.size() <= 0){
@@ -276,6 +319,10 @@ public class GA {
             }
             System.out.println("Solution not found :/ ");
         }
+    }
+
+    public Stack<String> getSolution() {
+        return solution;
     }
 
 }
