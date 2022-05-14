@@ -50,19 +50,24 @@ public class PSO {
             ArrayList<Taquin> elemMoves = element.getMoves();
             Taquin lastTaquin = elemMoves.get(elemMoves.size()-1);
             Queue<Integer> nextMoves = new LinkedList<Integer>();
+            Queue<String> direction = new LinkedList<>();
             
             //we retrieve last taquin in the particle to generate next moves
             if (lastTaquin.getVide() % 3 != 0) {//i-1 ==> à gauche
                 nextMoves.add(lastTaquin.getVide() - 1);
+                direction.add("Gauche");
             }
             if (lastTaquin.getVide() > 2) {//i-3 ==> en haut
                 nextMoves.add(lastTaquin.getVide() - 3);
+                direction.add("Haut");
             }
             if (lastTaquin.getVide() % 3 != 2) {//i+1 ==> à droite
                 nextMoves.add(lastTaquin.getVide() + 1);
+                direction.add("Droite");
             }
             if (lastTaquin.getVide() < 6) {//i+3 ==> en bas
                 nextMoves.add(lastTaquin.getVide() + 3);
+                direction.add("Bas");
             }
             //we loop through the moves to create the particles and add them
             while(!nextMoves.isEmpty()){
@@ -75,7 +80,11 @@ public class PSO {
                 addedMove.add(part);
                 if(!visited.contains(addedMove.get(addedMove.size()-1).id)){
                     //we add it to the new particle list
-                    newParticles.add(new Particle(element, addedMove));
+                    Particle newParticle = new Particle(element, addedMove);
+                    ArrayList<String> oldDirection = new ArrayList<>(newParticle.getDirections());
+                    oldDirection.add(direction.remove());
+                    newParticle.setDirections(oldDirection);
+                    newParticles.add(newParticle);
                     visited.add(addedMove.get(addedMove.size()-1).id);
                 }
 
@@ -103,17 +112,22 @@ public class PSO {
         //create the first generation
         //init gbest
         Queue<Integer> nextMoves = new LinkedList<>();
+        Queue<String> direction = new LinkedList<>();
         if (init.getVide() % 3 != 0) {//i-1 ==> à gauche
             nextMoves.add(init.getVide() - 1);
+            direction.add("Gauche");
         }
         if (init.getVide() > 2) {//i-3 ==> en haut
             nextMoves.add(init.getVide() - 3);
+            direction.add("Haut");
         }
         if (init.getVide() % 3 != 2) {//i+1 ==> à droite
             nextMoves.add(init.getVide() + 1);
+            direction.add("Droite");
         }
         if (init.getVide() < 6) {//i+3 ==> en bas
             nextMoves.add(init.getVide() + 3);
+            direction.add("Bas");
         }
         while(!nextMoves.isEmpty()){
             Taquin part = new Taquin(false);
@@ -121,7 +135,11 @@ public class PSO {
             ArrayList<Taquin> list = new ArrayList<Taquin>();
             list.add(init);
             list.add(part);
-            particles.add(new Particle(init, list));
+            Particle newParticle = new Particle(init, list);
+            ArrayList<String> oldDirection = new ArrayList<>(newParticle.getDirections());
+            oldDirection.add(direction.remove());
+            newParticle.setDirections(oldDirection);
+            particles.add(newParticle);
         }
 
         ArrayList<Taquin> initmov = new ArrayList<Taquin>();
@@ -136,6 +154,7 @@ public class PSO {
         for (Taquin elem: gbestParticle.getMoves()) {
             elem.afficherTaquin();
         }
+        System.out.println(gbestParticle.getDirections());
     }
 
 }

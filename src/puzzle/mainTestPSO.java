@@ -9,7 +9,7 @@ public class mainTestPSO {
         int time = 0;
 
 
-        PSO mypso = new PSO("278614530");
+        PSO mypso = new PSO("123784650");
         long startTime = System.nanoTime();
         mypso.PSOmain();
         long endTime = System.nanoTime();

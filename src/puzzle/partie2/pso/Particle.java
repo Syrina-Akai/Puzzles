@@ -15,6 +15,7 @@ public class Particle {
     private ArrayList<Taquin> moves;
     private double decimalMoves;
     private double[][] matriceBut = new double[3][3];
+    private ArrayList<String> directions = new ArrayList<>();
 
     //constructor for initial generation
     public Particle(Taquin init,ArrayList<Taquin> moves){
@@ -51,6 +52,7 @@ public class Particle {
     public Particle(Particle old, ArrayList<Taquin> moves){
         pbest = old.getPbest();
         this.moves = moves;
+        this.directions = old.getDirections();
         position = old.getPosition(); //takes the old position and velocity and they will be updated at the start of the pso loop
         velocity = old.getVelocity();
         currentPFit = fitness(moves.get(moves.size() - 1).id);
@@ -136,6 +138,14 @@ public class Particle {
 
     public ArrayList<Taquin> getMoves() {
         return moves;
+    }
+
+    public ArrayList<String> getDirections() {
+        return directions;
+    }
+
+    public void setDirections(ArrayList<String> directions) {
+        this.directions = directions;
     }
 
     public int getPbestFit() {
