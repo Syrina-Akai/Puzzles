@@ -66,7 +66,7 @@ public class PSO {
             }
             if (lastTaquin.getVide() > 2) {//i-3 ==> en haut
                 nextMoves.add(lastTaquin.getVide() - 3);
-                direction.add("Haut");
+                direction.add("Bas");
             }
             if (lastTaquin.getVide() % 3 != 2) {//i+1 ==> à droite
                 nextMoves.add(lastTaquin.getVide() + 1);
@@ -74,7 +74,7 @@ public class PSO {
             }
             if (lastTaquin.getVide() < 6) {//i+3 ==> en bas
                 nextMoves.add(lastTaquin.getVide() + 3);
-                direction.add("Bas");
+                direction.add("Haut");
             }
             //we loop through the moves to create the particles and add them
             while(!nextMoves.isEmpty()){
@@ -127,7 +127,7 @@ public class PSO {
         }
         if (init.getVide() > 2) {//i-3 ==> en haut
             nextMoves.add(init.getVide() - 3);
-            direction.add("Haut");
+            direction.add("Bas");
         }
         if (init.getVide() % 3 != 2) {//i+1 ==> à droite
             nextMoves.add(init.getVide() + 1);
@@ -135,7 +135,7 @@ public class PSO {
         }
         if (init.getVide() < 6) {//i+3 ==> en bas
             nextMoves.add(init.getVide() + 3);
-            direction.add("Bas");
+            direction.add("Haut");
         }
         while(!nextMoves.isEmpty()){
             Taquin part = new Taquin(false);

@@ -59,7 +59,7 @@ public class MainMenu extends JFrame {
         setBounds(100, 100, 943, 650);
         getContentPane().setLayout(null);
         JPanel taquin = new JPanel();
-        taquin.setBounds(467, 10, 243, 209);
+        taquin.setBounds(467, 139, 243, 209);
         getContentPane().add(taquin);
         taquin.setLayout(new GridLayout(3, 3));
         initTaquin(taquin, Main.idBut);
@@ -225,7 +225,7 @@ public class MainMenu extends JFrame {
         lblNewLabel_1_1.setBounds(10, 444, 165, 30);
         panel.add(lblNewLabel_1_1);
         JButton afficher = new JButton("Afficher solution");
-        afficher.setBounds(503, 229, 175, 30);
+        afficher.setBounds(503, 358, 175, 30);
         afficher.setBackground(new Color(197, 202, 233));
         getContentPane().add(afficher);
 
@@ -248,17 +248,17 @@ public class MainMenu extends JFrame {
         taquinError.setVisible(false);
 
         JLabel lblNewLabel = new JLabel("\u00A9Quadrinome n\u00B011 S2I");
-        lblNewLabel.setBounds(381, 528, 133, 23);
+        lblNewLabel.setBounds(381, 580, 133, 23);
         getContentPane().add(lblNewLabel);
 
         JButton aPropos = new JButton("A propos");
-        aPropos.setBounds(732, 529, 85, 21);
+        aPropos.setBounds(732, 581, 85, 21);
         getContentPane().add(aPropos);
         aPropos.setBackground(new Color(197, 202, 233));
 
         JPanel observation = new JPanel();
         observation.setBackground(new Color(121, 134, 203));
-        observation.setBounds(350, 300, 500, 172);
+        observation.setBounds(353, 398, 500, 172);
         getContentPane().add(observation);
         observation.setLayout(null);
 
