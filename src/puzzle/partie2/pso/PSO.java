@@ -11,9 +11,9 @@ import java.util.Stack;
 public class PSO {
     //attributes
     private Taquin init;
-    private double gbest;
+    public double gbest;
     private Particle gbestParticle;
-    private ArrayList<Particle> particles = new ArrayList<Particle>();
+    public ArrayList<Particle> particles = new ArrayList<Particle>();
     private ArrayList<String> visited = new ArrayList<String>();
     private Stack<String> solution = new Stack<>();
 

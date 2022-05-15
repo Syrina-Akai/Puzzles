@@ -30,6 +30,7 @@ public class APropos extends JFrame {
 			public void run() {
 				try {
 					APropos frame = new APropos();
+                    frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -97,7 +98,7 @@ public class APropos extends JFrame {
 		lblNewLabel_1_1_1_1.setBounds(555, 300, 144, 39);
 		contentPane.add(lblNewLabel_1_1_1_1);
 		
-		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Version 1.0.0");
+		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Version 1.1.0");
 		lblNewLabel_1_1_1_1_1.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		lblNewLabel_1_1_1_1_1.setBounds(357, 450, 89, 25);
 		contentPane.add(lblNewLabel_1_1_1_1_1);

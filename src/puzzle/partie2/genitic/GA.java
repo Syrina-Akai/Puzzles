@@ -11,11 +11,11 @@ import static puzzle.Main.idBut;
 public class GA {
 
     ArrayList<Chromosome> population=new ArrayList<>();
-    HashSet<Chromosome> officialPopulation= new HashSet<>();
+    public HashSet<Chromosome> officialPopulation= new HashSet<>();
     Chromosome solutionChromosome = null;
 
     Stack<String> solution = new Stack<>();
-    int generation = 0;
+    public int generation = 0;
     int chromosomeSize = 0;
     int crossoverRate,mutationRate;
     int populationSize=450;

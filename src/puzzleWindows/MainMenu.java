@@ -40,6 +40,7 @@ public class MainMenu extends JFrame {
                     puzzleWindows.MainMenu frame = new puzzleWindows.MainMenu("Puzzle");
                     frame.setResizable(false);
                     frame.setVisible(true);
+                    frame.setLocationRelativeTo(null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -261,7 +262,7 @@ public class MainMenu extends JFrame {
 
         JPanel observation = new JPanel();
         observation.setBackground(new Color(121, 134, 203));
-        observation.setBounds(355, 530, 500, 100);
+        observation.setBounds(353, 524, 500, 172);
         getContentPane().add(observation);
         observation.setLayout(null);
 
@@ -300,6 +301,34 @@ public class MainMenu extends JFrame {
         nbNoeud.setForeground(Color.WHITE);
         nbNoeud.setBounds(187, 53, 57, 19);
         observation.add(nbNoeud);
+        
+        JLabel lblNewLabel_5_1 = new JLabel("Solution trouve dans la generation: ");
+        lblNewLabel_5_1.setForeground(Color.WHITE);
+        lblNewLabel_5_1.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblNewLabel_5_1.setBounds(10, 93, 262, 19);
+        observation.add(lblNewLabel_5_1);
+        lblNewLabel_5_1.setVisible(false);
+        
+        JLabel nbGen = new JLabel("");
+        nbGen.setForeground(Color.WHITE);
+        nbGen.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        nbGen.setBounds(267, 93, 138, 19);
+        nbGen.setVisible(false);
+        observation.add(nbGen);
+        
+        JLabel lblNewLabel_5_2 = new JLabel("GBest: ");
+        lblNewLabel_5_2.setForeground(Color.WHITE);
+        lblNewLabel_5_2.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblNewLabel_5_2.setBounds(10, 128, 57, 19);
+        lblNewLabel_5_2.setVisible(false);
+        observation.add(lblNewLabel_5_2);
+        
+        JLabel nbNoeud_1 = new JLabel("noeuds...");
+        nbNoeud_1.setForeground(Color.WHITE);
+        nbNoeud_1.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        nbNoeud_1.setBounds(65, 128, 179, 19);
+        nbNoeud_1.setVisible(false);
+        observation.add(nbNoeud_1);
         observation.setVisible(false);
 
         JPanel ouvertPanel = new JPanel();
@@ -447,7 +476,7 @@ public class MainMenu extends JFrame {
             }
         });
 
-        Timer timer = new Timer(2000, new ActionListener() {
+        Timer timer = new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!solution.isEmpty())
@@ -499,51 +528,75 @@ public class MainMenu extends JFrame {
                             switch (algo) {
                                 case "Profondeur" -> {
                                     Profondeur profondeur = new Profondeur();
+                                    lblNewLabel_5.setText("Le nombre des noeuds :");
                                     long startTime = System.nanoTime();
                                     profondeur.solve(root, (Integer) spinner.getValue());
                                     long endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
+                                    solution = new Stack<>();
                                     solution = profondeur.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes=profondeur.getFerme().size();
                                     ouvertPanel.setVisible(false);
                                     ferme=profondeur.getFermeId();
+                                    nbGen.setVisible(false);
+                                    lblNewLabel_5_1.setVisible(false);
+                                    lblNewLabel_5_2.setVisible(false);
+                                    nbNoeud_1.setVisible(false);
                                 }
                                 case "Largeur" -> {
                                     Largeur largeur = new Largeur();
+                                    lblNewLabel_5.setText("Le nombre des noeuds :");
                                     long startTime = System.nanoTime();
                                     largeur.solve(root,(Integer)spinner.getValue());
                                     long endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
+                                    solution = new Stack<>();
                                     solution = largeur.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = largeur.getFermer().size() + largeur.getOuvert().size();
                                     ferme=largeur.getFermeId();
                                     ouvert=largeur.getOuvertId();
+                                    nbGen.setVisible(false);
+                                    lblNewLabel_5_1.setVisible(false);
+                                    lblNewLabel_5_2.setVisible(false);
+                                    nbNoeud_1.setVisible(false);
                                 }
                                 case "Manhatten" -> {
                                     Aetoile aetoile = new Aetoile(1);
+                                    lblNewLabel_5.setText("Le nombre des noeuds :");
                                     long startTime = System.nanoTime();
                                     aetoile.solve(root);
                                     long endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
+                                    solution = new Stack<>();
                                     solution = aetoile.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
                                     ferme=aetoile.getFermeId();
                                     ouvert=aetoile.getOuvertId();
+                                    nbGen.setVisible(false);
+                                    lblNewLabel_5_1.setVisible(false);
+                                    lblNewLabel_5_2.setVisible(false);
+                                    nbNoeud_1.setVisible(false);
                                 }
                                 case "Hamming" -> {
                                     Aetoile aetoile = new Aetoile(2);
+                                    lblNewLabel_5.setText("Le nombre des noeuds :");
                                     long startTime = System.nanoTime();
                                     aetoile.solve(root);
                                     long endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
+                                    solution = new Stack<>();
                                     solution = aetoile.getSolution();
                                     taquins = solution.toArray(new String[0]);
                                     nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
                                     ferme=aetoile.getFermeId();
                                     ouvert=aetoile.getOuvertId();
+                                    nbGen.setVisible(false);
+                                    lblNewLabel_5_1.setVisible(false);
+                                    lblNewLabel_5_2.setVisible(false);
+                                    nbNoeud_1.setVisible(false);
                                 }
                                 case "GA" -> {
                                     GA ga = new GA(root);
@@ -551,8 +604,17 @@ public class MainMenu extends JFrame {
                                     ga.generateSolution();
                                     long endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
+                                    solution = new Stack<>();
                                     solution = ga.getSolution();
                                     taquins = solution.toArray(new String[0]);
+                                    nodes = ga.officialPopulation.size();
+                                    lblNewLabel_5.setText("Taille de la population: ");
+                                    nbGen.setText(Integer.toString(ga.generation));
+                                    lblNewLabel_5_1.setText("Solution trouve dans la generation: ");
+                                    lblNewLabel_5_1.setVisible(true);
+                                    nbGen.setVisible(true);
+                                    lblNewLabel_5_2.setVisible(false);
+                                    nbNoeud_1.setVisible(false);
                                 }
                                 case "PSO" -> {
                                     System.out.println("PSO");
@@ -561,8 +623,18 @@ public class MainMenu extends JFrame {
                                     pso.PSOmain();
                                     long endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
+                                    solution = new Stack<>();
                                     solution = pso.getSolution();
                                     taquins = solution.toArray(new String[0]);
+                                    lblNewLabel_5.setText("Nombre de particles: ");
+                                    nodes = pso.particles.size();
+                                    
+                                    nbGen.setVisible(false);
+                                    lblNewLabel_5_1.setVisible(false);
+                                    
+                                    nbNoeud_1.setText(Double.toString(pso.gbest));
+                                    lblNewLabel_5_2.setVisible(true);
+                                    nbNoeud_1.setVisible(true);
                                 }
                                 default -> System.out.println("oups !");
                             }
