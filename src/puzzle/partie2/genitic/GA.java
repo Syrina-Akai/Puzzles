@@ -90,13 +90,7 @@ public class GA {
     public void fit() {
         ArrayList<Chromosome> fittestPopulation = new ArrayList<>();
         for (Chromosome chromosome : this.population) {
-            if (chromosome.isDoable()) {
-                /*if(chromosome.getFitness()==0){
-                    this.noSolution=true;
-                    solutionChromosome =new Chromosome(chromosome.getMoves());
-                    System.out.println("fitness ==0 "+solutionChromosome.getMoves());
-                    break;
-                }*/
+            if (chromosome.isDoable(new Taquin(root.id)) ) {
                 fittestPopulation.add(chromosome);
             }
         }
@@ -122,13 +116,13 @@ public class GA {
         moves = new ArrayList<>(parent1.getMoves().subList(0, indice1));
         moves.addAll(parent2.getMoves().subList(indice2, parent2.getMoves().size()));
         Chromosome child = new Chromosome(moves);
-        child.isDoable();
+        child.isDoable(new Taquin(root.id));
         children.add(child);
 
         moves = new ArrayList<>(parent2.getMoves().subList(0, indice2));
         moves.addAll(parent1.getMoves().subList(indice1, parent1.getMoves().size()));
         child = new Chromosome(moves);
-        child.isDoable();
+        child.isDoable(new Taquin(root.id));
         children.add(child);
 
         return children;
@@ -194,45 +188,18 @@ public class GA {
 
     public boolean isSolution(ArrayList<Chromosome> populations) {
         for (Chromosome chromosome : populations) {
-            if (chromosome.getFitness() == 0) {
+            if (chromosome.getFitness() == 0 && !this.noSolution) {
                 solutionChromosome =new Chromosome(chromosome.getMoves());
+                solutionChromosome.isDoable(new Taquin(root.id));
                 System.out.println("new...\n" + solutionChromosome);
-                Stack<String> temp = chromosome.chromosomeToTaquins();
-                /*temp.push(root.id);
-                solutionChromosome =new Chromosome(chromosome.getMoves());
-                System.out.println("la solution est : "+this.solutionChromosome);
-                ArrayList<Double> solutionPath = solutionChromosome.getMoves();
-
-
-                Taquin taquin = new Taquin(root.id);
-                for (int i = 0; i < solutionPath.size(); i++) {
-                    double move = solutionPath.get(i);
-                    if(move<0.26){//up 0.254
-                        System.out.println("Pushing Up");
-                        taquin.nextMove(taquin, taquin.getVide() - 3);
-                        taquin.afficherTaquin();
-                    }
-                    if(move>=0.26 && move<0.51){//right
-                        System.out.println("Pushing Right");
-                        taquin.nextMove(taquin, taquin.getVide() + 1);
-                        taquin.afficherTaquin();
-                    }
-                    if(move>=0.51 && move<0.76){//down
-                        System.out.println("Pushing Down");
-                        taquin.nextMove(taquin, taquin.getVide() + 3);
-                        taquin.afficherTaquin();
-                    }
-                    if(move>=0.76){//left
-                        System.out.println("Pushing Left");
-                        taquin.nextMove(taquin, taquin.getVide() - 1);
-                        taquin.afficherTaquin();
-                    }
-                    temp.push(taquin.id);
-                    System.out.println("Pushed");
-                }*/
+                System.out.println("root is : "+root);
+                Stack<String> temp = chromosome.chromosomeToTaquins(root);
                 while (!temp.empty()) {
                     this.solution.push(temp.pop());
                 }
+                System.out.println("voici la solution : ");
+                ArrayList<String > solutions=new ArrayList<>(this.solution);
+                System.out.println("solution : "+solutions);
                 return true;
             }
         }

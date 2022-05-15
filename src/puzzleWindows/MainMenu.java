@@ -1,5 +1,6 @@
 package puzzleWindows;
 
+import puzzle.Main;
 import puzzle.partie1.heuristic.Aetoile;
 import puzzle.partie1.Largeur;
 import puzzle.partie1.Profondeur;
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static java.lang.Thread.sleep;
-import static puzzle.Main.idBut;
+
 
 public class MainMenu extends JFrame {
     public Stack<String> solution;
@@ -60,7 +61,7 @@ public class MainMenu extends JFrame {
         taquin.setBounds(469, 87, 243, 209);
         getContentPane().add(taquin);
         taquin.setLayout(new GridLayout(3, 3));
-        initTaquin(taquin, idBut);
+        initTaquin(taquin, Main.idBut);
 
         JPanel panel = new JPanel();
         panel.setBackground(new Color(121, 134, 203));
@@ -449,6 +450,7 @@ public class MainMenu extends JFrame {
         Timer timer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("la solution li jabha :) "+solution);
                 if (!solution.isEmpty())
                     initTaquin(taquin, solution.pop());
                 else {
