@@ -260,6 +260,8 @@ public class GA {
         if (solutionChromosome != null && this.population.size() > 0) {
             System.out.println("CONGRATS ! ");
             solutionChromosome.affichageMoves();
+            System.out.println("la chance : "+chances);
+            System.out.println("la generation : "+generation);
             System.out.println("chromosome size is : "+ solutionChromosome.getMoves().size());
             System.out.println("taille de la derniere population : "+this.officialPopulation.size());
             System.out.println("taille de la derniere generation : "+this.newGeneration.size());
