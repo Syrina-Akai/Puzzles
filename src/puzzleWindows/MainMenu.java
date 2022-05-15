@@ -542,6 +542,7 @@ public class MainMenu extends JFrame {
                                     lblNewLabel_5_1.setVisible(false);
                                     lblNewLabel_5_2.setVisible(false);
                                     nbNoeud_1.setVisible(false);
+                                    break;
 
                                 case "Largeur" :
                                     Largeur largeur = new Largeur();
@@ -561,6 +562,7 @@ public class MainMenu extends JFrame {
                                     lblNewLabel_5_1.setVisible(false);
                                     lblNewLabel_5_2.setVisible(false);
                                     nbNoeud_1.setVisible(false);
+                                    break;
 
                                 case "Manhatten" :
                                     aetoile = new Aetoile(1);
@@ -580,6 +582,7 @@ public class MainMenu extends JFrame {
                                     lblNewLabel_5_1.setVisible(false);
                                     lblNewLabel_5_2.setVisible(false);
                                     nbNoeud_1.setVisible(false);
+                                    break;
 
                                 case "Hamming" :
                                     aetoile = new Aetoile(2);
@@ -599,6 +602,7 @@ public class MainMenu extends JFrame {
                                     lblNewLabel_5_1.setVisible(false);
                                     lblNewLabel_5_2.setVisible(false);
                                     nbNoeud_1.setVisible(false);
+                                    break;
                                 case "GA" :
                                     GA ga = new GA(root);
                                     startTime = System.nanoTime();
@@ -620,6 +624,7 @@ public class MainMenu extends JFrame {
                                     nbGen.setVisible(true);
                                     lblNewLabel_5_2.setVisible(false);
                                     nbNoeud_1.setVisible(false);
+                                    break;
 
                                 case "PSO" :
                                     System.out.println("PSO");
@@ -641,9 +646,11 @@ public class MainMenu extends JFrame {
                                     nbNoeud_1.setText(Double.toString(pso.gbest));
                                     lblNewLabel_5_2.setVisible(true);
                                     nbNoeud_1.setVisible(true);
+                                    break;
 
                                 default :
                                     System.out.println("oups !");
+                                    break;
                             }
                             if (solution.size() > 1) {
                                 observation.setVisible(true);
