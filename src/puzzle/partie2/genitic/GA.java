@@ -56,7 +56,7 @@ public class GA {
         if (root.getVide() % 3 != 2) {//i+1 ==> à droite
             for (int i = 0; i < populationSizePerMove; i++) {
                 moves = new ArrayList<>();
-                moves.add(rand.nextFloat()*(0.51-0.26)+0.26);
+                moves.add((float) (rand.nextFloat()*(0.51-0.26)+0.26));
                 for (int j = 1; j < this.chromosomeSize; j++) {
                     move = (float) (rand.nextFloat()*(0.100 - 0.0) + 0.0);
                     moves.add(move);
@@ -68,7 +68,7 @@ public class GA {
         if (root.getVide() < 6) {//i+3 ==> en bas
             for (int i = 0; i < populationSizePerMove; i++) {
                 moves = new ArrayList<>();
-                moves.add(rand.nextFloat()* (0.76-0.51)+0.51);
+                moves.add((float) (rand.nextFloat()* (0.76-0.51)+0.51));
                 for (int j = 1; j < this.chromosomeSize; j++) {
                     move = (float) (rand.nextFloat()*(0.100 - 0.0) + 0.0);
                     moves.add(move);
@@ -80,7 +80,7 @@ public class GA {
         if (root.getVide() % 3 != 0) {//i-1 ==> à gauche
             for (int i = 0; i < populationSizePerMove; i++) {
                 moves = new ArrayList<>();
-                moves.add(rand.nextFloat()*(1-0.76) +0.76);
+                moves.add((float) (rand.nextFloat()*(1-0.76) +0.76));
                 for (int j = 1; j < this.chromosomeSize; j++) {
                     move =(float) (rand.nextFloat()*(0.100 - 0.0) + 0.0);
                     moves.add(move);
@@ -169,13 +169,13 @@ public class GA {
                     switch (inverse){
                         case 0:
                             //on ajoute 0.25
-                            move= (float)(chromosome.getMoves().get(position)+0.25;
+                            move= (float)(chromosome.getMoves().get(position)+0.25);
                             if(move>1)
                                 move=(float)0.9;
                             break;
                         case 1:
                             //on enleve 0.25
-                            move= (float)(chromosome.getMoves().get(position)-0.25;
+                            move= (float)(chromosome.getMoves().get(position)-0.25);
                             if(move<0)
                                 move=(float) 0.1;
                             break;
