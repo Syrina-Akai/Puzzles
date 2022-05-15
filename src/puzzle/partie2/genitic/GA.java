@@ -46,7 +46,7 @@ public class GA {
                 moves = new ArrayList<>();
                 moves.add((float) (rand.nextFloat()*(0.26 - 0.0) + 0.0));
                 for (int j = 1; j < this.chromosomeSize; j++) {
-                    move = (float) (rand.nextFloat()*(0.100 - 0.0) + 0.0));
+                    move = (float) (rand.nextFloat()*(0.100 - 0.0) + 0.0);
                     moves.add(move);
                 }
                 chromosome = new Chromosome(moves);
@@ -56,9 +56,9 @@ public class GA {
         if (root.getVide() % 3 != 2) {//i+1 ==> à droite
             for (int i = 0; i < populationSizePerMove; i++) {
                 moves = new ArrayList<>();
-                moves.add(rand.nextFloat(26,51) /100);
+                moves.add(rand.nextFloat()*(0.51-0.26)+0.26);
                 for (int j = 1; j < this.chromosomeSize; j++) {
-                    move = rand.nextFloat(0,100)/100;
+                    move = (float) (rand.nextFloat()*(0.100 - 0.0) + 0.0);
                     moves.add(move);
                 }
                 chromosome = new Chromosome(moves);
@@ -68,9 +68,9 @@ public class GA {
         if (root.getVide() < 6) {//i+3 ==> en bas
             for (int i = 0; i < populationSizePerMove; i++) {
                 moves = new ArrayList<>();
-                moves.add(rand.nextFloat(51,76)/100);
+                moves.add(rand.nextFloat()* (0.76-0.51)+0.51);
                 for (int j = 1; j < this.chromosomeSize; j++) {
-                    move = rand.nextFloat(0,100)/100;
+                    move = (float) (rand.nextFloat()*(0.100 - 0.0) + 0.0);
                     moves.add(move);
                 }
                 chromosome = new Chromosome(moves);
@@ -80,9 +80,9 @@ public class GA {
         if (root.getVide() % 3 != 0) {//i-1 ==> à gauche
             for (int i = 0; i < populationSizePerMove; i++) {
                 moves = new ArrayList<>();
-                moves.add(rand.nextFloat(76,100) /100);
+                moves.add(rand.nextFloat()*(1-0.76) +0.76);
                 for (int j = 1; j < this.chromosomeSize; j++) {
-                    move = rand.nextFloat(0,100)/100;
+                    move =(float) (rand.nextFloat()*(0.100 - 0.0) + 0.0);
                     moves.add(move);
                 }
                 chromosome = new Chromosome(moves);
@@ -169,15 +169,15 @@ public class GA {
                     switch (inverse){
                         case 0:
                             //on ajoute 0.25
-                            move= (chromosome.getMoves().get(position)+25)/100;
+                            move= (float)(chromosome.getMoves().get(position)+0.25;
                             if(move>1)
-                                move=90/100;
+                                move=(float)0.9;
                             break;
                         case 1:
                             //on enleve 0.25
-                            move= (chromosome.getMoves().get(position)+25)/100;
+                            move= (float)(chromosome.getMoves().get(position)-0.25;
                             if(move<0)
-                                move=10/100;
+                                move=(float) 0.1;
                             break;
                     }
                     chromosome.getMoves().set(position,move);
