@@ -84,12 +84,13 @@ public class PSO {
                 //new taquin with one of the next moves
                 part.nextMove(lastTaquin, nextMoves.remove());
                 //we add that taquin to the old move set
+                String nextDirection = direction.remove();
                 addedMove.add(part);
                 if(!visited.contains(addedMove.get(addedMove.size()-1).id)){
                     //we add it to the new particle list
                     Particle newParticle = new Particle(element, addedMove);
                     ArrayList<String> oldDirection = new ArrayList<>(newParticle.getDirections());
-                    oldDirection.add(direction.remove());
+                    oldDirection.add(nextDirection);
                     newParticle.setDirections(oldDirection);
                     newParticles.add(newParticle);
                     visited.add(addedMove.get(addedMove.size()-1).id);
