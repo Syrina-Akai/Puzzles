@@ -9,20 +9,20 @@ import java.util.Stack;
 
 
 public class Chromosome {
-    private ArrayList<Double> moves;
+    private ArrayList<Float> moves;
     public ArrayList<String> printedMoves;
     private float fitness = -1;
 
-    public Chromosome(ArrayList<Double> moves) {
+    public Chromosome(ArrayList<Float> moves) {
         this.moves = moves;
 
     }
 
-    public ArrayList<Double> getMoves() {
+    public ArrayList<Float> getMoves() {
         return moves;
     }
 
-    public void setMoves(ArrayList<Double> moves) {
+    public void setMoves(ArrayList<Float> moves) {
         this.moves = moves;
     }
 
@@ -132,7 +132,7 @@ public class Chromosome {
     public Stack<String> chromosomeToTaquins(Taquin root){
         Stack<String> temp = new Stack<>();
         temp.push(root.getId());
-        ArrayList<Double> solutionPath = this.getMoves();
+        ArrayList<Float> solutionPath = this.getMoves();
         Taquin taquin = new Taquin(root.getId());
         for (int i = 0; i < solutionPath.size(); i++) {
             double move = solutionPath.get(i);
