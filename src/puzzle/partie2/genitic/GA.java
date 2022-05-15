@@ -202,7 +202,6 @@ public class GA {
     }
 
     public void generateSolution() {
-        System.out.println("la taille de la solution " + chromosomeSize);
 
         int maxGenerations = 2000;
         int chances=0;
@@ -217,9 +216,6 @@ public class GA {
             if(this.noSolution){
                 break;
             }
-            System.out.println("Chance : "+chances);
-            System.out.println("Generation: " + generation);
-            System.out.println("Population: " + this.population + "\n");
             newGeneration = new ArrayList<>();
             //2-generation de la nouvelle population
             int crossoverStop=(this.population.size()*crossoverRate)/100;

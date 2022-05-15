@@ -6,8 +6,7 @@ import puzzle.partie1.heuristic.ManhattanComparator;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import static puzzle.Main.idBut;
-import static puzzle.Main.idTest;
+
 
 public class Chromosome {
     private ArrayList<Double> moves;
@@ -122,8 +121,6 @@ public class Chromosome {
         }
         if(isDoable){
             fitness = new ManhattanComparator().distanceEtat(taquin);
-            if(fitness==0)
-                taquin.afficherTaquin();
         }else {
             fitness= -1;
         }
@@ -133,36 +130,23 @@ public class Chromosome {
     public Stack<String> chromosomeToTaquins(Taquin root){
         Stack<String> temp = new Stack<>();
         temp.push(root.getId());
-        System.out.println("la solution est : "+this.moves);
         ArrayList<Double> solutionPath = this.getMoves();
-
-
         Taquin taquin = new Taquin(root.getId());
-        taquin.afficherTaquin();
         for (int i = 0; i < solutionPath.size(); i++) {
             double move = solutionPath.get(i);
             if(move<0.26){//up 0.254
-                System.out.println("Pushing Up");
                 taquin.nextMove(taquin, taquin.getVide() - 3);
-                taquin.afficherTaquin();
             }
             if(move>=0.26 && move<0.51){//right
-                System.out.println("Pushing Right");
                 taquin.nextMove(taquin, taquin.getVide() + 1);
-                taquin.afficherTaquin();
             }
             if(move>=0.51 && move<0.76){//down
-                System.out.println("Pushing Down");
                 taquin.nextMove(taquin, taquin.getVide() + 3);
-                taquin.afficherTaquin();
             }
             if(move>=0.76){//left
-                System.out.println("Pushing Left");
                 taquin.nextMove(taquin, taquin.getVide() - 1);
-                taquin.afficherTaquin();
             }
             temp.push(taquin.id);
-            //System.out.println("Pushed");
         }
         return temp;
     }
