@@ -521,13 +521,15 @@ public class MainMenu extends JFrame {
                             ferme=new ArrayList<>();
                             ouvert=new ArrayList<>();
                             long timeElapsed = 0;
+                            Aetoile aetoile;
+                            long startTime,endTime;
                             switch (algo) {
-                                case "Profondeur" -> {
+                                case "Profondeur" :
                                     Profondeur profondeur = new Profondeur();
                                     lblNewLabel_5.setText("Le nombre des noeuds :");
-                                    long startTime = System.nanoTime();
+                                    startTime = System.nanoTime();
                                     profondeur.solve(root, (Integer) spinner.getValue());
-                                    long endTime = System.nanoTime();
+                                    endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
                                     solution = new Stack<>();
                                     solution = profondeur.getSolution();
@@ -540,13 +542,13 @@ public class MainMenu extends JFrame {
                                     lblNewLabel_5_1.setVisible(false);
                                     lblNewLabel_5_2.setVisible(false);
                                     nbNoeud_1.setVisible(false);
-                                }
-                                case "Largeur" -> {
+
+                                case "Largeur" :
                                     Largeur largeur = new Largeur();
                                     lblNewLabel_5.setText("Le nombre des noeuds :");
-                                    long startTime = System.nanoTime();
+                                    startTime = System.nanoTime();
                                     largeur.solve(root,(Integer)spinner.getValue());
-                                    long endTime = System.nanoTime();
+                                    endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
                                     solution = new Stack<>();
                                     solution = largeur.getSolution();
@@ -559,13 +561,13 @@ public class MainMenu extends JFrame {
                                     lblNewLabel_5_1.setVisible(false);
                                     lblNewLabel_5_2.setVisible(false);
                                     nbNoeud_1.setVisible(false);
-                                }
-                                case "Manhatten" -> {
-                                    Aetoile aetoile = new Aetoile(1);
+
+                                case "Manhatten" :
+                                    aetoile = new Aetoile(1);
                                     lblNewLabel_5.setText("Le nombre des noeuds :");
-                                    long startTime = System.nanoTime();
+                                    startTime = System.nanoTime();
                                     aetoile.solve(root);
-                                    long endTime = System.nanoTime();
+                                    endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
                                     solution = new Stack<>();
                                     solution = aetoile.getSolution();
@@ -578,13 +580,13 @@ public class MainMenu extends JFrame {
                                     lblNewLabel_5_1.setVisible(false);
                                     lblNewLabel_5_2.setVisible(false);
                                     nbNoeud_1.setVisible(false);
-                                }
-                                case "Hamming" -> {
-                                    Aetoile aetoile = new Aetoile(2);
+
+                                case "Hamming" :
+                                    aetoile = new Aetoile(2);
                                     lblNewLabel_5.setText("Le nombre des noeuds :");
-                                    long startTime = System.nanoTime();
+                                    startTime = System.nanoTime();
                                     aetoile.solve(root);
-                                    long endTime = System.nanoTime();
+                                    endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
                                     solution = new Stack<>();
                                     solution = aetoile.getSolution();
@@ -597,12 +599,11 @@ public class MainMenu extends JFrame {
                                     lblNewLabel_5_1.setVisible(false);
                                     lblNewLabel_5_2.setVisible(false);
                                     nbNoeud_1.setVisible(false);
-                                }
-                                case "GA" -> {
+                                case "GA" :
                                     GA ga = new GA(root);
-                                    long startTime = System.nanoTime();
+                                    startTime = System.nanoTime();
                                     ga.generateSolution();
-                                    long endTime = System.nanoTime();
+                                    endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
                                     solution = new Stack<>();
                                     solution = ga.getSolution();
@@ -619,13 +620,13 @@ public class MainMenu extends JFrame {
                                     nbGen.setVisible(true);
                                     lblNewLabel_5_2.setVisible(false);
                                     nbNoeud_1.setVisible(false);
-                                }
-                                case "PSO" -> {
+
+                                case "PSO" :
                                     System.out.println("PSO");
                                     PSO pso = new PSO(root.id);
-                                    long startTime = System.nanoTime();
+                                    startTime = System.nanoTime();
                                     pso.PSOmain();
-                                    long endTime = System.nanoTime();
+                                    endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
                                     solution = new Stack<>();
                                     solution = pso.getSolution();
@@ -640,8 +641,9 @@ public class MainMenu extends JFrame {
                                     nbNoeud_1.setText(Double.toString(pso.gbest));
                                     lblNewLabel_5_2.setVisible(true);
                                     nbNoeud_1.setVisible(true);
-                                }
-                                default -> System.out.println("oups !");
+
+                                default :
+                                    System.out.println("oups !");
                             }
                             if (solution.size() > 1) {
                                 observation.setVisible(true);
