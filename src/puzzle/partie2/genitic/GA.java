@@ -12,7 +12,7 @@ public class GA {
 
     ArrayList<Chromosome> population=new ArrayList<>();
     public HashSet<Chromosome> officialPopulation= new HashSet<>();
-    Chromosome solutionChromosome = null;
+    public Chromosome solutionChromosome = null;
 
     Stack<String> solution = new Stack<>();
     public int generation = 0;

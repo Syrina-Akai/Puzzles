@@ -10,6 +10,7 @@ public class MainTest {
     //812704536==14
     //283164705 ==> prof
     //517304286==>24
+	//053218764==> new (!GA)
     public static void main(String[] args) {
         GA ga = new GA(new Taquin("283164705"));
         long startTime = System.nanoTime();

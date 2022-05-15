@@ -159,13 +159,14 @@ public class PSO {
         return this.solution;
     }
 
-    public void afficherSolution(){
+    public ArrayList<String> afficherSolution(){
         System.out.println("generated particles "+ particles.size());
         System.out.println("size " + gbestParticle.getMoves().size());
         for (Taquin elem: gbestParticle.getMoves()) {
             elem.afficherTaquin();
         }
         System.out.println(gbestParticle.getDirections());
+        return gbestParticle.getDirections();
     }
 
 }

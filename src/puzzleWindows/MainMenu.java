@@ -56,17 +56,17 @@ public class MainMenu extends JFrame {
         String id;
         getContentPane().setBackground(new Color(237, 231, 246));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 943, 810);
+        setBounds(100, 100, 943, 650);
         getContentPane().setLayout(null);
         JPanel taquin = new JPanel();
-        taquin.setBounds(469, 87, 243, 209);
+        taquin.setBounds(467, 10, 243, 209);
         getContentPane().add(taquin);
         taquin.setLayout(new GridLayout(3, 3));
         initTaquin(taquin, Main.idBut);
 
         JPanel panel = new JPanel();
         panel.setBackground(new Color(121, 134, 203));
-        panel.setBounds(0, 0, 256, 853);
+        panel.setBounds(0, 0, 256, 621);
         getContentPane().add(panel);
         panel.setLayout(null);
 
@@ -75,7 +75,7 @@ public class MainMenu extends JFrame {
         profondeurChex.setFont(new Font("Segoe UI", Font.BOLD, 14));
         profondeurChex.setActionCommand("Profondeur");
         profondeurChex.setBackground(new Color(209, 196, 233));
-        profondeurChex.setBounds(0, 230, 256, 47);
+        profondeurChex.setBounds(0, 230, 256, 30);
         panel.add(profondeurChex);
 
         JRadioButton largeurChex = new JRadioButton("Largeur");
@@ -83,7 +83,7 @@ public class MainMenu extends JFrame {
         largeurChex.setFont(new Font("Segoe UI", Font.BOLD, 14));
         largeurChex.setActionCommand("Largeur");
         largeurChex.setBackground(new Color(209, 196, 233));
-        largeurChex.setBounds(0, 279, 256, 47);
+        largeurChex.setBounds(0, 262, 256, 30);
         panel.add(largeurChex);
 
         JRadioButton manhattenChex = new JRadioButton("Manhattan");
@@ -91,7 +91,7 @@ public class MainMenu extends JFrame {
         manhattenChex.setFont(new Font("Segoe UI", Font.BOLD, 14));
         manhattenChex.setActionCommand("Manhatten");
         manhattenChex.setBackground(new Color(209, 196, 233));
-        manhattenChex.setBounds(0, 401, 256, 47);
+        manhattenChex.setBounds(0, 367, 256, 30);
         panel.add(manhattenChex);
 
         JRadioButton hammingChex = new JRadioButton("Hamming");
@@ -99,7 +99,7 @@ public class MainMenu extends JFrame {
         hammingChex.setFont(new Font("Segoe UI", Font.BOLD, 14));
         hammingChex.setActionCommand("Hamming");
         hammingChex.setBackground(new Color(209, 196, 233));
-        hammingChex.setBounds(0, 450, 256, 47);
+        hammingChex.setBounds(0, 399, 256, 30);
         panel.add(hammingChex);
 
         JRadioButton rdbtnPso = new JRadioButton("PSO");
@@ -107,7 +107,7 @@ public class MainMenu extends JFrame {
         rdbtnPso.setFont(new Font("Segoe UI", Font.BOLD, 14));
         rdbtnPso.setBackground(new Color(209, 196, 233));
         rdbtnPso.setActionCommand("PSO");
-        rdbtnPso.setBounds(0, 615, 256, 47);
+        rdbtnPso.setBounds(0, 512, 256, 30);
         panel.add(rdbtnPso);
 
         JRadioButton rdbtnAlgorithmeGntique = new JRadioButton("Algorithme G\u00E9n\u00E9tique");
@@ -115,7 +115,7 @@ public class MainMenu extends JFrame {
         rdbtnAlgorithmeGntique.setFont(new Font("Segoe UI", Font.BOLD, 14));
         rdbtnAlgorithmeGntique.setBackground(new Color(209, 196, 233));
         rdbtnAlgorithmeGntique.setActionCommand("GA");
-        rdbtnAlgorithmeGntique.setBounds(0, 566, 256, 47);
+        rdbtnAlgorithmeGntique.setBounds(0, 480, 256, 30);
         panel.add(rdbtnAlgorithmeGntique);
 
         ButtonGroup algos = new ButtonGroup();
@@ -129,7 +129,7 @@ public class MainMenu extends JFrame {
         JLabel lblNewLabel_1 = new JLabel("Heuristiques");
         lblNewLabel_1.setForeground(Color.WHITE);
         lblNewLabel_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblNewLabel_1.setBounds(10, 365, 121, 30);
+        lblNewLabel_1.setBounds(10, 331, 121, 30);
         panel.add(lblNewLabel_1);
 
         idTaquin = new JTextField();
@@ -174,23 +174,23 @@ public class MainMenu extends JFrame {
         panel.add(separator);
 
         JButton solve = new JButton("Solve");
-        solve.setBounds(53, 724, 157, 30);
+        solve.setBounds(53, 577, 157, 30);
         panel.add(solve);
         solve.setBackground(new Color(197, 202, 233));
 
         JSeparator separator_1 = new JSeparator();
-        separator_1.setBounds(0, 530, 256, 2);
+        separator_1.setBounds(0, 444, 256, 2);
         panel.add(separator_1);
 
         JLabel profondeurLbl = new JLabel("Profondeur :");
-        profondeurLbl.setBounds(10, 332, 121, 13);
+        profondeurLbl.setBounds(10, 298, 121, 13);
         profondeurLbl.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         profondeurLbl.setForeground(Color.WHITE);
         profondeurLbl.setVisible(false);
         panel.add(profondeurLbl);
 
         JSpinner spinner = new JSpinner();
-        spinner.setBounds(111, 332, 51, 23);
+        spinner.setBounds(111, 298, 51, 23);
         spinner.setValue(10);
         spinner.setVisible(false);
         panel.add(spinner);
@@ -216,20 +216,16 @@ public class MainMenu extends JFrame {
         manhattenChex.addActionListener(listener);
 
         JSeparator separator_1_1 = new JSeparator();
-        separator_1_1.setBounds(0, 364, 256, 2);
+        separator_1_1.setBounds(0, 330, 256, 2);
         panel.add(separator_1_1);
-
-        JSeparator separator_1_2 = new JSeparator();
-        separator_1_2.setBounds(0, 695, 256, 2);
-        panel.add(separator_1_2);
 
         JLabel lblNewLabel_1_1 = new JLabel("Meta Heuristiques");
         lblNewLabel_1_1.setForeground(Color.WHITE);
         lblNewLabel_1_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblNewLabel_1_1.setBounds(10, 530, 165, 30);
+        lblNewLabel_1_1.setBounds(10, 444, 165, 30);
         panel.add(lblNewLabel_1_1);
         JButton afficher = new JButton("Afficher solution");
-        afficher.setBounds(505, 402, 175, 30);
+        afficher.setBounds(503, 229, 175, 30);
         afficher.setBackground(new Color(197, 202, 233));
         getContentPane().add(afficher);
 
@@ -252,17 +248,17 @@ public class MainMenu extends JFrame {
         taquinError.setVisible(false);
 
         JLabel lblNewLabel = new JLabel("\u00A9Quadrinome n\u00B011 S2I");
-        lblNewLabel.setBounds(388, 740, 133, 23);
+        lblNewLabel.setBounds(381, 528, 133, 23);
         getContentPane().add(lblNewLabel);
 
         JButton aPropos = new JButton("A propos");
-        aPropos.setBounds(739, 741, 85, 21);
+        aPropos.setBounds(732, 529, 85, 21);
         getContentPane().add(aPropos);
         aPropos.setBackground(new Color(197, 202, 233));
 
         JPanel observation = new JPanel();
         observation.setBackground(new Color(121, 134, 203));
-        observation.setBounds(353, 524, 500, 172);
+        observation.setBounds(350, 300, 500, 172);
         getContentPane().add(observation);
         observation.setLayout(null);
 
@@ -332,7 +328,7 @@ public class MainMenu extends JFrame {
         observation.setVisible(false);
 
         JPanel ouvertPanel = new JPanel();
-        ouvertPanel.setBounds(739, 225, 162, 249);
+        ouvertPanel.setBounds(744, 10, 162, 249);
         getContentPane().add(ouvertPanel);
         ouvertPanel.setVisible(false);
         ouvertPanel.setBackground(new Color(237, 231, 246));
@@ -361,13 +357,13 @@ public class MainMenu extends JFrame {
 
         JPanel fermerPanel = new JPanel();
         fermerPanel.setLayout(null);
-        fermerPanel.setBounds(278, 225, 162, 249);
+        fermerPanel.setBounds(283, 10, 162, 249);
         fermerPanel.setVisible(false);
         fermerPanel.setBackground(new Color(237, 231, 246));
         getContentPane().add(fermerPanel);
 
-        JLabel lblNewLabel_6 = new JLabel("Ferm\u00E9 :");
-        lblNewLabel_6.setBounds(28, 10, 57, 19);
+        JLabel lblNewLabel_6 = new JLabel("");
+        lblNewLabel_6.setBounds(28, 10, 113, 19);
         fermerPanel.add(lblNewLabel_6);
         lblNewLabel_6.setForeground(Color.BLACK);
         lblNewLabel_6.setFont(new Font("Segoe UI", Font.BOLD, 15));
@@ -539,6 +535,7 @@ public class MainMenu extends JFrame {
                                     nodes=profondeur.getFerme().size();
                                     ouvertPanel.setVisible(false);
                                     ferme=profondeur.getFermeId();
+                                    lblNewLabel_6.setText("Ferm\u00E9 :");
                                     nbGen.setVisible(false);
                                     lblNewLabel_5_1.setVisible(false);
                                     lblNewLabel_5_2.setVisible(false);
@@ -557,6 +554,7 @@ public class MainMenu extends JFrame {
                                     nodes = largeur.getFermer().size() + largeur.getOuvert().size();
                                     ferme=largeur.getFermeId();
                                     ouvert=largeur.getOuvertId();
+                                    lblNewLabel_6.setText("Ferm\u00E9 :");
                                     nbGen.setVisible(false);
                                     lblNewLabel_5_1.setVisible(false);
                                     lblNewLabel_5_2.setVisible(false);
@@ -575,6 +573,7 @@ public class MainMenu extends JFrame {
                                     nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
                                     ferme=aetoile.getFermeId();
                                     ouvert=aetoile.getOuvertId();
+                                    lblNewLabel_6.setText("Ferm\u00E9 :");
                                     nbGen.setVisible(false);
                                     lblNewLabel_5_1.setVisible(false);
                                     lblNewLabel_5_2.setVisible(false);
@@ -592,6 +591,7 @@ public class MainMenu extends JFrame {
                                     taquins = solution.toArray(new String[0]);
                                     nodes = aetoile.getFermer().size() + aetoile.getOuvert().size();
                                     ferme=aetoile.getFermeId();
+                                    lblNewLabel_6.setText("Ferm\u00E9 :");
                                     ouvert=aetoile.getOuvertId();
                                     nbGen.setVisible(false);
                                     lblNewLabel_5_1.setVisible(false);
@@ -611,6 +611,10 @@ public class MainMenu extends JFrame {
                                     lblNewLabel_5.setText("Taille de la population: ");
                                     nbGen.setText(Integer.toString(ga.generation));
                                     lblNewLabel_5_1.setText("Solution trouve dans la generation: ");
+                                    lblNewLabel_6.setText("Solution: ");
+                                    if (ga.solutionChromosome != null) {
+                                        ferme = ga.solutionChromosome.printedMoves;
+                                    }
                                     lblNewLabel_5_1.setVisible(true);
                                     nbGen.setVisible(true);
                                     lblNewLabel_5_2.setVisible(false);
@@ -628,7 +632,8 @@ public class MainMenu extends JFrame {
                                     taquins = solution.toArray(new String[0]);
                                     lblNewLabel_5.setText("Nombre de particles: ");
                                     nodes = pso.particles.size();
-                                    
+                                    ferme = pso.afficherSolution();
+                                    lblNewLabel_6.setText("Solution: ");
                                     nbGen.setVisible(false);
                                     lblNewLabel_5_1.setVisible(false);
                                     

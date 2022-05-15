@@ -10,6 +10,7 @@ import java.util.Stack;
 
 public class Chromosome {
     private ArrayList<Double> moves;
+    public ArrayList<String> printedMoves;
     private float fitness = -1;
 
     public Chromosome(ArrayList<Double> moves) {
@@ -38,16 +39,16 @@ public class Chromosome {
         ArrayList<String> printedMoves= new ArrayList<>();
         for (double move: moves) {
             if(move < 0.26){
-                printedMoves.add("Up");
-            }
-            if(move >= 0.26 && move < 0.51){
-                printedMoves.add("Right");
-            }
-            if(move >= 0.51 && move < 0.76){
                 printedMoves.add("Down");
             }
-            if(move >= 0.76){
+            if(move >= 0.26 && move < 0.51){
                 printedMoves.add("Left");
+            }
+            if(move >= 0.51 && move < 0.76){
+                printedMoves.add("Up");
+            }
+            if(move >= 0.76){
+                printedMoves.add("Right");
             }
         }
         return "" + printedMoves + fitness;
@@ -61,23 +62,24 @@ public class Chromosome {
         return moves.equals(that.moves);
     }
 
-    public void affichageMoves(){
-        ArrayList<String> printedMoves= new ArrayList<>();
+    public ArrayList<String> affichageMoves(){
+    	this.printedMoves = new ArrayList<>();
         for (double move: moves) {
             if(move < 0.26){
-                printedMoves.add("Up");
+                printedMoves.add("Bas");
             }
             if(move >= 0.26 && move < 0.51){
-                printedMoves.add("Right");
+                printedMoves.add("Droite");
             }
             if(move >= 0.51 && move < 0.76){
-                printedMoves.add("Down");
+                printedMoves.add("Haut");
             }
             if(move >= 0.76){
-                printedMoves.add("Left");
+                printedMoves.add("Gauche");
             }
         }
         System.out.println(printedMoves);
+        return printedMoves;
     }
 
     public boolean isDoable(Taquin taquin){
