@@ -62,7 +62,7 @@ public class PSO {
             //we retrieve last taquin in the particle to generate next moves
             if (lastTaquin.getVide() % 3 != 0) {//i-1 ==> à gauche
                 nextMoves.add(lastTaquin.getVide() - 1);
-                direction.add("Gauche");
+                direction.add("Droite");
             }
             if (lastTaquin.getVide() > 2) {//i-3 ==> en haut
                 nextMoves.add(lastTaquin.getVide() - 3);
@@ -70,7 +70,7 @@ public class PSO {
             }
             if (lastTaquin.getVide() % 3 != 2) {//i+1 ==> à droite
                 nextMoves.add(lastTaquin.getVide() + 1);
-                direction.add("Droite");
+                direction.add("Gauche");
             }
             if (lastTaquin.getVide() < 6) {//i+3 ==> en bas
                 nextMoves.add(lastTaquin.getVide() + 3);
@@ -123,7 +123,7 @@ public class PSO {
         Queue<String> direction = new LinkedList<>();
         if (init.getVide() % 3 != 0) {//i-1 ==> à gauche
             nextMoves.add(init.getVide() - 1);
-            direction.add("Gauche");
+            direction.add("Droite");
         }
         if (init.getVide() > 2) {//i-3 ==> en haut
             nextMoves.add(init.getVide() - 3);
@@ -131,7 +131,7 @@ public class PSO {
         }
         if (init.getVide() % 3 != 2) {//i+1 ==> à droite
             nextMoves.add(init.getVide() + 1);
-            direction.add("Droite");
+            direction.add("Gauche");
         }
         if (init.getVide() < 6) {//i+3 ==> en bas
             nextMoves.add(init.getVide() + 3);

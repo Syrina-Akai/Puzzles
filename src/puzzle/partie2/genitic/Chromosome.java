@@ -69,13 +69,13 @@ public class Chromosome {
                 printedMoves.add("Bas");
             }
             if(move >= 0.26 && move < 0.51){
-                printedMoves.add("Droite");
+                printedMoves.add("Gauche");
             }
             if(move >= 0.51 && move < 0.76){
                 printedMoves.add("Haut");
             }
             if(move >= 0.76){
-                printedMoves.add("Gauche");
+                printedMoves.add("Droite");
             }
         }
         System.out.println(printedMoves);
