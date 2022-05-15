@@ -9,13 +9,12 @@ public class mainTestPSO {
         int time = 0;
 
 
-        PSO mypso = new PSO("123784650");
+        PSO mypso = new PSO("283164705");
         long startTime = System.nanoTime();
         mypso.PSOmain();
         long endTime = System.nanoTime();
         mypso.afficherSolution();
         long timeElapsed = endTime - startTime;
         System.out.println("Execution time in milliseconds: " + timeElapsed / 1000000);
-
     }
 }

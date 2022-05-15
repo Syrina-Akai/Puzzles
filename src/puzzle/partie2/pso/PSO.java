@@ -6,6 +6,7 @@ import puzzle.Taquin;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class PSO {
     //attributes
@@ -14,6 +15,7 @@ public class PSO {
     private Particle gbestParticle;
     private ArrayList<Particle> particles = new ArrayList<Particle>();
     private ArrayList<String> visited = new ArrayList<String>();
+    private Stack<String> solution = new Stack<>();
 
     public PSO(String initID){
         init = new Taquin(initID);
@@ -35,6 +37,11 @@ public class PSO {
             updateParticles();
             System.out.println(gbest);
             generation++;
+        }
+
+        ArrayList<Taquin> solutionPath = this.gbestParticle.getMoves();
+        for (int i = solutionPath.size() - 1; i >= 0; i--) {
+            this.solution.push(solutionPath.get(i).id);
         }
     }
 
@@ -146,6 +153,10 @@ public class PSO {
         initmov.add(init);
         gbestParticle = new Particle(init, initmov);
         updateGbest();
+    }
+
+    public Stack<String> getSolution() {
+        return this.solution;
     }
 
     public void afficherSolution(){

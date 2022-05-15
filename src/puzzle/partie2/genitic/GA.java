@@ -196,6 +196,7 @@ public class GA {
         for (Chromosome chromosome : populations) {
             if (chromosome.getFitness() == 0) {
                 solutionChromosome =new Chromosome(chromosome.getMoves());
+                System.out.println("new...\n" + solutionChromosome);
                 Stack<String> temp = chromosome.chromosomeToTaquins();
                 /*temp.push(root.id);
                 solutionChromosome =new Chromosome(chromosome.getMoves());

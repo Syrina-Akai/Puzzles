@@ -446,7 +446,7 @@ public class MainMenu extends JFrame {
             }
         });
 
-        Timer timer = new Timer(500, new ActionListener() {
+        Timer timer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!solution.isEmpty())
@@ -551,14 +551,17 @@ public class MainMenu extends JFrame {
                                     long endTime = System.nanoTime();
                                     timeElapsed = (endTime - startTime)/1000000;
                                     solution = ga.getSolution();
+                                    taquins = solution.toArray(new String[0]);
                                 }
                                 case "PSO" -> {
                                     System.out.println("PSO");
-                                    PSO pso=new PSO(root.id);
+                                    PSO pso = new PSO(root.id);
                                     long startTime = System.nanoTime();
                                     pso.PSOmain();
-
-
+                                    long endTime = System.nanoTime();
+                                    timeElapsed = (endTime - startTime)/1000000;
+                                    solution = pso.getSolution();
+                                    taquins = solution.toArray(new String[0]);
                                 }
                                 default -> System.out.println("oups !");
                             }

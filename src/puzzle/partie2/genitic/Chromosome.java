@@ -142,27 +142,27 @@ public class Chromosome {
         for (int i = 0; i < solutionPath.size(); i++) {
             double move = solutionPath.get(i);
             if(move<0.26){//up 0.254
-                System.out.println("Pushing Up");
+                //System.out.println("Pushing Up");
                 taquin.nextMove(taquin, taquin.getVide() - 3);
-                taquin.afficherTaquin();
+                //taquin.afficherTaquin();
             }
             if(move>=0.26 && move<0.51){//right
-                System.out.println("Pushing Right");
+                //System.out.println("Pushing Right");
                 taquin.nextMove(taquin, taquin.getVide() + 1);
-                taquin.afficherTaquin();
+                //taquin.afficherTaquin();
             }
             if(move>=0.51 && move<0.76){//down
-                System.out.println("Pushing Down");
+                //System.out.println("Pushing Down");
                 taquin.nextMove(taquin, taquin.getVide() + 3);
-                taquin.afficherTaquin();
+                //taquin.afficherTaquin();
             }
             if(move>=0.76){//left
-                System.out.println("Pushing Left");
+                //System.out.println("Pushing Left");
                 taquin.nextMove(taquin, taquin.getVide() - 1);
-                taquin.afficherTaquin();
+                //taquin.afficherTaquin();
             }
             temp.push(taquin.id);
-            System.out.println("Pushed");
+            //System.out.println("Pushed");
         }
         return temp;
     }
