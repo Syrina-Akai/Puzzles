@@ -44,9 +44,9 @@ public class GA {
         if (root.getVide() > 2) {//i-3 ==> en haut
             for (int i = 0; i < populationSizePerMove; i++) {
                 moves = new ArrayList<>();
-                moves.add(rand.nextFloat(0,26)/100);
+                moves.add((float) (rand.nextFloat()*(0.26 - 0.0) + 0.0));
                 for (int j = 1; j < this.chromosomeSize; j++) {
-                    move = rand.nextFloat(0,100)/100;
+                    move = (float) (rand.nextFloat()*(0.100 - 0.0) + 0.0));
                     moves.add(move);
                 }
                 chromosome = new Chromosome(moves);
