@@ -191,15 +191,10 @@ public class GA {
             if (chromosome.getFitness() == 0 && !this.noSolution) {
                 solutionChromosome =new Chromosome(chromosome.getMoves());
                 solutionChromosome.isDoable(new Taquin(root.id));
-                System.out.println("new...\n" + solutionChromosome);
-                System.out.println("root is : "+root);
                 Stack<String> temp = chromosome.chromosomeToTaquins(root);
                 while (!temp.empty()) {
                     this.solution.push(temp.pop());
                 }
-                System.out.println("voici la solution : ");
-                ArrayList<String > solutions=new ArrayList<>(this.solution);
-                System.out.println("solution : "+solutions);
                 return true;
             }
         }

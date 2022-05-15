@@ -450,7 +450,6 @@ public class MainMenu extends JFrame {
         Timer timer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("la solution li jabha :) "+solution);
                 if (!solution.isEmpty())
                     initTaquin(taquin, solution.pop());
                 else {
