@@ -264,7 +264,8 @@ public class GA {
             System.out.println("la generation : "+generation);
             System.out.println("chromosome size is : "+ solutionChromosome.getMoves().size());
             System.out.println("taille de la derniere population : "+this.officialPopulation.size());
-            System.out.println("taille de la derniere generation : "+this.newGeneration.size());
+            if(this.newGeneration!=null && !this.newGeneration.isEmpty())
+                System.out.println("taille de la derniere generation : "+this.newGeneration.size());
         } else {
             if(this.population.size() <= 0){
                 System.out.println("pas de population :) ");
