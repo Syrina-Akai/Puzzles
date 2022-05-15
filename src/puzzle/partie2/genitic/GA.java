@@ -1,6 +1,7 @@
 package puzzle.partie2.genitic;
 
 import puzzle.Taquin;
+import puzzle.partie1.heuristic.Aetoile;
 import puzzle.partie1.heuristic.ManhattanComparator;
 
 import java.util.*;
@@ -24,7 +25,10 @@ public class GA {
 
     public GA(Taquin root) {
         this.root = root;
-        chromosomeSize = new ManhattanComparator().distanceEtat(root);
+        //chromosomeSize = new ManhattanComparator().distanceEtat(root);
+        Aetoile aetoile= new Aetoile(1);
+        aetoile.solve(root);
+        chromosomeSize=aetoile.getSolution().size();
         System.out.println("la taille est : "+chromosomeSize);
         initialisePopulation();
     }
@@ -224,9 +228,9 @@ public class GA {
                     newGeneration.addAll(crossover(population.get(i), population.get(j)));
                 }
             }
-            this.noSolution=isSolution(this.newGeneration);
+            //this.noSolution=isSolution(this.newGeneration);
             //3- Si la solution n'existe pas on fait la mutation
-            if (this.generation <= maxGenerations && !noSolution)
+            if (this.generation <= maxGenerations )
                 this.mutation();
             //nouvelle population
             generation++;
