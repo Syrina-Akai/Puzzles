@@ -1,1 +1,1 @@
-# Puzzles with java
+# Puzzles solver with heuristical methods
